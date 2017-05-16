@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package binnacle.models;
+package bitacora.models;
 
 /**
  *
@@ -18,7 +18,7 @@ public class Binnacle {
     private String date;
     private String hour;
     private String user;
-
+   
     public Binnacle(String movType, String objType, String objName, String date, String hour, String user) {
         this.movType = movType;
         this.objType = objType;
@@ -27,7 +27,7 @@ public class Binnacle {
         this.hour = hour;
         this.user = user;
     }
-
+    
     public Binnacle(int id, String movType, String objType, String objName, String date, String hour, String user) {
         this.id = id;
         this.movType = movType;
@@ -37,7 +37,7 @@ public class Binnacle {
         this.hour = hour;
         this.user = user;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -93,5 +93,5 @@ public class Binnacle {
     public void setUser(String user) {
         this.user = user;
     }
-
+    
 }

@@ -3,25 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package temas.models;
+package topics.models;
 
 /**
  *
  * @author Milka
  */
-public class Topic {
+public class Concept {
     private int id;
     private String name;
+    private String description;
 
-    public Topic(int id, String name) {
+    public Concept(int id, String name, String description) {
         this.id = id;
         this.name = name;
+        this.description = description;
     }
-    
-    public Topic(String name){
+
+    public Concept (String name, String description){
         this.name = name;
+        this.description = description;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -37,5 +40,13 @@ public class Topic {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }
