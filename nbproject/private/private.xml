@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Milka/Documents/NetBeansProjects/acordeon/src/temas/models/Concept.java</file>
-            <file>file:/C:/Users/Milka/Documents/NetBeansProjects/acordeon/src/bitacora/vista/ViewBinnacle.java</file>
-            <file>file:/C:/Users/Milka/Documents/NetBeansProjects/acordeon/src/temas/vista/ViewCreateConcept.java</file>
-            <file>file:/C:/Users/Milka/Documents/NetBeansProjects/acordeon/src/temas/vista/ViewEdit.java</file>
-            <file>file:/C:/Users/Milka/Documents/NetBeansProjects/acordeon/src/temas/vista/ViewCreateTopics.java</file>
-            <file>file:/C:/Users/Milka/Documents/NetBeansProjects/acordeon/src/temas/models/Topic.java</file>
-            <file>file:/C:/Users/Milka/Documents/NetBeansProjects/acordeon/src/bitacora/models/Binnacle.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon/src/temas/vista/ViewCreateConcept.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon/src/bitacora/models/Binnacle.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon/src/temas/models/Concept.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon/src/temas/models/Topic.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon/src/bitacora/vista/ViewBinnacle.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon/src/temas/vista/ViewCreateTopics.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon/src/temas/vista/ViewEdit.java</file>
         </group>
     </open-files>
 </project-private>
