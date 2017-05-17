@@ -14,7 +14,7 @@ import topics.models.Topic;
  *
  * @author Milka
  */
-public interface iManagerTopics extends Remote{
+public interface iManagerTopic extends Remote{
       //Topics
   Topic readTopic(int id) throws RemoteException;
   Topic modifyTopic(int id) throws RemoteException;
