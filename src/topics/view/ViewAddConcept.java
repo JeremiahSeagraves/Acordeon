@@ -9,12 +9,12 @@ package topics.view;
  *
  * @author Milka
  */
-public class ViewCreateConcept extends javax.swing.JFrame {
+public class ViewAddConcept extends javax.swing.JFrame {
 
     /**
      * Creates new form ViewCreateConcept
      */
-    public ViewCreateConcept() {
+    public ViewAddConcept() {
         initComponents();
     }
 
@@ -29,30 +29,37 @@ public class ViewCreateConcept extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        conceptName = new javax.swing.JTextField();
+        txtConcepto = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        conceptDefinition = new javax.swing.JTextArea();
-        createConcept = new javax.swing.JButton();
+        txtAreaDefinicion = new javax.swing.JTextArea();
+        btnAgregarConcepto = new javax.swing.JButton();
+        lblAgregarConcepto = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Agregar concepto");
 
-        jLabel1.setText("Name:");
+        jLabel1.setText("Concepto");
 
-        jLabel2.setText("Definition:");
+        jLabel2.setText("Definición");
 
-        conceptDefinition.setColumns(20);
-        conceptDefinition.setRows(5);
-        jScrollPane1.setViewportView(conceptDefinition);
+        txtAreaDefinicion.setColumns(20);
+        txtAreaDefinicion.setRows(5);
+        jScrollPane1.setViewportView(txtAreaDefinicion);
 
-        createConcept.setText("Create");
+        btnAgregarConcepto.setText("Agregar");
+
+        lblAgregarConcepto.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        lblAgregarConcepto.setText("Agregar nuevo concepto a...");
+
+        btnCancelar.setText("Cancelar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(createConcept)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
@@ -63,22 +70,34 @@ public class ViewCreateConcept extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel1))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(conceptName, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                            .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblAgregarConcepto))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(btnAgregarConcepto)
+                        .addGap(77, 77, 77)
+                        .addComponent(btnCancelar)))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addContainerGap()
+                .addComponent(lblAgregarConcepto)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(conceptName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(createConcept)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarConcepto)
+                    .addComponent(btnCancelar))
                 .addContainerGap())
         );
 
@@ -102,30 +121,35 @@ public class ViewCreateConcept extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewCreateConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewCreateConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewCreateConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewCreateConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewCreateConcept().setVisible(true);
+                new ViewAddConcept().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea conceptDefinition;
-    private javax.swing.JTextField conceptName;
-    private javax.swing.JButton createConcept;
+    private javax.swing.JButton btnAgregarConcepto;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAgregarConcepto;
+    private javax.swing.JTextArea txtAreaDefinicion;
+    private javax.swing.JTextField txtConcepto;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,7 +15,7 @@ import topics.models.Topic;
  * @author Milka
  */
 public class ManagerTopic extends UnicastRemoteObject implements iManagerTopic{
-
+    private static final long serialVersionUID = 1L;
     public ManagerTopic() throws RemoteException {
         super();
     }

@@ -5,11 +5,14 @@
  */
 package topics.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Milka
  */
-public class Concept {
+public class Concept implements Serializable{
+    private static final long serialVersionUID = 1L;    
     private int id;
     private String name;
     private String description;
@@ -58,6 +61,11 @@ public class Concept {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Concept{" + "id=" + id + ", name=" + name + ", description=" + description + ", userId=" + userId + '}';
     }
 
 }

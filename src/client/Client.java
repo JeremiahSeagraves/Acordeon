@@ -12,6 +12,7 @@ import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import topics.controllers.iManagerTopic;
+import topics.models.Concept;
 
 /**
  *
