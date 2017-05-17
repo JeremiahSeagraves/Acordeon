@@ -13,16 +13,19 @@ public class Concept {
     private int id;
     private String name;
     private String description;
+    private int userId;
 
-    public Concept(int id, String name, String description) {
+    public Concept(int id, String name, String description, int userId) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.userId = userId;
     }
 
-    public Concept (String name, String description){
+    public Concept (String name, String description, int userId){
         this.name = name;
         this.description = description;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -47,6 +50,14 @@ public class Concept {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
 }
