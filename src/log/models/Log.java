@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bitacora.models;
+package log.models;
 
 /**
  *
  * @author Milka
  */
 
-public class Binnacle {
+public class Log{
     private int id;
     private String movType;
     private String objType;
@@ -19,7 +19,7 @@ public class Binnacle {
     private String hour;
     private String user;
    
-    public Binnacle(String movType, String objType, String objName, String date, String hour, String user) {
+    public Log(String movType, String objType, String objName, String date, String hour, String user) {
         this.movType = movType;
         this.objType = objType;
         this.objName = objName;
@@ -28,7 +28,7 @@ public class Binnacle {
         this.user = user;
     }
     
-    public Binnacle(int id, String movType, String objType, String objName, String date, String hour, String user) {
+    public Log(int id, String movType, String objType, String objName, String date, String hour, String user) {
         this.id = id;
         this.movType = movType;
         this.objType = objType;

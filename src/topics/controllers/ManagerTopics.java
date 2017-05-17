@@ -1,17 +1,21 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package topics.controllers;
 
-  package topics.controllers;
-
-  import java.rmi.*;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import topics.models.Concept;
 import topics.models.Topic;
+
 /**
  *
  * @author Milka
  */
-
-
 public interface iManagerTopics extends Remote{
-  //Topics
+      //Topics
   Topic readTopic(int id) throws RemoteException;
   Topic modifyTopic(int id) throws RemoteException;
   Topic deleteTopic(int id) throws RemoteException;
