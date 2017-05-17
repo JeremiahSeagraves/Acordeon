@@ -2,6 +2,8 @@
   package topics.controllers;
 
   import java.rmi.*;
+import topics.models.Concept;
+import topics.models.Topic;
 /**
  *
  * @author Milka
