@@ -5,17 +5,21 @@
  */
 package topics.view;
 
+import javax.swing.JScrollPane;
+
 /**
  *
- * @author Milka
+ * @author juan
  */
-public class ViewModifyTopic extends javax.swing.JFrame {
+public class ViewModifyConcept extends javax.swing.JFrame {
 
     /**
-     * Creates new form ViewCreateTopics
+     * Creates new form ViewReadConcept
      */
-    public ViewModifyTopic() {
+    public ViewModifyConcept() {
         initComponents();
+        txtDefinicion.setLineWrap(true);
+        txtDefinicion.setWrapStyleWord(true);
     }
 
     /**
@@ -27,23 +31,27 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtNombreTema = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        btnModificarTema = new javax.swing.JButton();
+        lblModificarConcepto = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtDefinicion = new javax.swing.JTextArea();
         btnCancelar = new javax.swing.JButton();
-        lblModificarTema = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Modificar tema");
 
-        jLabel1.setText("Nombre");
+        lblModificarConcepto.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        lblModificarConcepto.setText("Modificar...");
 
-        btnModificarTema.setText("Modificar");
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel4.setText("Definición");
+
+        btnModificar.setText("Modificar");
+
+        txtDefinicion.setColumns(20);
+        jScrollPane3.setViewportView(txtDefinicion);
 
         btnCancelar.setText("Cancelar");
-
-        lblModificarTema.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        lblModificarTema.setText("Modificar...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -52,34 +60,34 @@ public class ViewModifyTopic extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblModificarConcepto)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(btnModificarTema)
-                        .addGap(61, 61, 61)
-                        .addComponent(btnCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(lblModificarTema)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addGap(83, 83, 83)
+                        .addComponent(btnModificar)
+                        .addGap(72, 72, 72)
+                        .addComponent(btnCancelar)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblModificarTema)
-                .addGap(23, 23, 23)
+                .addGap(21, 21, 21)
+                .addComponent(lblModificarConcepto)
+                .addGap(66, 66, 66)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnModificarTema)
+                    .addComponent(btnModificar)
                     .addComponent(btnCancelar))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,13 +110,13 @@ public class ViewModifyTopic extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -118,16 +126,17 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewModifyTopic().setVisible(true);
+                new ViewModifyConcept().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnModificarTema;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel lblModificarTema;
-    private javax.swing.JTextField txtNombreTema;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblModificarConcepto;
+    private javax.swing.JTextArea txtDefinicion;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,9 +1,13 @@
 package server;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import topics.controllers.ManagerTopic;
+import topics.controllers.iManagerTopic;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,6 +30,8 @@ public class Server {
         }
         catch(RemoteException e){
             e.printStackTrace();
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
