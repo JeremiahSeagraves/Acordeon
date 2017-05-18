@@ -22,7 +22,7 @@ import topics.controllers.iManagerTopic;
 public class Server {
     public static void main (String[] args){
         try{
-            Registry registry = LocateRegistry.createRegistry(2020);
+            Registry registry = LocateRegistry.createRegistry(1099);
             ManagerTopic managerTopic = new ManagerTopic();
             registry.rebind("PowerObject", managerTopic);
             
