@@ -8,7 +8,7 @@ package database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import topics.models.Concept;
+import topics.models.Topic;
 
 /**
  *
@@ -17,49 +17,40 @@ import topics.models.Concept;
 
 public class DAOTopic extends AccesoBD {
     
-    private static final String CLAVE_STRING = "ID_CONCEPT";
+    private static final String CLAVE_STRING = "ID_TOPIC";
     private static final String NOMBRE_STRING = "NAME";
-    private static final String DESCRIPCION_STRING = "DESCRIPTION";
-    private static final String ID_USER_STRING = "ID_USER";
-    private static final String ID_TOPIC_STRING = "ID_TOPIC";
-    
-    public ArrayList<Concept> getConcepts( ) throws ClassNotFoundException, SQLException{
+
+    public ArrayList<Topic> getTopics( ) throws ClassNotFoundException, SQLException{
          ConnectionHandler.obtenerInstancia( ).conectarConBD( );
          conexionBD = ConnectionHandler.obtenerConexion( );
  
-         consultaBD =  SELECT_STRING + "*" + FROM_STRING + "concepts";
+         consultaBD =  SELECT_STRING + "*" + FROM_STRING + "topics";
          sentenciaConsulta = conexionBD.createStatement( );
-         ResultSet resultadoConsultaConcepts = sentenciaConsulta.executeQuery( consultaBD );
+         ResultSet resultadoConsultaTopics = sentenciaConsulta.executeQuery( consultaBD );
          
-         ArrayList<Concept> concepts= new ArrayList<>( );
-         Concept concept;
+         ArrayList<Topic> topics= new ArrayList<>( );
+         Topic topico;
         
-         while ( resultadoConsultaConcepts.next() ) {
-            concept = new Concept(  Integer.parseInt(resultadoConsultaConcepts.getString( CLAVE_STRING )),
-                                    resultadoConsultaConcepts.getString( NOMBRE_STRING ),
-                                    resultadoConsultaConcepts.getString( DESCRIPCION_STRING ),
-                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_USER_STRING )),
-                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_TOPIC_STRING )));
+         while ( resultadoConsultaTopics.next() ) {
+            topico = new Topic(  Integer.parseInt(resultadoConsultaTopics.getString( CLAVE_STRING )),
+                                    resultadoConsultaTopics.getString( NOMBRE_STRING ));
             
-            concepts.add(concept);
+            topics.add(topico);
         }
         
          ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
         
-         return concepts;
+         return topics;
     }
    
    
-   public void insertarConcepto( Concept concepto ) throws SQLException, ClassNotFoundException {
+   public void insertarTopico( Topic topico ) throws SQLException, ClassNotFoundException {
          ConnectionHandler.obtenerInstancia( ).conectarConBD( );
          conexionBD = ConnectionHandler.obtenerConexion( );
         
-         consultaBD = INSERT_STRING + INTO_STRING + "concepts" + VALUES_STRING
+         consultaBD = INSERT_STRING + INTO_STRING + "topics" + VALUES_STRING
                         +"("        + "null"                       + ", "
-                        + "\""      + concepto.getName()         + "\", "
-                        + "\""      + concepto.getDescription()  + "\", "
-                        + "\""      + concepto.getUserId()       + "\", "
-                        + "\""      + concepto.getTopicId()      + "\")";
+                        + "\""      + topico.getName()  + "\")";
          
          sentenciaConsulta = conexionBD.createStatement( );
          sentenciaConsulta.executeUpdate( consultaBD );
@@ -68,11 +59,11 @@ public class DAOTopic extends AccesoBD {
          
     }
    
-    public void eliminarConcepto( String claveConcepto ) throws SQLException, ClassNotFoundException {
+    public void eliminarTopico( int claveTopico ) throws SQLException, ClassNotFoundException {
          ConnectionHandler.obtenerInstancia( ).conectarConBD( );
          conexionBD = ConnectionHandler.obtenerConexion( );
         
-         consultaBD = DELETE_STRING + FROM_STRING + "concepts" + WHERE_STRING + CLAVE_STRING + " = \"" + claveConcepto + "\"";
+         consultaBD = DELETE_STRING + FROM_STRING + "topics" + WHERE_STRING + CLAVE_STRING + " = \"" + claveTopico + "\"";
          sentenciaConsulta = conexionBD.createStatement( );
          sentenciaConsulta.executeUpdate( consultaBD );
         
@@ -80,36 +71,33 @@ public class DAOTopic extends AccesoBD {
     }
    
     
-    public Concept buscarConcepto( String claveConcept ) throws SQLException, ClassNotFoundException {
+    public Topic buscarTopico( int claveTopico ) throws SQLException, ClassNotFoundException {
          ConnectionHandler.obtenerInstancia( ).conectarConBD( );
          conexionBD = ConnectionHandler.obtenerConexion( );
         
-         consultaBD = SELECT_STRING + "*" + FROM_STRING + "concepts" + WHERE_STRING + CLAVE_STRING + "= \"" + claveConcept + "\"";
+         consultaBD = SELECT_STRING + "*" + FROM_STRING + "topics" + WHERE_STRING + CLAVE_STRING + "= \"" + claveTopico + "\"";
          sentenciaConsulta = conexionBD.createStatement( );
-         ResultSet resultadoConsultaConcepts = sentenciaConsulta.executeQuery( consultaBD );
+         ResultSet resultadoConsultaTopics = sentenciaConsulta.executeQuery( consultaBD );
          
          //Omite el primero elemento del ResultSet el cual es una dirección de memoria
-         resultadoConsultaConcepts.next( );
+         resultadoConsultaTopics.next( );
          
-         Concept concept = new Concept(  Integer.parseInt(resultadoConsultaConcepts.getString( CLAVE_STRING )),
-                                    resultadoConsultaConcepts.getString( NOMBRE_STRING ),
-                                    resultadoConsultaConcepts.getString( DESCRIPCION_STRING ),
-                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_USER_STRING )),
-                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_TOPIC_STRING )));;
+         Topic topico = new Topic(  Integer.parseInt(resultadoConsultaTopics.getString( CLAVE_STRING )),
+                                    resultadoConsultaTopics.getString( NOMBRE_STRING ));
         
          ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
         
-         return concept;
+         return topico;
     }
     
     
-    public void actualizarConcepto( Concept conceptoModificado ) throws SQLException, ClassNotFoundException{
+    public void actualizarTopico( Topic topicoModificado ) throws SQLException, ClassNotFoundException{
          ConnectionHandler.obtenerInstancia( ).conectarConBD( );
          conexionBD = ConnectionHandler.obtenerConexion( );
         
-         consultaBD = UPDATE_STRING + " concepts " + SET_STRING + " " 
-                 + DESCRIPCION_STRING + " = \"" + conceptoModificado.getDescription( ) + "\" "
-                 + WHERE_STRING + " " + CLAVE_STRING + " = \"" + conceptoModificado.getId()+ "\"";
+         consultaBD = UPDATE_STRING + " topics " + SET_STRING + " " 
+                 + NOMBRE_STRING + " = \"" + topicoModificado.getName( ) + "\" "
+                 + WHERE_STRING + " " + CLAVE_STRING + " = \"" + topicoModificado.getId()+ "\"";
          
          sentenciaConsulta = conexionBD.createStatement( );
          sentenciaConsulta.executeUpdate( consultaBD );

@@ -17,18 +17,21 @@ public class Concept implements Serializable{
     private String name;
     private String description;
     private int userId;
+    private int topicId;
 
-    public Concept(int id, String name, String description, int userId) {
+    public Concept(int id, String name, String description, int userId, int topicId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.userId = userId;
+        this.topicId = topicId;
     }
 
-    public Concept (String name, String description, int userId){
+    public Concept (String name, String description, int userId, int topicId){
         this.name = name;
         this.description = description;
         this.userId = userId;
+        this.topicId = topicId;
     }
 
     public int getId() {
@@ -61,6 +64,14 @@ public class Concept implements Serializable{
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(int topicId) {
+        this.topicId = topicId;
     }
 
     @Override

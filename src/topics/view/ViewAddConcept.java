@@ -5,6 +5,13 @@
  */
 package topics.view;
 
+import database.DAOConcept;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import login.view.ViewLogin;
+import topics.models.Concept;
+
 /**
  *
  * @author Milka
@@ -14,8 +21,19 @@ public class ViewAddConcept extends javax.swing.JFrame {
     /**
      * Creates new form ViewCreateConcept
      */
-    public ViewAddConcept() {
+    
+    private static ViewAddConcept ventanaAniadirConcepto = null;
+    
+    private ViewAddConcept() {
         initComponents();
+    }
+    
+    public static ViewAddConcept obtenerVentanaAniadirConcepto ( ){
+        if(ventanaAniadirConcepto == null){
+            ventanaAniadirConcepto = new ViewAddConcept();
+            return ventanaAniadirConcepto;
+        }
+        return ventanaAniadirConcepto;
     }
 
     /**
@@ -48,6 +66,11 @@ public class ViewAddConcept extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtAreaDefinicion);
 
         btnAgregarConcepto.setText("Agregar");
+        btnAgregarConcepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarConceptoActionPerformed(evt);
+            }
+        });
 
         lblAgregarConcepto.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         lblAgregarConcepto.setText("Agregar nuevo concepto a...");
@@ -103,6 +126,21 @@ public class ViewAddConcept extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConceptoActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        DAOConcept topicDao = new DAOConcept();
+        Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),5,4);
+        try {
+            topicDao.insertarConcepto(nuevoConcepto);
+            System.out.println(topicDao.getConcepts());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAgregarConceptoActionPerformed
 
     /**
      * @param args the command line arguments

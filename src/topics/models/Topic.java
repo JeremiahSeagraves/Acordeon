@@ -38,4 +38,9 @@ public class Topic {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Topic{" + "id=" + id + ", name=" + name + '}';
+    }
+
 }

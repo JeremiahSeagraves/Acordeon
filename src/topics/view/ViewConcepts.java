@@ -5,6 +5,14 @@
  */
 package topics.view;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 /**
  *
  * @author juan
@@ -14,8 +22,18 @@ public class ViewConcepts extends javax.swing.JFrame {
     /**
      * Creates new form ViewTopics
      */
-    public ViewConcepts() {
+    private ViewConcepts() {
         initComponents();
+    }
+    
+    private static ViewConcepts ventanaConceptos = null;
+     
+    public static ViewConcepts obtenerVentanaConceptos (){
+        if(ventanaConceptos == null){
+            ventanaConceptos = new ViewConcepts();
+            return ventanaConceptos;
+        }
+        return ventanaConceptos;
     }
 
     /**
@@ -37,7 +55,7 @@ public class ViewConcepts extends javax.swing.JFrame {
         btnMenuAgregar = new javax.swing.JMenu();
         btnAgregarConcepto = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Conceptos");
 
         tablaConceptos.setModel(new javax.swing.table.DefaultTableModel(
@@ -175,4 +193,84 @@ public class ViewConcepts extends javax.swing.JFrame {
     private javax.swing.JLabel lblTituloTema;
     private javax.swing.JTable tablaConceptos;
     // End of variables declaration//GEN-END:variables
+
+    public static ViewConcepts getVentanaConceptos() {
+        return ventanaConceptos;
+    }
+
+    public static void setVentanaConceptos(ViewConcepts ventanaConceptos) {
+        ViewConcepts.ventanaConceptos = ventanaConceptos;
+    }
+
+    public JMenuItem getBtnAgregarConcepto() {
+        return btnAgregarConcepto;
+    }
+
+    public void setBtnAgregarConcepto(JMenuItem btnAgregarConcepto) {
+        this.btnAgregarConcepto = btnAgregarConcepto;
+    }
+
+    public JButton getBtnEliminarConcepto() {
+        return btnEliminarConcepto;
+    }
+
+    public void setBtnEliminarConcepto(JButton btnEliminarConcepto) {
+        this.btnEliminarConcepto = btnEliminarConcepto;
+    }
+
+    public JMenu getBtnMenuAgregar() {
+        return btnMenuAgregar;
+    }
+
+    public void setBtnMenuAgregar(JMenu btnMenuAgregar) {
+        this.btnMenuAgregar = btnMenuAgregar;
+    }
+
+    public JButton getBtnModificarConcepto() {
+        return btnModificarConcepto;
+    }
+
+    public void setBtnModificarConcepto(JButton btnModificarConcepto) {
+        this.btnModificarConcepto = btnModificarConcepto;
+    }
+
+    public JButton getBtnVerConcepto() {
+        return btnVerConcepto;
+    }
+
+    public void setBtnVerConcepto(JButton btnVerConcepto) {
+        this.btnVerConcepto = btnVerConcepto;
+    }
+
+    public JMenuBar getjMenuBar1() {
+        return jMenuBar1;
+    }
+
+    public void setjMenuBar1(JMenuBar jMenuBar1) {
+        this.jMenuBar1 = jMenuBar1;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public void setjScrollPane1(JScrollPane jScrollPane1) {
+        this.jScrollPane1 = jScrollPane1;
+    }
+
+    public JLabel getLblTituloTema() {
+        return lblTituloTema;
+    }
+
+    public void setLblTituloTema(JLabel lblTituloTema) {
+        this.lblTituloTema = lblTituloTema;
+    }
+
+    public JTable getTablaConceptos() {
+        return tablaConceptos;
+    }
+
+    public void setTablaConceptos(JTable tablaConceptos) {
+        this.tablaConceptos = tablaConceptos;
+    }
 }

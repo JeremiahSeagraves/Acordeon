@@ -5,6 +5,16 @@
  */
 package login.view;
 
+import database.DAOConcept;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import topics.view.ViewTopics;
+
 /**
  *
  * @author juan
@@ -14,10 +24,20 @@ public class ViewLogin extends javax.swing.JFrame {
     /**
      * Creates new form ViewLogin
      */
-    public ViewLogin() {
+    private ViewLogin() {
         initComponents();
     }
 
+    private static ViewLogin ventanaLogin = null;
+     
+    public static ViewLogin obtenerVentanaLogin (){
+        if(ventanaLogin == null){
+            ventanaLogin = new ViewLogin();
+            return ventanaLogin;
+        }
+        return ventanaLogin;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,6 +72,11 @@ public class ViewLogin extends javax.swing.JFrame {
         });
 
         btnRegistrar7.setText("Registrar");
+        btnRegistrar7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrar7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,12 +127,25 @@ public class ViewLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        
+        if(false){
+            //AQUÍ EL SERVIDOR VALIDA QUE SÍ EXISTA LA INFORMACIÓN EN LA BASE DE DATOS 
+        }
+        else{
+            this.setVisible(false);
+            ViewTopics.obtenerVentanaTopicos().setVisible(true);
+        }
+        
+        
+    }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void btnRegistrar7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar7ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        /**
-         
-         **/
-    }//GEN-LAST:event_btnIniciarActionPerformed
+        
+        ViewRegister.obtenerVentanaRegister().setVisible(true);
+        
+    }//GEN-LAST:event_btnRegistrar7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,4 +191,68 @@ public class ViewLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField pswContrasenia;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    public static ViewLogin getVentanaLogin() {
+        return ventanaLogin;
+    }
+
+    public static void setVentanaLogin(ViewLogin ventanaLogin) {
+        ViewLogin.ventanaLogin = ventanaLogin;
+    }
+
+    public JButton getBtnIniciar() {
+        return btnIniciar;
+    }
+
+    public void setBtnIniciar(JButton btnIniciar) {
+        this.btnIniciar = btnIniciar;
+    }
+
+    public JButton getBtnRegistrar7() {
+        return btnRegistrar7;
+    }
+
+    public void setBtnRegistrar7(JButton btnRegistrar7) {
+        this.btnRegistrar7 = btnRegistrar7;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public void setjLabel3(JLabel jLabel3) {
+        this.jLabel3 = jLabel3;
+    }
+
+    public JPasswordField getPswContrasenia() {
+        return pswContrasenia;
+    }
+
+    public void setPswContrasenia(JPasswordField pswContrasenia) {
+        this.pswContrasenia = pswContrasenia;
+    }
+
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
 }
