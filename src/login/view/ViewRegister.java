@@ -141,6 +141,8 @@ public class ViewRegister extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "Registrado exitosamente");
+            this.setVisible(false);
+            ViewLogin.obtenerVentanaLogin().setVisible(true);
         }
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
