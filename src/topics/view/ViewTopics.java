@@ -8,6 +8,7 @@ package topics.view;
 import database.DAOTopic;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -317,6 +318,7 @@ public class ViewTopics extends javax.swing.JFrame {
     
     private void llenarTablaTemas(ArrayList<Topic> topicos){
         obtenerModeloTabla().setRowCount(0);
+        Collections.sort(topicos);
          for (int numTopico = 0; numTopico < topicos.size(); numTopico++) {
             obtenerModeloTabla().addRow(new Object[]{
                 topicos.get(numTopico).getId(),

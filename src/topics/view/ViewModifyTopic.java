@@ -136,6 +136,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
             }
+            getTxtNombreTema().setText("");
             this.setVisible(false);
             ViewTopics.obtenerVentanaTopicos().setVisible(true);
         }
