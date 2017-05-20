@@ -14,8 +14,19 @@ public class ViewAddTopic extends javax.swing.JFrame {
     /**
      * Creates new form ViewCreateTopics
      */
-    public ViewAddTopic() {
+    
+    private static ViewAddTopic ventanaAniadirTopico = null;
+    
+    private ViewAddTopic() {
         initComponents();
+    }
+     
+    public static ViewAddTopic obtenerVentanaAniadirTopico (){
+        if(ventanaAniadirTopico == null){
+            ventanaAniadirTopico = new ViewAddTopic();
+            return ventanaAniadirTopico;
+        }
+        return ventanaAniadirTopico;
     }
 
     /**

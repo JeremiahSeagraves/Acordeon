@@ -5,6 +5,16 @@
  */
 package topics.view;
 
+import database.DAOTopic;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import topics.models.Topic;
+
 /**
  *
  * @author Milka
@@ -14,8 +24,20 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     /**
      * Creates new form ViewCreateTopics
      */
-    public ViewModifyTopic() {
+    private ViewModifyTopic() {
         initComponents();
+        getLblIdTopic().setVisible(false);
+        
+    }
+    
+    private static ViewModifyTopic ventanaModificarTopico = null;
+     
+    public static ViewModifyTopic obtenerVentanaModificarTopico (){
+        if(ventanaModificarTopico == null){
+            ventanaModificarTopico = new ViewModifyTopic();
+            return ventanaModificarTopico;
+        }
+        return ventanaModificarTopico;
     }
 
     /**
@@ -32,15 +54,26 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         btnModificarTema = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblModificarTema = new javax.swing.JLabel();
+        lblIdTopic = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar tema");
 
         jLabel1.setText("Nombre");
 
         btnModificarTema.setText("Modificar");
+        btnModificarTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarTemaActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         lblModificarTema.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         lblModificarTema.setText("Modificar...");
@@ -52,25 +85,30 @@ public class ViewModifyTopic extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addComponent(btnModificarTema)
                         .addGap(61, 61, 61)
                         .addComponent(btnCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(lblModificarTema)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(19, 19, 19)
+                            .addComponent(lblModificarTema)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblIdTopic))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(46, 46, 46)
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblModificarTema)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblModificarTema)
+                    .addComponent(lblIdTopic))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -84,6 +122,33 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnModificarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarTemaActionPerformed
+        String nombreNuevo = getTxtNombreTema().getText();
+        int id = Integer.parseInt(getLblIdTopic().getText());
+        if(!nombreNuevo.equals("")){
+            try {
+                Topic topicoModificado = new Topic(id,nombreNuevo);
+                DAOTopic accesoTemas = new DAOTopic();
+                accesoTemas.actualizarTopico(topicoModificado);
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            getTxtNombreTema().setText("");
+            this.setVisible(false);
+            ViewTopics.obtenerVentanaTopicos().setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No ha escrito un nombre nuevo","Error",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnModificarTemaActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+       this.setVisible(false);
+       ViewTopics.obtenerVentanaTopicos().setVisible(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,7 +192,64 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnModificarTema;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblIdTopic;
     private javax.swing.JLabel lblModificarTema;
     private javax.swing.JTextField txtNombreTema;
     // End of variables declaration//GEN-END:variables
+
+    public static ViewModifyTopic getVentanaModificarTopico() {
+        return ventanaModificarTopico;
+    }
+
+    public static void setVentanaModificarTopico(ViewModifyTopic ventanaModificarTopico) {
+        ViewModifyTopic.ventanaModificarTopico = ventanaModificarTopico;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public void setBtnCancelar(JButton btnCancelar) {
+        this.btnCancelar = btnCancelar;
+    }
+
+    public JButton getBtnModificarTema() {
+        return btnModificarTema;
+    }
+
+    public void setBtnModificarTema(JButton btnModificarTema) {
+        this.btnModificarTema = btnModificarTema;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getLblModificarTema() {
+        return lblModificarTema;
+    }
+
+    public void setLblModificarTema(JLabel lblModificarTema) {
+        this.lblModificarTema = lblModificarTema;
+    }
+
+    public JTextField getTxtNombreTema() {
+        return txtNombreTema;
+    }
+
+    public void setTxtNombreTema(JTextField txtNombreTema) {
+        this.txtNombreTema = txtNombreTema;
+    }
+
+    public JLabel getLblIdTopic() {
+        return lblIdTopic;
+    }
+
+    public void setLblIdTopic(JLabel lblIdTopic) {
+        this.lblIdTopic = lblIdTopic;
+    }
 }

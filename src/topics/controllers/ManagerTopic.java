@@ -42,7 +42,7 @@ public class ManagerTopic extends UnicastRemoteObject implements iManagerTopic{
 
     @Override
     public Concept readConcept(int id) throws RemoteException {
-        Concept concept = new Concept(2, "Hola", "Es el libro Hola", 5);
+        Concept concept = new Concept(2, "Hola", "Es el libro Hola", 5,4);
         return concept;
     }
 

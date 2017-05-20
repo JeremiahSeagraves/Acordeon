@@ -5,6 +5,13 @@
  */
 package login.view;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import topics.view.ViewTopics;
+
 /**
  *
  * @author juan
@@ -14,10 +21,20 @@ public class ViewRegister extends javax.swing.JFrame {
     /**
      * Creates new form ViewLogin
      */
-    public ViewRegister() {
+    private ViewRegister() {
         initComponents();
     }
 
+     private static ViewRegister ventanaRegister = null;
+     
+    public static ViewRegister obtenerVentanaRegister (){
+        if(ventanaRegister == null){
+            ventanaRegister = new ViewRegister();
+            return ventanaRegister;
+        }
+        return ventanaRegister;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,8 +64,18 @@ public class ViewRegister extends javax.swing.JFrame {
         jLabel3.setText("Contraseña");
 
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Vuelve a escribir la contraseña");
 
@@ -106,6 +133,25 @@ public class ViewRegister extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+    
+        if(false){
+            //AQUÍ SE VALIDA QUE ESTEN LLENOS LOS CAMPOS
+            //Y NO EXISTA UN USUARIO CON EL MISMO NOMBRE
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Registrado exitosamente");
+            this.setVisible(false);
+            ViewLogin.obtenerVentanaLogin().setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.setVisible(false);
+        ViewLogin.obtenerVentanaLogin().setVisible(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -153,4 +199,84 @@ public class ViewRegister extends javax.swing.JFrame {
     private javax.swing.JPasswordField pswContrasenia2;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    public static ViewRegister getVentanaRegister() {
+        return ventanaRegister;
+    }
+
+    public static void setVentanaRegister(ViewRegister ventanaRegister) {
+        ViewRegister.ventanaRegister = ventanaRegister;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public void setBtnCancelar(JButton btnCancelar) {
+        this.btnCancelar = btnCancelar;
+    }
+
+    public JButton getBtnRegistrar() {
+        return btnRegistrar;
+    }
+
+    public void setBtnRegistrar(JButton btnRegistrar) {
+        this.btnRegistrar = btnRegistrar;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public void setjLabel3(JLabel jLabel3) {
+        this.jLabel3 = jLabel3;
+    }
+
+    public JLabel getjLabel4() {
+        return jLabel4;
+    }
+
+    public void setjLabel4(JLabel jLabel4) {
+        this.jLabel4 = jLabel4;
+    }
+
+    public JPasswordField getPswContrasenia() {
+        return pswContrasenia;
+    }
+
+    public void setPswContrasenia(JPasswordField pswContrasenia) {
+        this.pswContrasenia = pswContrasenia;
+    }
+
+    public JPasswordField getPswContrasenia2() {
+        return pswContrasenia2;
+    }
+
+    public void setPswContrasenia2(JPasswordField pswContrasenia2) {
+        this.pswContrasenia2 = pswContrasenia2;
+    }
+
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
 }

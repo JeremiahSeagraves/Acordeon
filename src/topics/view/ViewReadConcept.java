@@ -16,10 +16,20 @@ public class ViewReadConcept extends javax.swing.JFrame {
     /**
      * Creates new form ViewReadConcept
      */
-    public ViewReadConcept() {
+    private ViewReadConcept() {
         initComponents();
         txtDefinicion.setLineWrap(true);
         txtDefinicion.setWrapStyleWord(true);
+    }
+    
+    private static ViewReadConcept ventanaLeerConcepto = null;
+     
+    public static ViewReadConcept obtenerVentanaLeerConcepto (){
+        if(ventanaLeerConcepto == null){
+            ventanaLeerConcepto = new ViewReadConcept();
+            return ventanaLeerConcepto;
+        }
+        return ventanaLeerConcepto;
     }
 
     /**

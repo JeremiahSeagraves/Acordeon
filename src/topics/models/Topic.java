@@ -9,11 +9,11 @@ package topics.models;
  *
  * @author Milka
  */
-public class Topic {
+public class Topic implements Comparable<Topic>{
     private int id;
     private String name;
-
-    public Topic(int id, String name) {
+    
+    public Topic(int id, String name)  {
         this.id = id;
         this.name = name;
     }
@@ -36,6 +36,16 @@ public class Topic {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Topic{" + "id=" + id + ", name=" + name + '}';
+    }
+
+    @Override
+    public int compareTo(Topic o) {
+        return getName().compareToIgnoreCase(o.getName());
     }
 
 }

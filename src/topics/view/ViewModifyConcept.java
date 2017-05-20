@@ -16,10 +16,20 @@ public class ViewModifyConcept extends javax.swing.JFrame {
     /**
      * Creates new form ViewReadConcept
      */
-    public ViewModifyConcept() {
+    private ViewModifyConcept() {
         initComponents();
         txtDefinicion.setLineWrap(true);
         txtDefinicion.setWrapStyleWord(true);
+    }
+    
+    private static ViewModifyConcept ventanaModificarConcepto = null;
+     
+    public static ViewModifyConcept obtenerVentanaModificarConcepto (){
+        if(ventanaModificarConcepto == null){
+            ventanaModificarConcepto = new ViewModifyConcept();
+            return ventanaModificarConcepto;
+        }
+        return ventanaModificarConcepto;
     }
 
     /**
