@@ -8,7 +8,7 @@ package database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import topics.models.Topic;
+import models.Topic;
 
 /**
  *

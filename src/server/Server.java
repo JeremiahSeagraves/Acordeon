@@ -22,8 +22,10 @@ public class Server {
             Registry registry = LocateRegistry.createRegistry(1099);
             ManagersTopics managersTopics = new ManagersTopics();
             ManagersConcepts managersConcepts = new ManagersConcepts();
+            ManagersLogs managersLogs = new ManagersLogs();
             registry.rebind("ManagerTopics", managersTopics);
             registry.rebind("ManagerConcepts", managersConcepts);
+            registry.rebind("ManagerLogs", managersLogs);
             
             System.out.println("Server starts... ");
         }

@@ -22,6 +22,31 @@ public class DAOUser extends AccesoBD {
     private static final String NOMBRE_STRING = "NAME";
     private static final String PASSWORD_STRING = "PASSWORD";
     
+    public User getUser(int id)throws ClassNotFoundException{
+        try{
+            ConnectionHandler.obtenerInstancia( ).conectarConBD( );
+            conexionBD = ConnectionHandler.obtenerConexion( );
+            
+            consultaBD = SELECT_STRING + "*" + FROM_STRING + "users" + WHERE_STRING + CLAVE_STRING + "= \"" + id + "\"";
+            sentenciaConsulta = conexionBD.createStatement( );
+            ResultSet resultadoConsultaConcepts = sentenciaConsulta.executeQuery( consultaBD );
+            
+            //Omite el primero elemento del ResultSet el cual es una dirección de memoria
+            resultadoConsultaConcepts.next( );
+            
+            User usuario = new User(  Integer.parseInt(resultadoConsultaConcepts.getString( CLAVE_STRING )),
+                    resultadoConsultaConcepts.getString( NOMBRE_STRING ),
+                    resultadoConsultaConcepts.getString( PASSWORD_STRING ));
+            
+            ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
+            
+            return usuario;
+        } catch (SQLException ex) {
+        }
+        return null;
+        }
+    
+    
      public User validarUsuario( String nombre, String clave ) throws  ClassNotFoundException {
         try {
             ConnectionHandler.obtenerInstancia( ).conectarConBD( );

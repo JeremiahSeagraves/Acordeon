@@ -3,36 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package log.models;
+package models;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
  * @author Milka
  */
 
-public class Log{
+public class Log implements Serializable, Comparable<Log>{
     private int id;
     private String movType;
     private String objType;
-    private String objName;
-    private String date;
-    private String hour;
+    private Date date;
+    private Time hour;
     private String user;
    
-    public Log(String movType, String objType, String objName, String date, String hour, String user) {
+    public Log(String movType, String objType, Date date, Time hour, String user) {
         this.movType = movType;
         this.objType = objType;
-        this.objName = objName;
         this.date = date;
         this.hour = hour;
         this.user = user;
     }
     
-    public Log(int id, String movType, String objType, String objName, String date, String hour, String user) {
+    public Log(int id, String movType, String objType, Date date, Time hour, String user) {
         this.id = id;
         this.movType = movType;
         this.objType = objType;
-        this.objName = objName;
         this.date = date;
         this.hour = hour;
         this.user = user;
@@ -62,27 +63,19 @@ public class Log{
         this.objType = objType;
     }
 
-    public String getObjName() {
-        return objName;
-    }
-
-    public void setObjName(String objName) {
-        this.objName = objName;
-    }
-
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getHour() {
+    public Time getHour() {
         return hour;
     }
 
-    public void setHour(String hour) {
+    public void setHour(Time hour) {
         this.hour = hour;
     }
 
@@ -92,6 +85,19 @@ public class Log{
 
     public void setUser(String user) {
         this.user = user;
+    }
+    
+    public Date getDateTime(){
+        Date date = this.date;
+        date.setHours(this.hour.getHours());
+        date.setMinutes(this.hour.getMinutes());
+        date.setSeconds(this.hour.getSeconds());
+        return date;
+    }
+
+    @Override
+    public int compareTo(Log o) {
+        return getDateTime().compareTo(o.getDateTime());
     }
     
 }

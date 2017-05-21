@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package topics.models;
+package models;
 
 import java.io.Serializable;
 
@@ -40,6 +40,7 @@ public class Topic implements Serializable, Comparable<Topic>{
     public void setName(String name) {
         this.name = name;
     }
+    
 
     @Override
     public String toString() {

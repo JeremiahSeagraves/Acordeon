@@ -6,6 +6,7 @@
 package client;
 
 import server.iManagersConcepts;
+import server.iManagersLogs;
 import server.iManagersTopics;
 
 /**
@@ -15,10 +16,12 @@ import server.iManagersTopics;
 public class ThreadAcordeon extends Thread{
     private final iManagersTopics managersTopics;
     private final iManagersConcepts managerConcepts;
+    private final iManagersLogs managerLogs;
     
-    public ThreadAcordeon(iManagersTopics managersTopics, iManagersConcepts managersConcepts){
+    public ThreadAcordeon(iManagersTopics managersTopics, iManagersConcepts managersConcepts, iManagersLogs managersLogs){
         this.managersTopics = managersTopics;
         this.managerConcepts = managersConcepts;
+        this.managerLogs = managersLogs;
     }
     
     public iManagersTopics getManagerTopics(){
@@ -28,6 +31,11 @@ public class ThreadAcordeon extends Thread{
     public iManagersConcepts getManagerConcepts(){
         return managerConcepts;
     }
+    
+    public iManagersLogs getManagerLogs(){
+        return managerLogs;
+    }
+    
     @Override
     public void run(){
         // aqui va la ejecución de las ventanas

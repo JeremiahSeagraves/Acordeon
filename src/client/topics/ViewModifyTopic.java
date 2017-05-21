@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import topics.models.Topic;
+import models.Topic;
 
 /**
  *

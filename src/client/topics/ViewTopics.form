@@ -7,6 +7,11 @@
         <Property name="text" type="java.lang.String" value="jMenuItem1"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JMenuItem" name="jMenuItem2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jMenuItem2"/>
+      </Properties>
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="btnMenuAgregar">
@@ -36,6 +41,36 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemCerrarSesi&#xf3;nActionPerformed"/>
               </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Bit&#xe1;cora"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="verBitacora">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ver bit&#xe1;cora"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="verBitacoraUsuario">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ver tu bit&#xe1;cora"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="verBitacoraTemas">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ver bit&#xe1;cora de los temas"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verBitacoraTemasActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="veBitacoraConceptos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ver bit&#xe1;cora de los conceptos"/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -23,7 +23,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import client.login.ViewLogin;
 import topics.models.Concept;
-import topics.models.Topic;
+import models.Topic;
 
 /**
  *
@@ -57,6 +57,7 @@ public class ViewTopics extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaTemas = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -69,8 +70,15 @@ public class ViewTopics extends javax.swing.JFrame {
         btnAgregarTema = new javax.swing.JMenuItem();
         menuCuenta = new javax.swing.JMenu();
         menuItemCerrarSesión = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        verBitacora = new javax.swing.JMenuItem();
+        verBitacoraUsuario = new javax.swing.JMenuItem();
+        verBitacoraTemas = new javax.swing.JMenuItem();
+        veBitacoraConceptos = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Temas");
@@ -154,6 +162,27 @@ public class ViewTopics extends javax.swing.JFrame {
         menuCuenta.add(menuItemCerrarSesión);
 
         jMenuBar1.add(menuCuenta);
+
+        jMenu1.setText("Bitácora");
+
+        verBitacora.setText("Ver bitácora");
+        jMenu1.add(verBitacora);
+
+        verBitacoraUsuario.setText("Ver tu bitácora");
+        jMenu1.add(verBitacoraUsuario);
+
+        verBitacoraTemas.setText("Ver bitácora de los temas");
+        verBitacoraTemas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verBitacoraTemasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(verBitacoraTemas);
+
+        veBitacoraConceptos.setText("Ver bitácora de los conceptos");
+        jMenu1.add(veBitacoraConceptos);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -301,6 +330,10 @@ public class ViewTopics extends javax.swing.JFrame {
             }catch(NullPointerException e){
             }
     }//GEN-LAST:event_btnAgregarTemaActionPerformed
+
+    private void verBitacoraTemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraTemasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verBitacoraTemasActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -377,13 +410,19 @@ public class ViewTopics extends javax.swing.JFrame {
     private javax.swing.JMenu btnMenuAgregar;
     private javax.swing.JButton btnModificarTema;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JMenu menuCuenta;
     private javax.swing.JMenuItem menuItemCerrarSesión;
     private javax.swing.JTable tablaTemas;
+    private javax.swing.JMenuItem veBitacoraConceptos;
+    private javax.swing.JMenuItem verBitacora;
+    private javax.swing.JMenuItem verBitacoraTemas;
+    private javax.swing.JMenuItem verBitacoraUsuario;
     // End of variables declaration//GEN-END:variables
 
     public static ViewTopics getVentanaTopicos() {

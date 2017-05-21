@@ -5,16 +5,16 @@
  */
 package server;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import models.Topic;
+import models.Log;
 
 /**
  *
  * @author Milka
  */
-public interface iManagersTopics extends Remote{
-     ArrayList<Topic> readAllTopics() throws RemoteException;
-     ManagerTopic getManagerTopic(int idTopic)throws RemoteException;
+public interface iManagersLogs {
+    ArrayList<Log> readAllLogs() throws RemoteException;
+    ArrayList<Log> readAllLogsforUser(int id) throws RemoteException;
+    ArrayList<Log> readAllLogsforConceptOrTopic(String topic_concept) throws RemoteException;
 }

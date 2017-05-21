@@ -38,8 +38,8 @@ public class DAOConcept extends AccesoBD {
             concept = new Concept(  Integer.parseInt(resultadoConsultaConcepts.getString( CLAVE_STRING )),
                                     resultadoConsultaConcepts.getString( NOMBRE_STRING ),
                                     resultadoConsultaConcepts.getString( DESCRIPCION_STRING ),
-                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_USER_STRING )),
-                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_TOPIC_STRING )));
+                                    Integer.parseInt(resultadoConsultaConcepts.getString(ID_USER_STRING)),
+                                    Integer.parseInt(resultadoConsultaConcepts.getString(ID_TOPIC_STRING)));
             
             concepts.add(concept);
         }

@@ -7,14 +7,13 @@ package server;
 
 import database.DAOTopic;
 import java.io.Serializable;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import topics.models.Topic;
+import models.Topic;
 
 /**
  *

@@ -12,6 +12,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import server.iManagersConcepts;
 import server.iManagersTopics;
+import server.iManagersLogs;
 
 /**
  *
@@ -23,7 +24,8 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1");
             iManagersTopics managerTopics = (iManagersTopics)registry.lookup("ManagerTopics");
             iManagersConcepts managerConcepts = (iManagersConcepts)registry.lookup("ManagerConcepts");
-            ThreadAcordeon thread = new ThreadAcordeon(managerTopics, managerConcepts);
+            iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");
+            ThreadAcordeon thread = new ThreadAcordeon(managerTopics, managerConcepts, managerLogs);
         }catch(NotBoundException nbe){
             nbe.printStackTrace();
         } catch (RemoteException ex) {
