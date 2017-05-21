@@ -5,7 +5,11 @@
  */
 package topics.view;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import topics.models.Concept;
 
 /**
  *
@@ -18,6 +22,8 @@ public class ViewReadConcept extends javax.swing.JFrame {
      */
     private ViewReadConcept() {
         initComponents();
+        setSize(450,370);
+        setLocation(820, 0);
         txtDefinicion.setLineWrap(true);
         txtDefinicion.setWrapStyleWord(true);
     }
@@ -41,67 +47,67 @@ public class ViewReadConcept extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblTema = new javax.swing.JLabel();
+        lblConcepto = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnModificar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDefinicion = new javax.swing.JTextArea();
+        lblUsuarioLogeado = new javax.swing.JLabel();
+        lblIdConcept = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel2.setText("Tema: ...");
+        lblTema.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        lblTema.setText("Tema: ...");
+        getContentPane().add(lblTema, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 21, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel3.setText("Concepto: ...");
+        lblConcepto.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        lblConcepto.setText("Concepto: ...");
+        getContentPane().add(lblConcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 67, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel4.setText("Definición");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 115, -1, -1));
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 287, -1, -1));
 
+        txtDefinicion.setEditable(false);
         txtDefinicion.setColumns(20);
         jScrollPane3.setViewportView(txtDefinicion);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(btnModificar)))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(btnModificar)
-                .addContainerGap())
-        );
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(129, 115, 234, 154));
+
+        lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        getContentPane().add(lblUsuarioLogeado, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 0, 138, 20));
+        getContentPane().add(lblIdConcept, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        if(false){
+            //SE VERIFICA QUE NADIE ESTÉ MODIFICANDO/LEYENDO
+        }else{
+            String concepto = getLblConcepto().getText();
+            String descripcion = getTxtDefinicion().getText();
+            int idConceptoSeleccionado = Integer.parseInt(getLblIdConcept().getText());
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblModificarConcepto().setText("Modificar "+concepto);
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblIdConcept().setText(String.valueOf(idConceptoSeleccionado));
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getTxtDefinicion().setText(descripcion);
+            this.setVisible(false);
+            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(true);
+            
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,10 +146,84 @@ public class ViewReadConcept extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnModificar;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblConcepto;
+    private javax.swing.JLabel lblIdConcept;
+    private javax.swing.JLabel lblTema;
+    private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JTextArea txtDefinicion;
     // End of variables declaration//GEN-END:variables
+
+    public static ViewReadConcept getVentanaLeerConcepto() {
+        return ventanaLeerConcepto;
+    }
+
+    public static void setVentanaLeerConcepto(ViewReadConcept ventanaLeerConcepto) {
+        ViewReadConcept.ventanaLeerConcepto = ventanaLeerConcepto;
+    }
+
+    public JButton getBtnModificar() {
+        return btnModificar;
+    }
+
+    public void setBtnModificar(JButton btnModificar) {
+        this.btnModificar = btnModificar;
+    }
+
+    public JLabel getjLabel4() {
+        return jLabel4;
+    }
+
+    public void setjLabel4(JLabel jLabel4) {
+        this.jLabel4 = jLabel4;
+    }
+
+    public JScrollPane getjScrollPane3() {
+        return jScrollPane3;
+    }
+
+    public void setjScrollPane3(JScrollPane jScrollPane3) {
+        this.jScrollPane3 = jScrollPane3;
+    }
+
+    public JLabel getLblIdConcept() {
+        return lblIdConcept;
+    }
+
+    public void setLblIdConcept(JLabel lblIdConcept) {
+        this.lblIdConcept = lblIdConcept;
+    }
+
+    public JLabel getLblUsuarioLogeado() {
+        return lblUsuarioLogeado;
+    }
+
+    public void setLblUsuarioLogeado(JLabel lblUsuarioLogeado) {
+        this.lblUsuarioLogeado = lblUsuarioLogeado;
+    }
+
+    public JTextArea getTxtDefinicion() {
+        return txtDefinicion;
+    }
+
+    public void setTxtDefinicion(JTextArea txtDefinicion) {
+        this.txtDefinicion = txtDefinicion;
+    }
+
+    public JLabel getLblConcepto() {
+        return lblConcepto;
+    }
+
+    public void setLblConcepto(JLabel lblConcepto) {
+        this.lblConcepto = lblConcepto;
+    }
+
+    public JLabel getLblTema() {
+        return lblTema;
+    }
+
+    public void setLblTema(JLabel lblTema) {
+        this.lblTema = lblTema;
+    }
 }

@@ -132,7 +132,9 @@ public class ViewLogin extends javax.swing.JFrame {
             //AQUÍ EL SERVIDOR VALIDA QUE SÍ EXISTA LA INFORMACIÓN EN LA BASE DE DATOS 
         }
         else{
+            String usuario = getTxtUsuario().getText();
             this.setVisible(false);
+            ViewTopics.obtenerVentanaTopicos().getLblUsuarioLogeado().setText(usuario);
             ViewTopics.obtenerVentanaTopicos().setVisible(true);
         }
         

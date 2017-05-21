@@ -9,6 +9,11 @@ import database.DAOConcept;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import login.view.ViewLogin;
 import topics.models.Concept;
 
@@ -53,6 +58,7 @@ public class ViewAddConcept extends javax.swing.JFrame {
         btnAgregarConcepto = new javax.swing.JButton();
         lblAgregarConcepto = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
+        lblUsuarioLogeado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agregar concepto");
@@ -76,6 +82,8 @@ public class ViewAddConcept extends javax.swing.JFrame {
         lblAgregarConcepto.setText("Agregar nuevo concepto a...");
 
         btnCancelar.setText("Cancelar");
+
+        lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,11 +111,15 @@ public class ViewAddConcept extends javax.swing.JFrame {
                         .addGap(77, 77, 77)
                         .addComponent(btnCancelar)))
                 .addContainerGap(53, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAgregarConcepto)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -117,7 +129,7 @@ public class ViewAddConcept extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarConcepto)
                     .addComponent(btnCancelar))
@@ -187,7 +199,88 @@ public class ViewAddConcept extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAgregarConcepto;
+    private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JTextArea txtAreaDefinicion;
     private javax.swing.JTextField txtConcepto;
     // End of variables declaration//GEN-END:variables
+
+    public static ViewAddConcept getVentanaAniadirConcepto() {
+        return ventanaAniadirConcepto;
+    }
+
+    public static void setVentanaAniadirConcepto(ViewAddConcept ventanaAniadirConcepto) {
+        ViewAddConcept.ventanaAniadirConcepto = ventanaAniadirConcepto;
+    }
+
+    public JButton getBtnAgregarConcepto() {
+        return btnAgregarConcepto;
+    }
+
+    public void setBtnAgregarConcepto(JButton btnAgregarConcepto) {
+        this.btnAgregarConcepto = btnAgregarConcepto;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public void setBtnCancelar(JButton btnCancelar) {
+        this.btnCancelar = btnCancelar;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public void setjScrollPane1(JScrollPane jScrollPane1) {
+        this.jScrollPane1 = jScrollPane1;
+    }
+
+    public JLabel getLblAgregarConcepto() {
+        return lblAgregarConcepto;
+    }
+
+    public void setLblAgregarConcepto(JLabel lblAgregarConcepto) {
+        this.lblAgregarConcepto = lblAgregarConcepto;
+    }
+
+    public JLabel getLblUsuarioLogeado() {
+        return lblUsuarioLogeado;
+    }
+
+    public void setLblUsuarioLogeado(JLabel lblUsuarioLogeado) {
+        this.lblUsuarioLogeado = lblUsuarioLogeado;
+    }
+
+    public JTextArea getTxtAreaDefinicion() {
+        return txtAreaDefinicion;
+    }
+
+    public void setTxtAreaDefinicion(JTextArea txtAreaDefinicion) {
+        this.txtAreaDefinicion = txtAreaDefinicion;
+    }
+
+    public JTextField getTxtConcepto() {
+        return txtConcepto;
+    }
+
+    public void setTxtConcepto(JTextField txtConcepto) {
+        this.txtConcepto = txtConcepto;
+    }
 }

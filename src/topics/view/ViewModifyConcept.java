@@ -5,7 +5,10 @@
  */
 package topics.view;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -18,6 +21,8 @@ public class ViewModifyConcept extends javax.swing.JFrame {
      */
     private ViewModifyConcept() {
         initComponents();
+        getLblIdConcept().setVisible(false);
+        setLocation(820,0);
         txtDefinicion.setLineWrap(true);
         txtDefinicion.setWrapStyleWord(true);
     }
@@ -47,8 +52,10 @@ public class ViewModifyConcept extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDefinicion = new javax.swing.JTextArea();
         btnCancelar = new javax.swing.JButton();
+        lblUsuarioLogeado = new javax.swing.JLabel();
+        lblIdConcept = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblModificarConcepto.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         lblModificarConcepto.setText("Modificar...");
@@ -63,37 +70,49 @@ public class ViewModifyConcept extends javax.swing.JFrame {
 
         btnCancelar.setText("Cancelar");
 
+        lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(btnModificar)
+                .addGap(72, 72, 72)
+                .addComponent(btnCancelar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblModificarConcepto)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(lblModificarConcepto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(btnModificar)
-                        .addGap(72, 72, 72)
-                        .addComponent(btnCancelar)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)))
+                .addComponent(lblIdConcept))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblIdConcept))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblModificarConcepto)
                 .addGap(66, 66, 66)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(144, 144, 144))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
                     .addComponent(btnCancelar))
@@ -146,7 +165,81 @@ public class ViewModifyConcept extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblIdConcept;
     private javax.swing.JLabel lblModificarConcepto;
+    private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JTextArea txtDefinicion;
     // End of variables declaration//GEN-END:variables
+
+    public static ViewModifyConcept getVentanaModificarConcepto() {
+        return ventanaModificarConcepto;
+    }
+
+    public static void setVentanaModificarConcepto(ViewModifyConcept ventanaModificarConcepto) {
+        ViewModifyConcept.ventanaModificarConcepto = ventanaModificarConcepto;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public void setBtnCancelar(JButton btnCancelar) {
+        this.btnCancelar = btnCancelar;
+    }
+
+    public JButton getBtnModificar() {
+        return btnModificar;
+    }
+
+    public void setBtnModificar(JButton btnModificar) {
+        this.btnModificar = btnModificar;
+    }
+
+    public JLabel getjLabel4() {
+        return jLabel4;
+    }
+
+    public void setjLabel4(JLabel jLabel4) {
+        this.jLabel4 = jLabel4;
+    }
+
+    public JScrollPane getjScrollPane3() {
+        return jScrollPane3;
+    }
+
+    public void setjScrollPane3(JScrollPane jScrollPane3) {
+        this.jScrollPane3 = jScrollPane3;
+    }
+
+    public JLabel getLblModificarConcepto() {
+        return lblModificarConcepto;
+    }
+
+    public void setLblModificarConcepto(JLabel lblModificarConcepto) {
+        this.lblModificarConcepto = lblModificarConcepto;
+    }
+
+    public JLabel getLblUsuarioLogeado() {
+        return lblUsuarioLogeado;
+    }
+
+    public void setLblUsuarioLogeado(JLabel lblUsuarioLogeado) {
+        this.lblUsuarioLogeado = lblUsuarioLogeado;
+    }
+
+    public JTextArea getTxtDefinicion() {
+        return txtDefinicion;
+    }
+
+    public void setTxtDefinicion(JTextArea txtDefinicion) {
+        this.txtDefinicion = txtDefinicion;
+    }
+
+    public JLabel getLblIdConcept() {
+        return lblIdConcept;
+    }
+
+    public void setLblIdConcept(JLabel lblIdConcept) {
+        this.lblIdConcept = lblIdConcept;
+    }
 }

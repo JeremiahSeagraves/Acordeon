@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Milka
  */
-public class Concept implements Serializable{
+public class Concept implements Serializable, Comparable<Concept>{
     private static final long serialVersionUID = 1L;    
     private int id;
     private String name;
@@ -77,6 +77,11 @@ public class Concept implements Serializable{
     @Override
     public String toString() {
         return "Concept{" + "id=" + id + ", name=" + name + ", description=" + description + ", userId=" + userId + '}';
+    }
+
+    @Override
+    public int compareTo(Concept o) {
+        return getName().compareToIgnoreCase(o.getName());
     }
 
 }

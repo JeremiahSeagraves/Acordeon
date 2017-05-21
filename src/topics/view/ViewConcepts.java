@@ -5,6 +5,12 @@
  */
 package topics.view;
 
+import database.DAOConcept;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -12,6 +18,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import topics.models.Concept;
 
 /**
  *
@@ -19,11 +27,15 @@ import javax.swing.JTable;
  */
 public class ViewConcepts extends javax.swing.JFrame {
 
+    ArrayList<Concept> conceptos;
     /**
      * Creates new form ViewTopics
      */
     private ViewConcepts() {
         initComponents();
+        getLblIdTopic().setVisible(false);
+        setLocation(410, 0);
+        setSize(410,370);
     }
     
     private static ViewConcepts ventanaConceptos = null;
@@ -51,12 +63,17 @@ public class ViewConcepts extends javax.swing.JFrame {
         btnVerConcepto = new javax.swing.JButton();
         btnModificarConcepto = new javax.swing.JButton();
         btnEliminarConcepto = new javax.swing.JButton();
+        lblUsuarioLogeado = new javax.swing.JLabel();
+        lblIdTopic = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnMenuAgregar = new javax.swing.JMenu();
         btnAgregarConcepto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Conceptos");
+        setMinimumSize(new java.awt.Dimension(400, 330));
+        setPreferredSize(new java.awt.Dimension(400, 330));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tablaConceptos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,7 +83,7 @@ public class ViewConcepts extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "ID", "Tema"
+                "ID", "Concepto"
             }
         ) {
             Class[] types = new Class [] {
@@ -91,14 +108,34 @@ public class ViewConcepts extends javax.swing.JFrame {
             tablaConceptos.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 366, 207));
+
         lblTituloTema.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         lblTituloTema.setText("Título de tema...");
+        getContentPane().add(lblTituloTema, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         btnVerConcepto.setText("Ver");
+        btnVerConcepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerConceptoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnVerConcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 275, -1, -1));
 
         btnModificarConcepto.setText("Modificar");
+        btnModificarConcepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarConceptoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnModificarConcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 275, -1, -1));
 
         btnEliminarConcepto.setText("Eliminar");
+        getContentPane().add(btnEliminarConcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 275, -1, -1));
+
+        lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        getContentPane().add(lblUsuarioLogeado, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 122, 18));
+        getContentPane().add(lblIdTopic, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, 10, 21));
 
         btnMenuAgregar.setText("Agregar");
 
@@ -109,42 +146,46 @@ public class ViewConcepts extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTituloTema)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(btnVerConcepto)
-                .addGap(56, 56, 56)
-                .addComponent(btnModificarConcepto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminarConcepto)
-                .addGap(42, 42, 42))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTituloTema)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVerConcepto)
-                    .addComponent(btnModificarConcepto)
-                    .addComponent(btnEliminarConcepto))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVerConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerConceptoActionPerformed
+        if(false){
+            //AQUÍ SE VERIFICA QUE NADIE ESTÉ MODIFICANDO/LEYENDO
+        }else{
+            int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
+            String nombreTema = lblTituloTema.getText();
+            Concept oConceptoSeleccionado = conceptos.get(conceptoSeleccionado);
+            String concepto = oConceptoSeleccionado.getName();
+            String descripcion = oConceptoSeleccionado.getDescription();
+            ViewReadConcept.obtenerVentanaLeerConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
+            ViewReadConcept.obtenerVentanaLeerConcepto().getLblIdConcept().setText(String.valueOf(oConceptoSeleccionado.getId()));
+            ViewReadConcept.obtenerVentanaLeerConcepto().getLblTema().setText("Tema: "+nombreTema);
+            ViewReadConcept.obtenerVentanaLeerConcepto().getLblConcepto().setText("Concepto: "+concepto);
+            ViewReadConcept.obtenerVentanaLeerConcepto().getTxtDefinicion().setText(oConceptoSeleccionado.getDescription());
+            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(true);
+        }
+    }//GEN-LAST:event_btnVerConceptoActionPerformed
+
+    private void btnModificarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarConceptoActionPerformed
+        if(false){
+            //SE VERIFICA QUE NADIE ESTÉ MODIFICANDO/LEYENDO
+        }else{
+            int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
+            if(conceptoSeleccionado>-1){
+            Concept oConceptoSeleccionado = conceptos.get(conceptoSeleccionado);
+            String concepto = oConceptoSeleccionado.getName();
+            String descripcion = oConceptoSeleccionado.getDescription();
+            int idConceptoSeleccionado = conceptos.get(conceptoSeleccionado).getId();
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblModificarConcepto().setText("Modificar "+concepto);
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblIdConcept().setText(String.valueOf(oConceptoSeleccionado.getId()));
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
+            ViewModifyConcept.obtenerVentanaModificarConcepto().getTxtDefinicion().setText(oConceptoSeleccionado.getDescription());
+            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(false);
+            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_btnModificarConceptoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,6 +222,40 @@ public class ViewConcepts extends javax.swing.JFrame {
             }
         });
     }
+    
+     private void cargarConceptos(){
+         DAOConcept accesoTopicos = new DAOConcept();
+        try {
+            conceptos = accesoTopicos.getConceptsofATopic(Integer.parseInt(getLblIdTopic().getText()));
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void llenarTablaConceptos(ArrayList<Concept> conceptos){
+        obtenerModeloTabla().setRowCount(0);
+        Collections.sort(conceptos);
+         for (int numTopico = 0; numTopico < conceptos.size(); numTopico++) {
+            obtenerModeloTabla().addRow(new Object[]{
+                conceptos.get(numTopico).getId(),
+                conceptos.get(numTopico).getName()
+                });
+        }
+         getTablaConceptos().setModel(obtenerModeloTabla());
+     }
+    
+    private DefaultTableModel obtenerModeloTabla (){
+        return (DefaultTableModel) getTablaConceptos().getModel();
+    }
+    
+     @Override
+    public void setVisible(boolean b) {
+        cargarConceptos();
+        llenarTablaConceptos(conceptos);
+        super.setVisible(b);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnAgregarConcepto;
@@ -190,7 +265,9 @@ public class ViewConcepts extends javax.swing.JFrame {
     private javax.swing.JButton btnVerConcepto;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblIdTopic;
     private javax.swing.JLabel lblTituloTema;
+    private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JTable tablaConceptos;
     // End of variables declaration//GEN-END:variables
 
@@ -272,5 +349,21 @@ public class ViewConcepts extends javax.swing.JFrame {
 
     public void setTablaConceptos(JTable tablaConceptos) {
         this.tablaConceptos = tablaConceptos;
+    }
+
+    public JLabel getLblUsuarioLogeado() {
+        return lblUsuarioLogeado;
+    }
+
+    public void setLblUsuarioLogeado(JLabel lblUsuarioLogeado) {
+        this.lblUsuarioLogeado = lblUsuarioLogeado;
+    }
+
+    public JLabel getLblIdTopic() {
+        return lblIdTopic;
+    }
+
+    public void setLblIdTopic(JLabel lblIdTopic) {
+        this.lblIdTopic = lblIdTopic;
     }
 }

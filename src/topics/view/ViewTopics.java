@@ -62,6 +62,7 @@ public class ViewTopics extends javax.swing.JFrame {
         btnEntrar = new javax.swing.JButton();
         btnModificarTema = new javax.swing.JButton();
         btnEliminarTema = new javax.swing.JButton();
+        lblUsuarioLogeado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnMenuAgregar = new javax.swing.JMenu();
         btnAgregarTema = new javax.swing.JMenuItem();
@@ -127,6 +128,8 @@ public class ViewTopics extends javax.swing.JFrame {
             }
         });
 
+        lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
         btnMenuAgregar.setText("Agregar");
 
         btnAgregarTema.setText("Agregar tema");
@@ -160,9 +163,13 @@ public class ViewTopics extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(24, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(btnEntrar)
@@ -175,8 +182,11 @@ public class ViewTopics extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -199,13 +209,16 @@ public class ViewTopics extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         int temaSeleccionado = getTablaTemas().getSelectedRow();
         if(temaSeleccionado>-1){
-            String nombreTemaSeleccionado = topicos.get(temaSeleccionado).getName();
+            Topic oTemaSeleccionado = topicos.get(temaSeleccionado);
+            String nombreTemaSeleccionado = oTemaSeleccionado.getName();
+            int idTemaSeleccionado = oTemaSeleccionado.getId();
             ViewConcepts.obtenerVentanaConceptos().getLblTituloTema().setText(nombreTemaSeleccionado);
+            ViewConcepts.obtenerVentanaConceptos().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
+            ViewConcepts.obtenerVentanaConceptos().getLblIdTopic().setText(String.valueOf(idTemaSeleccionado));
             ViewConcepts.obtenerVentanaConceptos().setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this,"No ha seleccionado un tema", "Error",JOptionPane.ERROR_MESSAGE);
         }
-        
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnModificarTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarTemaActionPerformed
@@ -215,6 +228,7 @@ public class ViewTopics extends javax.swing.JFrame {
             int idTemaSeleccionado = topicos.get(temaSeleccionado).getId();
             ViewModifyTopic.obtenerVentanaModificarTopico().getLblModificarTema().setText(nombreTemaSeleccionado);
             ViewModifyTopic.obtenerVentanaModificarTopico().getLblIdTopic().setText(String.valueOf(idTemaSeleccionado));
+            ViewModifyTopic.obtenerVentanaModificarTopico().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
             ViewModifyTopic.obtenerVentanaModificarTopico().setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this,"No ha seleccionado un tema", "Error",JOptionPane.ERROR_MESSAGE);
@@ -349,6 +363,7 @@ public class ViewTopics extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JMenu menuCuenta;
     private javax.swing.JMenuItem menuItemCerrarSesión;
     private javax.swing.JTable tablaTemas;
@@ -456,5 +471,13 @@ public class ViewTopics extends javax.swing.JFrame {
 
     public void setTablaTemas(JTable tablaTemas) {
         this.tablaTemas = tablaTemas;
+    }
+
+    public JLabel getLblUsuarioLogeado() {
+        return lblUsuarioLogeado;
+    }
+
+    public void setLblUsuarioLogeado(JLabel lblUsuarioLogeado) {
+        this.lblUsuarioLogeado = lblUsuarioLogeado;
     }
 }

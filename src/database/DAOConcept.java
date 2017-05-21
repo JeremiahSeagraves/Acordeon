@@ -48,6 +48,32 @@ public class DAOConcept extends AccesoBD {
         
          return concepts;
     }
+    
+    public ArrayList<Concept> getConceptsofATopic( int idTopic ) throws ClassNotFoundException, SQLException{
+         ConnectionHandler.obtenerInstancia( ).conectarConBD( );
+         conexionBD = ConnectionHandler.obtenerConexion( );
+ 
+         consultaBD =  SELECT_STRING + "*" + FROM_STRING + "concepts where ID_TOPIC = \""+idTopic+"\"" ;
+         sentenciaConsulta = conexionBD.createStatement( );
+         ResultSet resultadoConsultaConcepts = sentenciaConsulta.executeQuery( consultaBD );
+         
+         ArrayList<Concept> concepts= new ArrayList<>( );
+         Concept concept;
+        
+         while ( resultadoConsultaConcepts.next() ) {
+            concept = new Concept(  Integer.parseInt(resultadoConsultaConcepts.getString( CLAVE_STRING )),
+                                    resultadoConsultaConcepts.getString( NOMBRE_STRING ),
+                                    resultadoConsultaConcepts.getString( DESCRIPCION_STRING ),
+                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_USER_STRING )),
+                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_TOPIC_STRING )));
+            
+            concepts.add(concept);
+        }
+        
+         ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
+        
+         return concepts;
+    }
    
    
    public void insertarConcepto( Concept concepto ) throws SQLException, ClassNotFoundException {

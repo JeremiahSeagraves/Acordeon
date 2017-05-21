@@ -55,6 +55,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         lblModificarTema = new javax.swing.JLabel();
         lblIdTopic = new javax.swing.JLabel();
+        lblUsuarioLogeado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar tema");
@@ -77,6 +78,8 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
         lblModificarTema.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         lblModificarTema.setText("Modificar...");
+
+        lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,11 +104,15 @@ public class ViewModifyTopic extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblModificarTema)
                     .addComponent(lblIdTopic))
@@ -113,7 +120,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombreTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificarTema)
                     .addComponent(btnCancelar))
@@ -194,6 +201,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblIdTopic;
     private javax.swing.JLabel lblModificarTema;
+    private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JTextField txtNombreTema;
     // End of variables declaration//GEN-END:variables
 
@@ -251,5 +259,13 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
     public void setLblIdTopic(JLabel lblIdTopic) {
         this.lblIdTopic = lblIdTopic;
+    }
+
+    public JLabel getLblUsuarioLogeado() {
+        return lblUsuarioLogeado;
+    }
+
+    public void setLblUsuarioLogeado(JLabel lblUsuarioLogeado) {
+        this.lblUsuarioLogeado = lblUsuarioLogeado;
     }
 }
