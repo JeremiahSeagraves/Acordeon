@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package topics.view;
+package client.topics;
 
 import database.DAOConcept;
 import database.DAOTopic;
@@ -18,11 +18,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import login.view.ViewLogin;
+import client.login.ViewLogin;
 import topics.models.Concept;
 import topics.models.Topic;
 
