@@ -6,9 +6,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import topics.controllers.ManagerTopic;
-import topics.controllers.iManagerTopic;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,8 +20,10 @@ public class Server {
     public static void main (String[] args){
         try{
             Registry registry = LocateRegistry.createRegistry(1099);
-            ManagerTopic managerTopic = new ManagerTopic();
-            registry.rebind("PowerObject", managerTopic);
+            ManagersTopics managersTopics = new ManagersTopics();
+            ManagersConcepts managersConcepts = new ManagersConcepts();
+            registry.rebind("ManagerTopics", managersTopics);
+            registry.rebind("ManagerConcepts", managersConcepts);
             
             System.out.println("Server starts... ");
         }

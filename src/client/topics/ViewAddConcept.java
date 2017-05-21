@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package topics.view;
+package client.topics;
 
 import Sesion.Cuenta;
 import database.DAOConcept;
@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import login.view.ViewLogin;
+import client.login.ViewLogin;
 import topics.models.Concept;
 
 /**

@@ -5,26 +5,25 @@
  */
 package client;
 
+import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import topics.controllers.iManagerTopic;
-import topics.models.Concept;
-import topics.controllers.ManagerTopic;
+import server.iManagersConcepts;
+import server.iManagersTopics;
 
 /**
  *
  * @author Milka
  */
 public class Client {
-    public static void main (String[] args){
+    public static void main (String[] args) throws MalformedURLException{
         try{
             Registry registry = LocateRegistry.getRegistry("127.0.0.1");
-            iManagerTopic manager = (iManagerTopic)registry.lookup("PowerObject");
-            System.out.println("Read Concept" + manager.readConcept(2));
+            iManagersTopics managerTopics = (iManagersTopics)registry.lookup("ManagerTopics");
+            iManagersConcepts managerConcepts = (iManagersConcepts)registry.lookup("ManagerConcepts");
+            ThreadAcordeon thread = new ThreadAcordeon(managerTopics, managerConcepts);
         }catch(NotBoundException nbe){
             nbe.printStackTrace();
         } catch (RemoteException ex) {
