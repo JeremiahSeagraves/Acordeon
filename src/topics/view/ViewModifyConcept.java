@@ -5,10 +5,16 @@
  */
 package topics.view;
 
+import database.DAOConcept;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import topics.models.Concept;
 
 /**
  *
@@ -64,11 +70,21 @@ public class ViewModifyConcept extends javax.swing.JFrame {
         jLabel4.setText("Definición");
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         txtDefinicion.setColumns(20);
         jScrollPane3.setViewportView(txtDefinicion);
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
@@ -121,6 +137,34 @@ public class ViewModifyConcept extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        String nuevaDescripcion = getTxtDefinicion().getText();
+        int id = Integer.parseInt(getLblIdConcept().getText());
+        if(!nuevaDescripcion.equals("")){
+            try {
+                Concept conceptoModificado = new Concept(id, nuevaDescripcion);
+                DAOConcept accesoConceptos = new DAOConcept();
+                accesoConceptos.actualizarConcepto(conceptoModificado);
+            } catch (SQLException ex) {
+               
+            } catch (ClassNotFoundException ex) {
+                
+            }
+            getTxtDefinicion().setText("");
+            ViewConcepts.obtenerVentanaConceptos().setVisible(true);
+            JOptionPane.showMessageDialog(this, "Modificación realizada con éxito","Cambios guardados",JOptionPane.INFORMATION_MESSAGE);
+            this.setVisible(false);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No ha escrito un nombre nuevo","Error",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments

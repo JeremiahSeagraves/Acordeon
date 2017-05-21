@@ -5,6 +5,7 @@
  */
 package topics.view;
 
+import Sesion.Cuenta;
 import database.DAOConcept;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -131,6 +133,11 @@ public class ViewConcepts extends javax.swing.JFrame {
         getContentPane().add(btnModificarConcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 275, -1, -1));
 
         btnEliminarConcepto.setText("Eliminar");
+        btnEliminarConcepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarConceptoActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnEliminarConcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 275, -1, -1));
 
         lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -140,6 +147,11 @@ public class ViewConcepts extends javax.swing.JFrame {
         btnMenuAgregar.setText("Agregar");
 
         btnAgregarConcepto.setText("Agregar concepto");
+        btnAgregarConcepto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarConceptoActionPerformed(evt);
+            }
+        });
         btnMenuAgregar.add(btnAgregarConcepto);
 
         jMenuBar1.add(btnMenuAgregar);
@@ -154,6 +166,7 @@ public class ViewConcepts extends javax.swing.JFrame {
             //AQUÍ SE VERIFICA QUE NADIE ESTÉ MODIFICANDO/LEYENDO
         }else{
             int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
+            if(conceptoSeleccionado >-1){
             String nombreTema = lblTituloTema.getText();
             Concept oConceptoSeleccionado = conceptos.get(conceptoSeleccionado);
             String concepto = oConceptoSeleccionado.getName();
@@ -164,6 +177,9 @@ public class ViewConcepts extends javax.swing.JFrame {
             ViewReadConcept.obtenerVentanaLeerConcepto().getLblConcepto().setText("Concepto: "+concepto);
             ViewReadConcept.obtenerVentanaLeerConcepto().getTxtDefinicion().setText(oConceptoSeleccionado.getDescription());
             ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(true);
+            }else{
+                     JOptionPane.showMessageDialog(this,"No ha seleccionado un concepto", "Error",JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnVerConceptoActionPerformed
 
@@ -183,9 +199,58 @@ public class ViewConcepts extends javax.swing.JFrame {
             ViewModifyConcept.obtenerVentanaModificarConcepto().getTxtDefinicion().setText(oConceptoSeleccionado.getDescription());
             ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(false);
             ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(true);
+            }else{
+                     JOptionPane.showMessageDialog(this,"No ha seleccionado un concepto", "Error",JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnModificarConceptoActionPerformed
+
+    private void btnEliminarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarConceptoActionPerformed
+        if(false){
+            //AQUÍ SE VERIFICA QUE SEA QUIEN LO CREO, QUE NO LO ESTÉN VIENDO/MODIFICANDO
+        }else{
+             int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
+             
+            if(conceptoSeleccionado>-1){
+                   //AQUÍ SE VALIDA SI ERES QUIÉN LO CREÓ
+            Concept oConceptoSeleccionado = conceptos.get(conceptoSeleccionado);
+            String nombreConceptoSeleccionado = oConceptoSeleccionado.getName();
+            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(false);
+            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(false);
+            boolean respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar "+nombreConceptoSeleccionado+"?"
+                                            ,"Confirmación",JOptionPane.YES_NO_OPTION)==0?true:false;
+            if(respuesta){
+                try {
+                    if(oConceptoSeleccionado.getUserId()==Cuenta.obtenerCuentaIniciada().getUserId())
+                    {
+                    DAOConcept accesoConceptos = new DAOConcept();
+                    accesoConceptos.eliminarConcepto(conceptos.get(conceptoSeleccionado).getId());
+                    JOptionPane.showMessageDialog(this, "Borrado exitoso");
+                    ViewConcepts.obtenerVentanaConceptos().setVisible(true);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "No puedes borrar este concepto. No eres quien lo creó.","Error de permisos",JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                ViewTopics.obtenerVentanaTopicos().setVisible(respuesta);
+            }
+            }else{
+                JOptionPane.showMessageDialog(this,"No ha seleccionado un concepto", "Error",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarConceptoActionPerformed
+
+    private void btnAgregarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConceptoActionPerformed
+        
+        ViewAddConcept.obtenerVentanaAniadirConcepto().getLblAgregarConcepto().setText("Agregar concepto a "+getLblTituloTema().getText());
+        ViewAddConcept.obtenerVentanaAniadirConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
+        ViewAddConcept.obtenerVentanaAniadirConcepto().getLblIdTopic().setText(getLblIdTopic().getText());
+        ViewAddConcept.obtenerVentanaAniadirConcepto().setVisible(true);
+            
+    }//GEN-LAST:event_btnAgregarConceptoActionPerformed
 
     /**
      * @param args the command line arguments

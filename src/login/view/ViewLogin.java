@@ -5,12 +5,16 @@
  */
 package login.view;
 
+import Sesion.Cuenta;
+import Sesion.User;
 import database.DAOConcept;
+import database.DAOUser;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import topics.view.ViewTopics;
@@ -132,10 +136,23 @@ public class ViewLogin extends javax.swing.JFrame {
             //AQUÍ EL SERVIDOR VALIDA QUE SÍ EXISTA LA INFORMACIÓN EN LA BASE DE DATOS 
         }
         else{
-            String usuario = getTxtUsuario().getText();
-            this.setVisible(false);
-            ViewTopics.obtenerVentanaTopicos().getLblUsuarioLogeado().setText(usuario);
-            ViewTopics.obtenerVentanaTopicos().setVisible(true);
+            try {
+                String usuario = getTxtUsuario().getText();
+                String clave = String.valueOf(getPswContrasenia().getPassword());
+                DAOUser accesoUsuarios = new DAOUser();
+                User unUsuario = accesoUsuarios.validarUsuario(usuario,clave);
+                if(unUsuario==null){
+                    JOptionPane.showMessageDialog(this, "Error al iniciar sesión","Error de inicio de sesión",
+                                                   JOptionPane.ERROR_MESSAGE);
+                }else{
+                Cuenta.obtenerCuentaIniciada();
+                Cuenta.establecerCuentaIniciada(unUsuario.getIdUser(), unUsuario.getName());
+                this.setVisible(false);
+                ViewTopics.obtenerVentanaTopicos().getLblUsuarioLogeado().setText(usuario);
+                ViewTopics.obtenerVentanaTopicos().setVisible(true);}
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         
@@ -256,5 +273,12 @@ public class ViewLogin extends javax.swing.JFrame {
 
     public void setTxtUsuario(JTextField txtUsuario) {
         this.txtUsuario = txtUsuario;
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        getTxtUsuario().setText("");
+        getPswContrasenia().setText("");
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }
 }

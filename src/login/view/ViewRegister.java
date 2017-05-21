@@ -5,6 +5,11 @@
  */
 package login.view;
 
+import Sesion.User;
+import database.DAOUser;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -134,16 +139,35 @@ public class ViewRegister extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-    
-        if(false){
-            //AQUÍ SE VALIDA QUE ESTEN LLENOS LOS CAMPOS
-            //Y NO EXISTA UN USUARIO CON EL MISMO NOMBRE
+        String usuario = getTxtUsuario().getText();
+        String clave1 = String.valueOf(getPswContrasenia().getPassword());
+        String clave2 = String.valueOf(getPswContrasenia2().getPassword());
+        if(!clave1.equals(clave2)){
+            JOptionPane.showMessageDialog(this,"Las contrasenias no coinciden", "Error",JOptionPane.WARNING_MESSAGE);
+        }else{
+            if(usuario.isEmpty()||clave1.isEmpty()||clave2.isEmpty()){
+                    JOptionPane.showMessageDialog(this,"No has llenado todos los campos", "Error",JOptionPane.WARNING_MESSAGE);
+            }else{
+                DAOUser accesoUsuarios = new DAOUser();
+                try {
+                    if(accesoUsuarios.validarUsuario(usuario, clave1)!=null){
+                        JOptionPane.showMessageDialog(this, "El usuario ya existe.","Error",JOptionPane.WARNING_MESSAGE);
+                    }
+                    else{
+                        User usuarioNuevo = new User(usuario, clave1);
+                        accesoUsuarios.insertarUsuario(usuarioNuevo);
+                        JOptionPane.showMessageDialog(this, "Registrado exitosamente");
+                        this.setVisible(false);
+                        ViewLogin.obtenerVentanaLogin().setVisible(true);
+                    }
+                } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+                } catch (SQLException ex) {
+                ex.printStackTrace();
+                }
+            }
         }
-        else{
-            JOptionPane.showMessageDialog(this, "Registrado exitosamente");
-            this.setVisible(false);
-            ViewLogin.obtenerVentanaLogin().setVisible(true);
-        }
+        
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -278,5 +302,13 @@ public class ViewRegister extends javax.swing.JFrame {
 
     public void setTxtUsuario(JTextField txtUsuario) {
         this.txtUsuario = txtUsuario;
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        getTxtUsuario().setText("");
+        getPswContrasenia().setText("");
+        getPswContrasenia2().setText("");
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }
 }

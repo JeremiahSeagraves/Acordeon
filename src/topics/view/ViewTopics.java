@@ -5,6 +5,7 @@
  */
 package topics.view;
 
+import database.DAOConcept;
 import database.DAOTopic;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import login.view.ViewLogin;
+import topics.models.Concept;
 import topics.models.Topic;
 
 /**
@@ -201,6 +203,11 @@ public class ViewTopics extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuItemCerrarSesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCerrarSesiónActionPerformed
+            ViewConcepts.obtenerVentanaConceptos().setVisible(false);
+            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(false);
+            ViewModifyTopic.obtenerVentanaModificarTopico().setVisible(false);
+            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(false);
+            ViewAddConcept.obtenerVentanaAniadirConcepto().setVisible(false);
         JOptionPane.showMessageDialog(this, "Sesión cerrada", "Sesión", JOptionPane.INFORMATION_MESSAGE);
         this.setVisible(false);
         ViewLogin.obtenerVentanaLogin().setVisible(true);
@@ -240,14 +247,25 @@ public class ViewTopics extends javax.swing.JFrame {
         if(temaSeleccionado>-1){
             
             //AQUÍ SE VALIDA SI ERES QUIÉN LO CREÓ
+            ViewConcepts.obtenerVentanaConceptos().setVisible(false);
+            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(false);
+            ViewModifyTopic.obtenerVentanaModificarTopico().setVisible(false);
+            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(false);
+            ViewAddConcept.obtenerVentanaAniadirConcepto().setVisible(false);
             
             String nombreTemaSeleccionado = topicos.get(temaSeleccionado).getName();
             boolean respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar "+nombreTemaSeleccionado+"?"
                                             ,"Confirmación",JOptionPane.YES_NO_OPTION)==0?true:false;
             if(respuesta){
                 try {
+                    DAOConcept accesoConceptos = new DAOConcept();
+                    ArrayList<Concept> conceptos = accesoConceptos.getConceptsofATopic(topicos.get(temaSeleccionado).getId());
+                    if(conceptos.isEmpty()){
                     DAOTopic accesoTemas = new DAOTopic();
                     accesoTemas.eliminarTopico(topicos.get(temaSeleccionado).getId());
+                    }else{
+                          JOptionPane.showMessageDialog(this,"No se puede eliminar el tema. Tiene conceptos relacionados.", "Error",JOptionPane.ERROR_MESSAGE);
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ClassNotFoundException ex) {

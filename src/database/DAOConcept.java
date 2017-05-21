@@ -58,8 +58,8 @@ public class DAOConcept extends AccesoBD {
          ResultSet resultadoConsultaConcepts = sentenciaConsulta.executeQuery( consultaBD );
          
          ArrayList<Concept> concepts= new ArrayList<>( );
-         Concept concept;
-        
+         Concept concept=null;
+        try{
          while ( resultadoConsultaConcepts.next() ) {
             concept = new Concept(  Integer.parseInt(resultadoConsultaConcepts.getString( CLAVE_STRING )),
                                     resultadoConsultaConcepts.getString( NOMBRE_STRING ),
@@ -73,6 +73,10 @@ public class DAOConcept extends AccesoBD {
          ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
         
          return concepts;
+        }catch(SQLException ex){
+            
+        }
+        return null;
     }
    
    
@@ -94,7 +98,7 @@ public class DAOConcept extends AccesoBD {
          
     }
    
-    public void eliminarConcepto( String claveConcepto ) throws SQLException, ClassNotFoundException {
+    public void eliminarConcepto( int claveConcepto ) throws SQLException, ClassNotFoundException {
          ConnectionHandler.obtenerInstancia( ).conectarConBD( );
          conexionBD = ConnectionHandler.obtenerConexion( );
         

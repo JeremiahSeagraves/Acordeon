@@ -34,6 +34,11 @@ public class Concept implements Serializable, Comparable<Concept>{
         this.topicId = topicId;
     }
 
+    public Concept(int id, String nuevaDescripcion) {
+        this.id = id;
+        this.description = nuevaDescripcion;
+    }
+
     public int getId() {
         return id;
     }

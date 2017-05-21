@@ -5,6 +5,7 @@
  */
 package topics.view;
 
+import Sesion.Cuenta;
 import database.DAOConcept;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -31,6 +32,8 @@ public class ViewAddConcept extends javax.swing.JFrame {
     
     private ViewAddConcept() {
         initComponents();
+        setLocation(820, 0);
+        getLblIdTopic().setVisible(false);
     }
     
     public static ViewAddConcept obtenerVentanaAniadirConcepto ( ){
@@ -59,8 +62,9 @@ public class ViewAddConcept extends javax.swing.JFrame {
         lblAgregarConcepto = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         lblUsuarioLogeado = new javax.swing.JLabel();
+        lblIdTopic = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar concepto");
 
         jLabel1.setText("Concepto");
@@ -78,7 +82,7 @@ public class ViewAddConcept extends javax.swing.JFrame {
             }
         });
 
-        lblAgregarConcepto.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        lblAgregarConcepto.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblAgregarConcepto.setText("Agregar nuevo concepto a...");
 
         btnCancelar.setText("Cancelar");
@@ -103,24 +107,31 @@ public class ViewAddConcept extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblAgregarConcepto))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addComponent(btnAgregarConcepto)
                         .addGap(77, 77, 77)
                         .addComponent(btnCancelar)))
                 .addContainerGap(53, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblAgregarConcepto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblIdTopic))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblAgregarConcepto)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAgregarConcepto)
+                    .addComponent(lblIdTopic))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -129,7 +140,7 @@ public class ViewAddConcept extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarConcepto)
                     .addComponent(btnCancelar))
@@ -142,16 +153,17 @@ public class ViewAddConcept extends javax.swing.JFrame {
     private void btnAgregarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConceptoActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        DAOConcept topicDao = new DAOConcept();
-        Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),5,4);
+        DAOConcept accesoConceptos = new DAOConcept();
+        Cuenta cuentaIniciada = Cuenta.obtenerCuentaIniciada();
+        Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),cuentaIniciada.getUserId(),Integer.parseInt(getLblIdTopic().getText()));
         try {
-            topicDao.insertarConcepto(nuevoConcepto);
-            System.out.println(topicDao.getConcepts());
+            accesoConceptos.insertarConcepto(nuevoConcepto);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ViewConcepts.obtenerVentanaConceptos().setVisible(true);
     }//GEN-LAST:event_btnAgregarConceptoActionPerformed
 
     /**
@@ -199,6 +211,7 @@ public class ViewAddConcept extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAgregarConcepto;
+    private javax.swing.JLabel lblIdTopic;
     private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JTextArea txtAreaDefinicion;
     private javax.swing.JTextField txtConcepto;
@@ -254,6 +267,14 @@ public class ViewAddConcept extends javax.swing.JFrame {
 
     public JLabel getLblAgregarConcepto() {
         return lblAgregarConcepto;
+    }
+
+    public JLabel getLblIdTopic() {
+        return lblIdTopic;
+    }
+
+    public void setLblIdTopic(JLabel lblIdTopic) {
+        this.lblIdTopic = lblIdTopic;
     }
 
     public void setLblAgregarConcepto(JLabel lblAgregarConcepto) {

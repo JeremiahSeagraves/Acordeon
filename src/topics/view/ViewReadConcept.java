@@ -24,6 +24,7 @@ public class ViewReadConcept extends javax.swing.JFrame {
         initComponents();
         setSize(450,370);
         setLocation(820, 0);
+        getLblIdConcept().setVisible(false);
         txtDefinicion.setLineWrap(true);
         txtDefinicion.setWrapStyleWord(true);
     }
