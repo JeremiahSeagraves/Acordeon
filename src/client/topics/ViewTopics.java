@@ -267,7 +267,7 @@ public class ViewTopics extends javax.swing.JFrame {
         if (temaSeleccionado > -1) {
             try {
                 Topic temaSelec = topicos.get(temaSeleccionado);
-                Topic seleccionado = thread.getManagerTopics().getManagerTopic(temaSelec.getId()).readTopic(temaSelec.getId());
+                Topic seleccionado = thread.getManagerTopics().getManagerTopic(temaSelec.getId(), false).readTopic(temaSelec.getId());
 
                 ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).getLblTituloTema().setText(seleccionado.getName());
                 ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).getLblUsuarioLogeado().setText(user.getName());
@@ -286,14 +286,19 @@ public class ViewTopics extends javax.swing.JFrame {
         int id = topicos.get(rowtemaSeleccionado).getId();
         if (rowtemaSeleccionado > -1) {
             try {
-                Topic temaSeleccionado = thread.getManagerTopics().getManagerTopic(id).
-                        previewmodifyTopic(topicos.get(rowtemaSeleccionado).getId());
-                String nombreTemaSeleccionado = temaSeleccionado.getName();
-                int idTemaSeleccionado = temaSeleccionado.getId();
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).getLblModificarTema().setText(nombreTemaSeleccionado);
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).getLblIdTopic().setText(String.valueOf(idTemaSeleccionado));
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).getLblUsuarioLogeado().setText(user.getName());
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).setVisible(true);
+                    ManagerTopic manager = thread.getManagerTopics().getManagerTopic(id, true);
+                    if(manager!=null){
+                        Topic temaSeleccionado = manager.previewmodifyTopic(topicos.get(rowtemaSeleccionado).getId());
+                        String nombreTemaSeleccionado = temaSeleccionado.getName();
+                        int idTemaSeleccionado = temaSeleccionado.getId();
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).setManager(manager);
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).getLblModificarTema().setText(nombreTemaSeleccionado);
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).getLblIdTopic().setText(String.valueOf(idTemaSeleccionado));
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).getLblUsuarioLogeado().setText(user.getName());
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).setVisible(true);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "No se puede modificar el objeto", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
             } catch (RemoteException ex) {
                 Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -317,7 +322,7 @@ public class ViewTopics extends javax.swing.JFrame {
                 try {
                     ArrayList<Concept> conceptos = thread.getManagerConcepts().getConceptsofATopic(topicos.get(temaSeleccionado).getId());
                     if (conceptos.isEmpty()) {
-                        thread.getManagerTopics().getManagerTopic(topicos.get(temaSeleccionado).getId()).deleteTopic(topicos.get(temaSeleccionado).getId());
+                        thread.getManagerTopics().getManagerTopic(topicos.get(temaSeleccionado).getId(), false).deleteTopic(topicos.get(temaSeleccionado).getId());
                         Date date = new Date();
                         java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                         Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
@@ -345,7 +350,7 @@ public class ViewTopics extends javax.swing.JFrame {
             if (!nuevoTema.equals("")) {
                 Topic nuevoTopico = new Topic(nuevoTema);
                 try {
-                    thread.getManagerTopics().getManagerTopic(0).createTopic(nuevoTopico);
+                    thread.getManagerTopics().getManagerTopic(0, false).createTopic(nuevoTopico);
                     Date date = new Date();
                     java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                     Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
@@ -365,7 +370,7 @@ public class ViewTopics extends javax.swing.JFrame {
 
     private void verBitacoraTemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraTemasActionPerformed
         try {
-            ViewLog ventanaLog = new ViewLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("tema"), "temas");
+            ViewLog ventanaLog = ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("tema"), "temas");
 
         } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
@@ -374,7 +379,7 @@ public class ViewTopics extends javax.swing.JFrame {
 
     private void verBitacoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraActionPerformed
         try {
-            ViewLog ventanaLog = new ViewLog(thread.getManagerLogs().readAllLogs(), "ninguno");
+            ViewLog ventanaLog = ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogs(), "ninguno");
 
         } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
@@ -383,7 +388,7 @@ public class ViewTopics extends javax.swing.JFrame {
 
     private void verBitacoraUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraUsuarioActionPerformed
         try {
-            ViewLog ventanaLog = new ViewLog(thread.getManagerLogs().readAllLogsforUser(user.getIdUser()), "usuario");
+            ViewLog ventanaLog = ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforUser(user.getIdUser()), "usuario");
 
         } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
@@ -392,7 +397,7 @@ public class ViewTopics extends javax.swing.JFrame {
 
     private void veBitacoraConceptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veBitacoraConceptosActionPerformed
         try {
-            ViewLog ventanaLog = new ViewLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("concepto"), "concepto");
+            ViewLog ventanaLog = ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("concepto"), "concepto");
 
         } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);

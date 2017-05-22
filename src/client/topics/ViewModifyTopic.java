@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import models.Log;
 import models.Topic;
+import server.ManagerTopic;
 
 /**
  *
@@ -28,6 +29,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     
     private ThreadAcordeon thread;
     private User user;
+    private ManagerTopic manager;
     
     private ViewModifyTopic(ThreadAcordeon thread, User user) {
         initComponents();
@@ -46,7 +48,10 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         }
         return ventanaModificarTopico;
     }
-
+    
+    public void setManager(ManagerTopic manager){
+        this.manager = manager;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,12 +146,8 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         String nombreNuevo = getTxtNombreTema().getText();
         int id = Integer.parseInt(getLblIdTopic().getText());
         if(!nombreNuevo.equals("")){
-            try {
-                Topic topicoModificado = new Topic(id,nombreNuevo);
-                thread.getManagerTopics().getManagerTopic(id).finalizemodifyTopic(topicoModificado);
-            }catch(RemoteException ex){
-                Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Topic topicoModificado = new Topic(id,nombreNuevo);
+            manager.finalizemodifyTopic(topicoModificado);
             getTxtNombreTema().setText("");
             this.setVisible(false);
             ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(true);
@@ -167,7 +168,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         try {
-            thread.getManagerTopics().getManagerTopic(Integer.parseInt(getLblIdTopic().getText())).cancelLock();
+            thread.getManagerTopics().unlockManager(Integer.parseInt(getLblIdTopic().getText()));
             this.setVisible(false);
             ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(true);
         } catch (RemoteException ex) {

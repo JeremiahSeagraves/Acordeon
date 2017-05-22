@@ -19,7 +19,7 @@ import models.Topic;
  *
  * @author Milka
  */
-public class ManagerTopic implements Serializable {
+public class ManagerTopic implements Serializable  {
 
     private static final long serialVersionUID = 1L;
     private DAOTopic daoTopic;
@@ -49,7 +49,7 @@ public class ManagerTopic implements Serializable {
     }
 
     public synchronized Topic previewmodifyTopic(int id) {
-        objectLock.lock();
+        if(objectLock.tryLock()){
         System.out.println("Buscando el Topico...");
         daoTopic = new DAOTopic();
         Topic topic = null;
@@ -61,7 +61,10 @@ public class ManagerTopic implements Serializable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        objectLock.unlock();
+        }
+//        }finally{
+////            objectLock.unlock();
+//        }
         return null;
     }
 
@@ -69,15 +72,15 @@ public class ManagerTopic implements Serializable {
         System.out.println("modificando topico...");
         daoTopic = new DAOTopic();
         try {
-            objectLock.lock();
+//            objectLock.lock();
             daoTopic.actualizarTopico(topic);
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            objectLock.unlock();
         }
-        cancelLock();
-        objectLock.unlock();
     }
 
     public synchronized boolean deleteTopic(int id) {
@@ -110,5 +113,8 @@ public class ManagerTopic implements Serializable {
     }
     public void cancelLock() {
         objectLock.unlock();
+    }
+    public boolean isLock(){
+        return objectLock.tryLock();
     }
 }

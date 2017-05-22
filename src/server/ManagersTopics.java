@@ -22,10 +22,13 @@ public class ManagersTopics extends UnicastRemoteObject implements iManagersTopi
     private static final long serialVersionUID = 1L;
     private DAOTopic daoTopic;
     private ArrayList<ManagerTopic> listManagers;
+    private ArrayList<ManagerTopic> listLockManagers;
+    
     
     public ManagersTopics() throws RemoteException{
         super();
         listManagers = new ArrayList<>();
+        listLockManagers = new ArrayList<>();
     }
     @Override
     public ArrayList<Topic> readAllTopics() throws RemoteException {
@@ -47,13 +50,46 @@ public class ManagersTopics extends UnicastRemoteObject implements iManagersTopi
         return manager;
     }
     @Override
-    public ManagerTopic getManagerTopic(int idTopic) throws RemoteException{
-
-        for (int i = 0; i < listManagers.size(); i++) {
-            if(listManagers.get(i).getidTopic() == idTopic){
-                return listManagers.get(i);
+    public ManagerTopic getManagerTopic(int idTopic, boolean modify) throws RemoteException{
+        if(islock(idTopic)){
+            return null;
+        }else{
+            for (int i = 0; i < listManagers.size(); i++) {
+                if(listManagers.get(i).getidTopic() == idTopic){
+                    ManagerTopic manager = listManagers.get(i);
+                    if(modify){
+                        listManagers.remove(i);
+                        lockManager(manager);
+                    }
+                    return manager;
+                }
+            }
+            return createManagerTopic(idTopic);
+        }
+    }
+    
+    private void lockManager(ManagerTopic manager){
+        listLockManagers.add(manager);
+    }
+    
+    @Override
+    public void unlockManager(int id) throws RemoteException{
+        for (int i = 0; i < listLockManagers.size(); i++) {
+            if(listLockManagers.get(i).getidTopic() == id){
+                ManagerTopic manager = listLockManagers.get(i);
+                listLockManagers.remove(i);
+                listManagers.add(manager);
             }
         }
-        return createManagerTopic(idTopic);
     }
+    
+    private boolean islock(int id){
+        for (int i = 0; i < listLockManagers.size(); i++) {
+            if(listLockManagers.get(i).getidTopic() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

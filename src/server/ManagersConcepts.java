@@ -23,10 +23,19 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
     private static final long serialVersionUID = 1L;
     private DAOConcept daoConcept;
     private ArrayList<ManagerConcept> listManagers;
+    private static ManagersConcepts manager = null;
     
-    public ManagersConcepts() throws RemoteException {
+    private ManagersConcepts() throws RemoteException {
         super();
         listManagers = new ArrayList<>();
+    }
+    
+    public static ManagersConcepts obtenerManager () throws RemoteException{
+        if(manager == null){
+            manager = new ManagersConcepts();
+            return manager;
+        }
+        return manager;
     }
 
     @Override

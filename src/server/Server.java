@@ -21,7 +21,7 @@ public class Server {
         try{
             Registry registry = LocateRegistry.createRegistry(1099);
             ManagersTopics managersTopics = new ManagersTopics();
-            ManagersConcepts managersConcepts = new ManagersConcepts();
+            ManagersConcepts managersConcepts = ManagersConcepts.obtenerManager();
             ManagersLogs managersLogs = new ManagersLogs();
             registry.rebind("ManagerTopics", managersTopics);
             registry.rebind("ManagerConcepts", managersConcepts);

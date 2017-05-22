@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Topic;
+import server.ManagerTopic;
 import server.iManagersConcepts;
 import server.iManagersLogs;
 import server.iManagersTopics;

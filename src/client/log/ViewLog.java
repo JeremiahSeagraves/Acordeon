@@ -18,12 +18,21 @@ import models.Log;
 public class ViewLog extends javax.swing.JFrame {
 
     private String order;
+    private static ViewLog viewLog = null;
     
-    public ViewLog(ArrayList<Log> listLog, String order) {
+    private ViewLog(ArrayList<Log> listLog, String order) {
         initComponents();
         this.order = order;
         llenarTablaConceptos(listLog);
         this.setVisible(true);
+    }
+    
+    public static ViewLog obtenerVentanaLog(ArrayList<Log> listLog, String order){
+        if(viewLog == null){
+            viewLog = new ViewLog(listLog, order);
+            return viewLog;
+        }
+        return viewLog;
     }
     private void llenarTablaConceptos(ArrayList<Log> listLogs){
         obtenerModeloTabla().setRowCount(0);
