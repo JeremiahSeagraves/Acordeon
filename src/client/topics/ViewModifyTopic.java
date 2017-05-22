@@ -5,14 +5,18 @@
  */
 package client.topics;
 
-import database.DAOTopic;
-import java.sql.SQLException;
+import Sesion.User;
+import client.ThreadAcordeon;
+import java.rmi.RemoteException;
+import java.sql.Time;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import models.Log;
 import models.Topic;
 
 /**
@@ -21,20 +25,23 @@ import models.Topic;
  */
 public class ViewModifyTopic extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ViewCreateTopics
-     */
-    private ViewModifyTopic() {
+    
+    private ThreadAcordeon thread;
+    private User user;
+    
+    private ViewModifyTopic(ThreadAcordeon thread, User user) {
         initComponents();
         getLblIdTopic().setVisible(false);
+        this.thread = thread;
+        this.user = user;
         
     }
     
     private static ViewModifyTopic ventanaModificarTopico = null;
      
-    public static ViewModifyTopic obtenerVentanaModificarTopico (){
+    public static ViewModifyTopic obtenerVentanaModificarTopico (ThreadAcordeon thread, User user){
         if(ventanaModificarTopico == null){
-            ventanaModificarTopico = new ViewModifyTopic();
+            ventanaModificarTopico = new ViewModifyTopic(thread, user);
             return ventanaModificarTopico;
         }
         return ventanaModificarTopico;
@@ -136,16 +143,22 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         if(!nombreNuevo.equals("")){
             try {
                 Topic topicoModificado = new Topic(id,nombreNuevo);
-                DAOTopic accesoTemas = new DAOTopic();
-                accesoTemas.actualizarTopico(topicoModificado);
-            } catch (SQLException ex) {
-                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+                thread.getManagerTopics().getManagerTopic(id).finalizemodifyTopic(topicoModificado);
+            }catch(RemoteException ex){
+                Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
             }
             getTxtNombreTema().setText("");
             this.setVisible(false);
-            ViewTopics.obtenerVentanaTopicos().setVisible(true);
+            ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(true);
+            Date date = new Date();
+            java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
+            Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
+            Log log = new Log("modificar", "tema", datesql, time, user.getName());
+            try {
+                thread.getManagerLogs().createLog(log, user.getIdUser());
+            } catch (RemoteException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else{
             JOptionPane.showMessageDialog(this, "No ha escrito un nombre nuevo","Error",JOptionPane.WARNING_MESSAGE);
@@ -153,47 +166,14 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarTemaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       this.setVisible(false);
-       ViewTopics.obtenerVentanaTopicos().setVisible(true);
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyTopic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            thread.getManagerTopics().getManagerTopic(Integer.parseInt(getLblIdTopic().getText())).cancelLock();
+            this.setVisible(false);
+            ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(true);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewModifyTopic().setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

@@ -51,7 +51,6 @@ public class ManagerConcept implements Serializable{
 
     public synchronized Concept previewmodifyConcept(String id){
         if(objectLock.tryLock()){
-            objectLock.lock();
             System.out.println("Buscando el Topico...");
             daoConcept = new DAOConcept();
             Concept concept = null;
@@ -64,11 +63,13 @@ public class ManagerConcept implements Serializable{
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        objectLock.unlock();
         return null;
     }
 
     public void finalizemodifyConcept(Concept concept){
         System.out.println("modificando topico...");
+        objectLock.lock();
         daoConcept = new DAOConcept();
         try {
             daoConcept.actualizarConcepto(concept);
@@ -113,5 +114,5 @@ public class ManagerConcept implements Serializable{
     public void cancelLock(){
         objectLock.unlock();
     }
-    
+
 }

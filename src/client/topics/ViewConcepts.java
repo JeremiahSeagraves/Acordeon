@@ -6,10 +6,13 @@
 package client.topics;
 
 import Sesion.Cuenta;
-import database.DAOConcept;
-import java.sql.SQLException;
+import Sesion.User;
+import client.ThreadAcordeon;
+import java.rmi.RemoteException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -21,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import models.Log;
 import topics.models.Concept;
 
 /**
@@ -29,22 +33,24 @@ import topics.models.Concept;
  */
 public class ViewConcepts extends javax.swing.JFrame {
 
-    ArrayList<Concept> conceptos;
-    /**
-     * Creates new form ViewTopics
-     */
-    private ViewConcepts() {
+    private ArrayList<Concept> conceptos;
+    private ThreadAcordeon thread;
+    private User user;
+
+    private ViewConcepts(ThreadAcordeon thread, User user) {
         initComponents();
+        this.thread = thread;
+        this.user = user;
         getLblIdTopic().setVisible(false);
         setLocation(410, 0);
-        setSize(410,370);
+        setSize(410, 370);
     }
-    
+
     private static ViewConcepts ventanaConceptos = null;
-     
-    public static ViewConcepts obtenerVentanaConceptos (){
-        if(ventanaConceptos == null){
-            ventanaConceptos = new ViewConcepts();
+
+    public static ViewConcepts obtenerVentanaConceptos(ThreadAcordeon thread, User user) {
+        if (ventanaConceptos == null) {
+            ventanaConceptos = new ViewConcepts(thread, user);
             return ventanaConceptos;
         }
         return ventanaConceptos;
@@ -74,7 +80,6 @@ public class ViewConcepts extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Conceptos");
         setMinimumSize(new java.awt.Dimension(400, 330));
-        setPreferredSize(new java.awt.Dimension(400, 330));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tablaConceptos.setModel(new javax.swing.table.DefaultTableModel(
@@ -110,7 +115,7 @@ public class ViewConcepts extends javax.swing.JFrame {
             tablaConceptos.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 366, 207));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 57, 366, 200));
 
         lblTituloTema.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         lblTituloTema.setText("Título de tema...");
@@ -162,160 +167,133 @@ public class ViewConcepts extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerConceptoActionPerformed
-        if(false){
-            //AQUÍ SE VERIFICA QUE NADIE ESTÉ MODIFICANDO/LEYENDO
-        }else{
-            int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
-            if(conceptoSeleccionado >-1){
-            String nombreTema = lblTituloTema.getText();
-            Concept oConceptoSeleccionado = conceptos.get(conceptoSeleccionado);
-            String concepto = oConceptoSeleccionado.getName();
-            String descripcion = oConceptoSeleccionado.getDescription();
-            ViewReadConcept.obtenerVentanaLeerConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
-            ViewReadConcept.obtenerVentanaLeerConcepto().getLblIdConcept().setText(String.valueOf(oConceptoSeleccionado.getId()));
-            ViewReadConcept.obtenerVentanaLeerConcepto().getLblTema().setText("Tema: "+nombreTema);
-            ViewReadConcept.obtenerVentanaLeerConcepto().getLblConcepto().setText("Concepto: "+concepto);
-            ViewReadConcept.obtenerVentanaLeerConcepto().getTxtDefinicion().setText(oConceptoSeleccionado.getDescription());
-            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(true);
-            }else{
-                     JOptionPane.showMessageDialog(this,"No ha seleccionado un concepto", "Error",JOptionPane.ERROR_MESSAGE);
+
+        int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
+        if (conceptoSeleccionado > -1) {
+            try {
+                String nombreTema = lblTituloTema.getText();
+                int id = conceptos.get(conceptoSeleccionado).getId();
+                Concept concept = thread.getManagerConcepts().getManagerConcept(id).readConcept(String.valueOf(id));
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).
+                        getLblUsuarioLogeado().setText(user.getName());
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).
+                        getLblIdConcept().setText(String.valueOf(concept.getId()));
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).
+                        getLblTema().setText("Tema: " + nombreTema);
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).
+                        getLblConcepto().setText("Concepto: " + concept.getName());
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).
+                        getTxtDefinicion().setText(concept.getDescription());
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).setVisible(true);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "No ha seleccionado un concepto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnVerConceptoActionPerformed
 
     private void btnModificarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarConceptoActionPerformed
-        if(false){
-            //SE VERIFICA QUE NADIE ESTÉ MODIFICANDO/LEYENDO
-        }else{
-            int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
-            if(conceptoSeleccionado>-1){
-            Concept oConceptoSeleccionado = conceptos.get(conceptoSeleccionado);
-            String concepto = oConceptoSeleccionado.getName();
-            String descripcion = oConceptoSeleccionado.getDescription();
-            int idConceptoSeleccionado = conceptos.get(conceptoSeleccionado).getId();
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblModificarConcepto().setText("Modificar "+concepto);
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblIdConcept().setText(String.valueOf(oConceptoSeleccionado.getId()));
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getTxtDefinicion().setText(oConceptoSeleccionado.getDescription());
-            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(false);
-            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(true);
-            }else{
-                     JOptionPane.showMessageDialog(this,"No ha seleccionado un concepto", "Error",JOptionPane.ERROR_MESSAGE);
+
+        int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
+        if (conceptoSeleccionado > -1) {
+            try {
+                int id = conceptos.get(conceptoSeleccionado).getId();
+                Concept concept = thread.getManagerConcepts().getManagerConcept(id).previewmodifyConcept(String.valueOf(id));
+                ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).
+                        getLblModificarConcepto().setText("Modificar " + concept.getName());
+                ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).
+                        getLblIdConcept().setText(String.valueOf(concept.getId()));
+                ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).
+                        getLblUsuarioLogeado().setText(user.getName());
+                ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).
+                        getTxtDefinicion().setText(concept.getDescription());
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).setVisible(false);
+                ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).setVisible(true);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "No ha seleccionado un concepto", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnModificarConceptoActionPerformed
 
     private void btnEliminarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarConceptoActionPerformed
-        if(false){
-            //AQUÍ SE VERIFICA QUE SEA QUIEN LO CREO, QUE NO LO ESTÉN VIENDO/MODIFICANDO
-        }else{
-             int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
-             
-            if(conceptoSeleccionado>-1){
-                   //AQUÍ SE VALIDA SI ERES QUIÉN LO CREÓ
-            Concept oConceptoSeleccionado = conceptos.get(conceptoSeleccionado);
-            String nombreConceptoSeleccionado = oConceptoSeleccionado.getName();
-            ViewReadConcept.obtenerVentanaLeerConcepto().setVisible(false);
-            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(false);
-            boolean respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar "+nombreConceptoSeleccionado+"?"
-                                            ,"Confirmación",JOptionPane.YES_NO_OPTION)==0?true:false;
-            if(respuesta){
-                try {
-                    if(oConceptoSeleccionado.getUserId()==Cuenta.obtenerCuentaIniciada().getUserId())
-                    {
-                    DAOConcept accesoConceptos = new DAOConcept();
-                    accesoConceptos.eliminarConcepto(conceptos.get(conceptoSeleccionado).getId());
-                    JOptionPane.showMessageDialog(this, "Borrado exitoso");
-                    ViewConcepts.obtenerVentanaConceptos().setVisible(true);
-                    }else{
-                        JOptionPane.showMessageDialog(this, "No puedes borrar este concepto. No eres quien lo creó.","Error de permisos",JOptionPane.ERROR_MESSAGE);
+
+        int conceptoSeleccionado = getTablaConceptos().getSelectedRow();
+
+        if (conceptoSeleccionado > -1) {
+            try {
+                int id = conceptos.get(conceptoSeleccionado).getId();
+                Concept concept = thread.getManagerConcepts().getManagerConcept(id).readConcept(String.valueOf(id));
+                ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).setVisible(false);
+                ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).setVisible(false);
+                boolean respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar " + concept.getName() + "?", "Confirmación", JOptionPane.YES_NO_OPTION) == 0 ? true : false;
+                if (respuesta) {
+                    try {
+                        if (concept.getUserId() == user.getIdUser()) {
+                            thread.getManagerConcepts().getManagerConcept(id).deleteConcept(id);
+                            JOptionPane.showMessageDialog(this, "Borrado exitoso");
+                            ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).setVisible(true);
+                            Date date = new Date();
+                            java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
+                            Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
+                            Log log = new Log("eliminar", "concepto", datesql, time, user.getName());
+                            thread.getManagerLogs().createLog(log, user.getIdUser());
+                        } else {
+                            JOptionPane.showMessageDialog(this, "No puedes borrar este concepto. No eres quien lo creó.", "Error de permisos", JOptionPane.ERROR_MESSAGE);
+                        }
+                        ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(respuesta);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No ha seleccionado un concepto", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                ViewTopics.obtenerVentanaTopicos().setVisible(respuesta);
-            }
-            }else{
-                JOptionPane.showMessageDialog(this,"No ha seleccionado un concepto", "Error",JOptionPane.ERROR_MESSAGE);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnEliminarConceptoActionPerformed
 
     private void btnAgregarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConceptoActionPerformed
-        
-        ViewAddConcept.obtenerVentanaAniadirConcepto().getLblAgregarConcepto().setText("Agregar concepto a "+getLblTituloTema().getText());
-        ViewAddConcept.obtenerVentanaAniadirConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
-        ViewAddConcept.obtenerVentanaAniadirConcepto().getLblIdTopic().setText(getLblIdTopic().getText());
-        ViewAddConcept.obtenerVentanaAniadirConcepto().setVisible(true);
-            
+
+        ViewAddConcept.obtenerVentanaAniadirConcepto(this.thread, this.user).
+                getLblAgregarConcepto().setText("Agregar concepto a " + getLblTituloTema().getText());
+        ViewAddConcept.obtenerVentanaAniadirConcepto(this.thread, this.user).getLblUsuarioLogeado().
+                setText(getLblUsuarioLogeado().getText());
+        ViewAddConcept.obtenerVentanaAniadirConcepto(this.thread, this.user).getLblIdTopic().
+                setText(getLblIdTopic().getText());
+        ViewAddConcept.obtenerVentanaAniadirConcepto(this.thread, this.user).setVisible(true);
+
     }//GEN-LAST:event_btnAgregarConceptoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void cargarConceptos() {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewConcepts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewConcepts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewConcepts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewConcepts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            conceptos = thread.getManagerConcepts().
+                    getConceptsofATopic(Integer.parseInt(getLblIdTopic().getText()));
+        } catch (RemoteException ex) {
+            Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
+    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewConcepts().setVisible(true);
-            }
-        });
-    }
-    
-     private void cargarConceptos(){
-         DAOConcept accesoTopicos = new DAOConcept();
-        try {
-            conceptos = accesoTopicos.getConceptsofATopic(Integer.parseInt(getLblIdTopic().getText()));
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void llenarTablaConceptos(ArrayList<Concept> conceptos){
+    private void llenarTablaConceptos(ArrayList<Concept> conceptos) {
         obtenerModeloTabla().setRowCount(0);
         Collections.sort(conceptos);
-         for (int numTopico = 0; numTopico < conceptos.size(); numTopico++) {
+        for (int numTopico = 0; numTopico < conceptos.size(); numTopico++) {
             obtenerModeloTabla().addRow(new Object[]{
                 conceptos.get(numTopico).getId(),
                 conceptos.get(numTopico).getName()
-                });
+            });
         }
-         getTablaConceptos().setModel(obtenerModeloTabla());
-     }
-    
-    private DefaultTableModel obtenerModeloTabla (){
+        getTablaConceptos().setModel(obtenerModeloTabla());
+    }
+
+    private DefaultTableModel obtenerModeloTabla() {
         return (DefaultTableModel) getTablaConceptos().getModel();
     }
-    
-     @Override
+
+    @Override
     public void setVisible(boolean b) {
         cargarConceptos();
         llenarTablaConceptos(conceptos);

@@ -6,8 +6,8 @@
 package client.topics;
 
 import Sesion.Cuenta;
-import database.DAOConcept;
-import java.sql.SQLException;
+import Sesion.User;
+import client.ThreadAcordeon;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -16,6 +16,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import client.login.ViewLogin;
+import java.rmi.RemoteException;
+import java.sql.Time;
+import java.util.Date;
+import models.Log;
 import topics.models.Concept;
 
 /**
@@ -24,21 +28,22 @@ import topics.models.Concept;
  */
 public class ViewAddConcept extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ViewCreateConcept
-     */
+    private ThreadAcordeon thread;
+    private User user;
     
     private static ViewAddConcept ventanaAniadirConcepto = null;
     
-    private ViewAddConcept() {
+    private ViewAddConcept(ThreadAcordeon thread, User user) {
         initComponents();
+        this.thread = thread;
+        this.user = user;
         setLocation(820, 0);
         getLblIdTopic().setVisible(false);
     }
     
-    public static ViewAddConcept obtenerVentanaAniadirConcepto ( ){
+    public static ViewAddConcept obtenerVentanaAniadirConcepto (ThreadAcordeon thread, User user){
         if(ventanaAniadirConcepto == null){
-            ventanaAniadirConcepto = new ViewAddConcept();
+            ventanaAniadirConcepto = new ViewAddConcept(thread, user);
             return ventanaAniadirConcepto;
         }
         return ventanaAniadirConcepto;
@@ -151,58 +156,23 @@ public class ViewAddConcept extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConceptoActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        DAOConcept accesoConceptos = new DAOConcept();
-        Cuenta cuentaIniciada = Cuenta.obtenerCuentaIniciada();
-        Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),cuentaIniciada.getUserId(),Integer.parseInt(getLblIdTopic().getText()));
         try {
-            accesoConceptos.insertarConcepto(nuevoConcepto);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
+            // TODO add your handling code here:
+            this.dispose();
+            Cuenta cuentaIniciada = Cuenta.obtenerCuentaIniciada();
+            Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),cuentaIniciada.getUserId(),Integer.parseInt(getLblIdTopic().getText()));
+            thread.getManagerConcepts().getManagerConcept(0).createConcept(nuevoConcepto);
+            ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).setVisible(true);
+            Date date = new Date();
+            java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
+            Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
+            Log log = new Log("alta", "concepto", datesql, time, user.getName());
+            thread.getManagerLogs().createLog(log, user.getIdUser());
+        } catch (RemoteException ex) {
+            Logger.getLogger(ViewAddConcept.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ViewConcepts.obtenerVentanaConceptos().setVisible(true);
     }//GEN-LAST:event_btnAgregarConceptoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewAddConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewAddConcept().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarConcepto;

@@ -26,6 +26,7 @@ public class Client {
             iManagersConcepts managerConcepts = (iManagersConcepts)registry.lookup("ManagerConcepts");
             iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");
             ThreadAcordeon thread = new ThreadAcordeon(managerTopics, managerConcepts, managerLogs);
+                thread.start();
         }catch(NotBoundException nbe){
             nbe.printStackTrace();
         } catch (RemoteException ex) {

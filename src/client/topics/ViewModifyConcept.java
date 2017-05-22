@@ -5,13 +5,19 @@
  */
 package client.topics;
 
-import database.DAOConcept;
-import java.sql.SQLException;
+import Sesion.User;
+import client.ThreadAcordeon;
+import java.rmi.RemoteException;
+import java.sql.Time;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import models.Log;
 import topics.models.Concept;
 
 /**
@@ -20,11 +26,13 @@ import topics.models.Concept;
  */
 public class ViewModifyConcept extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ViewReadConcept
-     */
-    private ViewModifyConcept() {
+    private User user;
+    private ThreadAcordeon thread;
+    
+    private ViewModifyConcept(ThreadAcordeon thread, User user) {
         initComponents();
+        this.thread = thread;
+        this.user = user;
         getLblIdConcept().setVisible(false);
         setLocation(820,0);
         txtDefinicion.setLineWrap(true);
@@ -33,9 +41,9 @@ public class ViewModifyConcept extends javax.swing.JFrame {
     
     private static ViewModifyConcept ventanaModificarConcepto = null;
      
-    public static ViewModifyConcept obtenerVentanaModificarConcepto (){
+    public static ViewModifyConcept obtenerVentanaModificarConcepto (ThreadAcordeon thread, User user){
         if(ventanaModificarConcepto == null){
-            ventanaModificarConcepto = new ViewModifyConcept();
+            ventanaModificarConcepto = new ViewModifyConcept(thread, user);
             return ventanaModificarConcepto;
         }
         return ventanaModificarConcepto;
@@ -142,17 +150,23 @@ public class ViewModifyConcept extends javax.swing.JFrame {
         if(!nuevaDescripcion.equals("")){
             try {
                 Concept conceptoModificado = new Concept(id, nuevaDescripcion);
-                DAOConcept accesoConceptos = new DAOConcept();
-                accesoConceptos.actualizarConcepto(conceptoModificado);
-            } catch (SQLException ex) {
-               
-            } catch (ClassNotFoundException ex) {
-                
+                thread.getManagerConcepts().getManagerConcept(id).finalizemodifyConcept(conceptoModificado);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
             }
             getTxtDefinicion().setText("");
-            ViewConcepts.obtenerVentanaConceptos().setVisible(true);
+            ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).setVisible(true);
             JOptionPane.showMessageDialog(this, "Modificación realizada con éxito","Cambios guardados",JOptionPane.INFORMATION_MESSAGE);
             this.setVisible(false);
+            Date date = new Date();
+            java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
+            Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
+            Log log = new Log("modificar", "concepto", datesql, time, user.getName());
+            try {
+                thread.getManagerLogs().createLog(log, this.user.getIdUser());
+            } catch (RemoteException ex) {
+                Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else{
             JOptionPane.showMessageDialog(this, "No ha escrito un nombre nuevo","Error",JOptionPane.WARNING_MESSAGE);
@@ -160,47 +174,16 @@ public class ViewModifyConcept extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
+        try {
+            // TODO add your handling code here:
+            int id = Integer.parseInt(getLblIdConcept().getText());
+            this.setVisible(false);
+            thread.getManagerConcepts().getManagerConcept(id).cancelLock();
+        } catch (RemoteException ex) {
+            Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewModifyConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewModifyConcept().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

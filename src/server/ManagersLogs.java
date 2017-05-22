@@ -68,5 +68,19 @@ public class ManagersLogs extends UnicastRemoteObject implements iManagersLogs{
         }
         return listLogs;
     }
+
+    @Override
+    public void createLog(Log log, int idUser) throws RemoteException {
+        try {
+            daoLog = new DAOLog();
+            daoLog.insertLog(log, idUser);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ManagersLogs.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagersLogs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     
 }

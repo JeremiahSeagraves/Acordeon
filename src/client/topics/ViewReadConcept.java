@@ -5,10 +5,16 @@
  */
 package client.topics;
 
+import Sesion.User;
+import client.ThreadAcordeon;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import topics.models.Concept;
 
 /**
  *
@@ -16,11 +22,13 @@ import javax.swing.JTextArea;
  */
 public class ViewReadConcept extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ViewReadConcept
-     */
-    private ViewReadConcept() {
+    private User user;
+    private ThreadAcordeon thread;
+    
+    private ViewReadConcept(ThreadAcordeon thread, User user) {
         initComponents();
+        this.thread = thread;
+        this.user = user;
         setSize(450,370);
         setLocation(820, 0);
         getLblIdConcept().setVisible(false);
@@ -30,9 +38,9 @@ public class ViewReadConcept extends javax.swing.JFrame {
     
     private static ViewReadConcept ventanaLeerConcepto = null;
      
-    public static ViewReadConcept obtenerVentanaLeerConcepto (){
+    public static ViewReadConcept obtenerVentanaLeerConcepto (ThreadAcordeon thread, User user){
         if(ventanaLeerConcepto == null){
-            ventanaLeerConcepto = new ViewReadConcept();
+            ventanaLeerConcepto = new ViewReadConcept(thread, user);
             return ventanaLeerConcepto;
         }
         return ventanaLeerConcepto;
@@ -93,56 +101,22 @@ public class ViewReadConcept extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        if(false){
-            //SE VERIFICA QUE NADIE ESTÉ MODIFICANDO/LEYENDO
-        }else{
-            String concepto = getLblConcepto().getText();
-            String descripcion = getTxtDefinicion().getText();
+        
+        try {
             int idConceptoSeleccionado = Integer.parseInt(getLblIdConcept().getText());
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblModificarConcepto().setText("Modificar "+concepto);
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblIdConcept().setText(String.valueOf(idConceptoSeleccionado));
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getLblUsuarioLogeado().setText(getLblUsuarioLogeado().getText());
-            ViewModifyConcept.obtenerVentanaModificarConcepto().getTxtDefinicion().setText(descripcion);
+            Concept concept = thread.getManagerConcepts().getManagerConcept(idConceptoSeleccionado).previewmodifyConcept(String.valueOf(idConceptoSeleccionado));
+            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblModificarConcepto().setText("Modificar "+concept.getName());
+            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblIdConcept().setText(String.valueOf(concept.getId()));
+            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblUsuarioLogeado().setText(user.getName());
+            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getTxtDefinicion().setText(concept.getDescription());
             this.setVisible(false);
-            ViewModifyConcept.obtenerVentanaModificarConcepto().setVisible(true);
-            
+            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).setVisible(true);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ViewReadConcept.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewReadConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewReadConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewReadConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewReadConcept.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewReadConcept().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnModificar;

@@ -5,6 +5,11 @@
  */
 package client;
 
+import client.login.ViewLogin;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Topic;
 import server.iManagersConcepts;
 import server.iManagersLogs;
 import server.iManagersTopics;
@@ -38,6 +43,6 @@ public class ThreadAcordeon extends Thread{
     
     @Override
     public void run(){
-        // aqui va la ejecución de las ventanas
+        ViewLogin view = ViewLogin.obtenerVentanaLogin(this);
     }
 }

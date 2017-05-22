@@ -53,11 +53,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver bit&#xe1;cora"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verBitacoraActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="verBitacoraUsuario">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver tu bit&#xe1;cora"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verBitacoraUsuarioActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="verBitacoraTemas">
               <Properties>
@@ -71,6 +77,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver bit&#xe1;cora de los conceptos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="veBitacoraConceptosActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -26,6 +26,24 @@ public class DAOLog extends AccesoBD{
     private static final String HOUR = "HOUR";
     private static final String ID_USER = "ID_USER";
     
+    public void insertLog(Log log, int idUser)throws ClassNotFoundException,SQLException{
+        ConnectionHandler.obtenerInstancia( ).conectarConBD( );
+         conexionBD = ConnectionHandler.obtenerConexion( );
+        
+         consultaBD = INSERT_STRING + INTO_STRING + "log" + VALUES_STRING
+                        +"("        + "null"                       + ", "
+                        + "\""      + log.getMovType()             + "\", "
+                        + "\""      + log.getObjType()             + "\", "
+                        + "\""      + log.getDate()                + "\", "
+                        + "\""      + log.getHour()                + "\", "
+                        + "\""      + idUser                       + "\")";
+         
+         sentenciaConsulta = conexionBD.createStatement( );
+         sentenciaConsulta.executeUpdate( consultaBD );
+         
+         ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
+    }
+    
     public ArrayList<Log> getLog() throws ClassNotFoundException, SQLException{
         ConnectionHandler.obtenerInstancia( ).conectarConBD( );
         conexionBD = ConnectionHandler.obtenerConexion( );
