@@ -6,6 +6,7 @@
 package server;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import models.Topic;
 
 /**
@@ -13,11 +14,11 @@ import models.Topic;
  * @author practica1.sistemas
  */
 public interface iManagerTopic extends Remote{
-    public int getidTopic();
-    public Topic readTopic(int id);
-    public Topic previewmodifyTopic(int id);
-    public void finalizemodifyTopic(Topic topic);
-    public boolean deleteTopic(int id);
-    public void createTopic(Topic topic);
-    public void cancelLock();
+    public int getidTopic()throws RemoteException;
+    public Topic readTopic(int id)throws RemoteException;
+    public Topic previewmodifyTopic(int id)throws RemoteException;
+    public void finalizemodifyTopic(Topic topic)throws RemoteException;
+    public void deleteTopic(int id)throws RemoteException;
+    public void createTopic(Topic topic)throws RemoteException;
+    public void cancelLock()throws RemoteException;
 }

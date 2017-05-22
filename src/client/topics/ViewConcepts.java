@@ -173,7 +173,7 @@ public class ViewConcepts extends javax.swing.JFrame {
             try {
                 String nombreTema = lblTituloTema.getText();
                 int id = conceptos.get(conceptoSeleccionado).getId();
-                Concept concept = thread.getManagerConcepts().getManagerConcept(id).readConcept(String.valueOf(id));
+                Concept concept = thread.getManagerConcepts().createManagerConcept(id).readConcept(String.valueOf(id));
                 ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).
                         getLblUsuarioLogeado().setText(user.getName());
                 ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).
@@ -199,7 +199,7 @@ public class ViewConcepts extends javax.swing.JFrame {
         if (conceptoSeleccionado > -1) {
             try {
                 int id = conceptos.get(conceptoSeleccionado).getId();
-                Concept concept = thread.getManagerConcepts().getManagerConcept(id).previewmodifyConcept(String.valueOf(id));
+                Concept concept = thread.getManagerConcepts().createManagerConcept(id).previewmodifyConcept(String.valueOf(id));
                 ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).
                         getLblModificarConcepto().setText("Modificar " + concept.getName());
                 ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).
@@ -225,14 +225,14 @@ public class ViewConcepts extends javax.swing.JFrame {
         if (conceptoSeleccionado > -1) {
             try {
                 int id = conceptos.get(conceptoSeleccionado).getId();
-                Concept concept = thread.getManagerConcepts().getManagerConcept(id).readConcept(String.valueOf(id));
+                Concept concept = thread.getManagerConcepts().createManagerConcept(id).readConcept(String.valueOf(id));
                 ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).setVisible(false);
                 ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).setVisible(false);
                 boolean respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar " + concept.getName() + "?", "Confirmación", JOptionPane.YES_NO_OPTION) == 0 ? true : false;
                 if (respuesta) {
                     try {
                         if (concept.getUserId() == user.getIdUser()) {
-                            thread.getManagerConcepts().getManagerConcept(id).deleteConcept(id);
+                            thread.getManagerConcepts().createManagerConcept(id).deleteConcept(id);
                             JOptionPane.showMessageDialog(this, "Borrado exitoso");
                             ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).setVisible(true);
                             Date date = new Date();

@@ -168,7 +168,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         try {
-            thread.getManagerTopics().unlockManager(Integer.parseInt(getLblIdTopic().getText()));
+            thread.getManagerTopics().createManagerTopic(Integer.parseInt(getLblIdTopic().getText())).cancelLock();
             this.setVisible(false);
             ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(true);
         } catch (RemoteException ex) {

@@ -267,7 +267,7 @@ public class ViewTopics extends javax.swing.JFrame {
         if (temaSeleccionado > -1) {
             try {
                 Topic temaSelec = topicos.get(temaSeleccionado);
-                Topic seleccionado = thread.getManagerTopics().getManagerTopic(temaSelec.getId(), false).readTopic(temaSelec.getId());
+                Topic seleccionado = thread.getManagerTopics().createManagerTopic(temaSelec.getId()).readTopic(temaSelec.getId());
 
                 ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).getLblTituloTema().setText(seleccionado.getName());
                 ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).getLblUsuarioLogeado().setText(user.getName());
@@ -286,7 +286,7 @@ public class ViewTopics extends javax.swing.JFrame {
         int id = topicos.get(rowtemaSeleccionado).getId();
         if (rowtemaSeleccionado > -1) {
             try {
-                    ManagerTopic manager = thread.getManagerTopics().getManagerTopic(id, true);
+                    ManagerTopic manager = thread.getManagerTopics().createManagerTopic(id);
                     if(manager!=null){
                         Topic temaSeleccionado = manager.previewmodifyTopic(topicos.get(rowtemaSeleccionado).getId());
                         String nombreTemaSeleccionado = temaSeleccionado.getName();
@@ -322,7 +322,7 @@ public class ViewTopics extends javax.swing.JFrame {
                 try {
                     ArrayList<Concept> conceptos = thread.getManagerConcepts().getConceptsofATopic(topicos.get(temaSeleccionado).getId());
                     if (conceptos.isEmpty()) {
-                        thread.getManagerTopics().getManagerTopic(topicos.get(temaSeleccionado).getId(), false).deleteTopic(topicos.get(temaSeleccionado).getId());
+                        thread.getManagerTopics().createManagerTopic(topicos.get(temaSeleccionado).getId()).deleteTopic(topicos.get(temaSeleccionado).getId());
                         Date date = new Date();
                         java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                         Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
@@ -350,7 +350,7 @@ public class ViewTopics extends javax.swing.JFrame {
             if (!nuevoTema.equals("")) {
                 Topic nuevoTopico = new Topic(nuevoTema);
                 try {
-                    thread.getManagerTopics().getManagerTopic(0, false).createTopic(nuevoTopico);
+                    thread.getManagerTopics().createManagerTopic(0).createTopic(nuevoTopico);
                     Date date = new Date();
                     java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                     Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());

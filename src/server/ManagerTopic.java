@@ -33,12 +33,12 @@ public class ManagerTopic extends UnicastRemoteObject implements Serializable, i
     }
     
     @Override
-    public int getidTopic() {
+    public int getidTopic()throws RemoteException {
         return idTopic;
     }
 
     @Override
-    public Topic readTopic(int id) {
+    public Topic readTopic(int id) throws RemoteException{
         daoTopic = new DAOTopic();
         Topic topic = null;
         try {
@@ -52,7 +52,7 @@ public class ManagerTopic extends UnicastRemoteObject implements Serializable, i
     }
 
     @Override
-    public synchronized Topic previewmodifyTopic(int id) {
+    public synchronized Topic previewmodifyTopic(int id)throws RemoteException {
         if(objectLock.tryLock()){
             System.out.println("Buscando el Topico...");
             daoTopic = new DAOTopic();
@@ -73,7 +73,7 @@ public class ManagerTopic extends UnicastRemoteObject implements Serializable, i
     }
 
     @Override
-    public synchronized void finalizemodifyTopic(Topic topic) {
+    public synchronized void finalizemodifyTopic(Topic topic) throws RemoteException{
         System.out.println("modificando topico...");
         daoTopic = new DAOTopic();
         try {
@@ -89,14 +89,13 @@ public class ManagerTopic extends UnicastRemoteObject implements Serializable, i
     }
 
     @Override
-    public synchronized boolean deleteTopic(int id) {
+    public synchronized void deleteTopic(int id) throws RemoteException{
         objectLock.lock();
         try {
                 System.out.println("Comienza el proceso de eliminacion...");
                 daoTopic = new DAOTopic();
                 daoTopic.eliminarTopico(id);
                 System.out.println("Termino el proceso de eliminacion...");
-                return true;
             } catch (SQLException ex) {
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -104,11 +103,10 @@ public class ManagerTopic extends UnicastRemoteObject implements Serializable, i
             } finally {
             objectLock.unlock();
             }
-        return false;
     }
 
     @Override
-    public void createTopic(Topic topic) {
+    public void createTopic(Topic topic)throws RemoteException {
         daoTopic = new DAOTopic();
         try {
             daoTopic.insertarTopico(topic);
@@ -119,7 +117,7 @@ public class ManagerTopic extends UnicastRemoteObject implements Serializable, i
         }
     }
     @Override
-    public void cancelLock() {
+    public void cancelLock() throws RemoteException{
         objectLock.unlock();
     }
 }

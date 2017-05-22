@@ -150,7 +150,7 @@ public class ViewModifyConcept extends javax.swing.JFrame {
         if(!nuevaDescripcion.equals("")){
             try {
                 Concept conceptoModificado = new Concept(id, nuevaDescripcion);
-                thread.getManagerConcepts().getManagerConcept(id).finalizemodifyConcept(conceptoModificado);
+                thread.getManagerConcepts().createManagerConcept(id).finalizemodifyConcept(conceptoModificado);
             } catch (RemoteException ex) {
                 Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -178,7 +178,7 @@ public class ViewModifyConcept extends javax.swing.JFrame {
             // TODO add your handling code here:
             int id = Integer.parseInt(getLblIdConcept().getText());
             this.setVisible(false);
-            thread.getManagerConcepts().getManagerConcept(id).cancelLock();
+            thread.getManagerConcepts().createManagerConcept(id).cancelLock();
         } catch (RemoteException ex) {
             Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
         }

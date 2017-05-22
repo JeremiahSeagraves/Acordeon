@@ -104,7 +104,7 @@ public class ViewReadConcept extends javax.swing.JFrame {
         
         try {
             int idConceptoSeleccionado = Integer.parseInt(getLblIdConcept().getText());
-            Concept concept = thread.getManagerConcepts().getManagerConcept(idConceptoSeleccionado).previewmodifyConcept(String.valueOf(idConceptoSeleccionado));
+            Concept concept = thread.getManagerConcepts().createManagerConcept(idConceptoSeleccionado).previewmodifyConcept(String.valueOf(idConceptoSeleccionado));
             ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblModificarConcepto().setText("Modificar "+concept.getName());
             ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblIdConcept().setText(String.valueOf(concept.getId()));
             ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblUsuarioLogeado().setText(user.getName());
