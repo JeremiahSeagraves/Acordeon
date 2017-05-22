@@ -87,17 +87,10 @@ public class Log implements Serializable, Comparable<Log>{
         this.user = user;
     }
     
-    public Date getDateTime(){
-        Date date = this.date;
-        date.setHours(this.hour.getHours());
-        date.setMinutes(this.hour.getMinutes());
-        date.setSeconds(this.hour.getSeconds());
-        return date;
-    }
 
     @Override
     public int compareTo(Log o) {
-        return getDateTime().compareTo(o.getDateTime());
+        return this.getDate().compareTo(o.getDate());
     }
     
 }

@@ -56,9 +56,9 @@ public class DAOLog extends AccesoBD{
         Log log;
         
         DAOUser daoUser = new DAOUser();
-        User user = daoUser.getUser(resultadoConsultaLogs.getInt(ID_USER));
         
         while ( resultadoConsultaLogs.next() ) {
+            User user = daoUser.getUser(resultadoConsultaLogs.getInt(ID_USER));
             log = new Log(resultadoConsultaLogs.getInt(CLAVE_LOG),
                           resultadoConsultaLogs.getString(MOV_TYPE),
                           resultadoConsultaLogs.getString(NAME_OBJ),
