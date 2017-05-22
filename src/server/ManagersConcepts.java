@@ -7,6 +7,8 @@ package server;
 
 import database.DAOConcept;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,21 +24,11 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
     
     private static final long serialVersionUID = 1L;
     private DAOConcept daoConcept;
-    private ArrayList<ManagerConcept> listManagers;
-    private static ManagersConcepts manager = null;
     
-    private ManagersConcepts() throws RemoteException {
+    public ManagersConcepts() throws RemoteException {
         super();
-        listManagers = new ArrayList<>();
     }
     
-    public static ManagersConcepts obtenerManager () throws RemoteException{
-        if(manager == null){
-            manager = new ManagersConcepts();
-            return manager;
-        }
-        return manager;
-    }
 
     @Override
     public ArrayList<Concept> readAllConcepts() throws RemoteException {
@@ -52,22 +44,6 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
         return listConcepts;
     }
     
-    private ManagerConcept createManagerConcept(int idConcept) throws RemoteException{
-        ManagerConcept manager = new ManagerConcept(idConcept);
-        listManagers.add(manager);
-        return manager;
-    }
-    
-    @Override
-    public ManagerConcept getManagerConcept(int idConcept) throws RemoteException {
-        for (int i = 0; i < listManagers.size(); i++) {
-            if(listManagers.get(i).getidConcept() == idConcept){
-                return listManagers.get(i);
-            }
-        }
-        return createManagerConcept(idConcept);
-    }
-    
     @Override
     public ArrayList<Concept> getConceptsofATopic(int idTopic) throws RemoteException{
         ArrayList<Concept> listConcepts = null;
@@ -81,5 +57,13 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+        
+    @Override
+    public ManagerConcept createManagerConcept(int idConcept) throws RemoteException{
+        ManagerConcept manager = new ManagerConcept(idConcept);
+        Registry registry = LocateRegistry.createRegistry(1099);
+        registry.rebind("Topic"+idConcept, manager);
+        return manager;
     }
 }

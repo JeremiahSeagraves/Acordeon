@@ -17,6 +17,6 @@ import topics.models.Concept;
  */
 public interface iManagersConcepts extends Remote{
     ArrayList<Concept> readAllConcepts() throws RemoteException;
-    ManagerConcept getManagerConcept(int idConcept) throws RemoteException;
     ArrayList<Concept> getConceptsofATopic(int idTopic) throws RemoteException;
+    ManagerConcept createManagerConcept(int idConcept) throws RemoteException;
 }

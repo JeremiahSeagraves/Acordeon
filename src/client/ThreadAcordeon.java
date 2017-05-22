@@ -6,11 +6,16 @@
 package client;
 
 import client.login.ViewLogin;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.Topic;
-import server.ManagerTopic;
+import server.ManagersConcepts;
+import server.iManagerConcept;
+import server.iManagerTopic;
 import server.iManagersConcepts;
 import server.iManagersLogs;
 import server.iManagersTopics;
@@ -19,31 +24,60 @@ import server.iManagersTopics;
  *
  * @author Milka
  */
-public class ThreadAcordeon extends Thread{
+public class ThreadAcordeon extends Thread {
+
     private final iManagersTopics managersTopics;
-    private final iManagersConcepts managerConcepts;
+    private final iManagersConcepts managersConcepts;
     private final iManagersLogs managerLogs;
-    
-    public ThreadAcordeon(iManagersTopics managersTopics, iManagersConcepts managersConcepts, iManagersLogs managersLogs){
+
+    public ThreadAcordeon(iManagersTopics managersTopics, iManagersConcepts managersConcepts, iManagersLogs managersLogs) {
         this.managersTopics = managersTopics;
-        this.managerConcepts = managersConcepts;
+        this.managersConcepts = managersConcepts;
         this.managerLogs = managersLogs;
     }
-    
-    public iManagersTopics getManagerTopics(){
+
+    public iManagersTopics getManagerTopics() {
         return managersTopics;
     }
-    
-    public iManagersConcepts getManagerConcepts(){
-        return managerConcepts;
+
+    public iManagersConcepts getManagerConcepts() {
+        return managersConcepts;
     }
-    
-    public iManagersLogs getManagerLogs(){
+
+    public iManagersLogs getManagerLogs() {
         return managerLogs;
     }
-    
+
+    public iManagerTopic getManagerTopic(int id) {
+        try {
+            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+            managersTopics.createManagerTopic(id);
+            iManagerTopic manager = (iManagerTopic) registry.lookup("Topic" + id);
+            return manager;
+        } catch (RemoteException ex) {
+            Logger.getLogger(ThreadAcordeon.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(ThreadAcordeon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public iManagerConcept getManagerConcept(int id) {
+        try {
+            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+            managersConcepts.createManagerConcept(id);
+            iManagerConcept manager = (iManagerConcept) registry.lookup("Concept" + id);
+            return manager;
+        } catch (RemoteException ex) {
+            Logger.getLogger(ThreadAcordeon.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(ThreadAcordeon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     @Override
-    public void run(){
+    public void run() {
         ViewLogin view = ViewLogin.obtenerVentanaLogin(this);
     }
 }

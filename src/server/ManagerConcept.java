@@ -7,10 +7,8 @@ package server;
 
 import database.DAOConcept;
 import java.io.Serializable;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -21,7 +19,7 @@ import topics.models.Concept;
  *
  * @author Milka
  */
-public class ManagerConcept implements Serializable{
+public class ManagerConcept implements Serializable, iManagerConcept{
     
     private static final long serialVersionUID = 1L;
     private DAOConcept daoConcept;
@@ -32,11 +30,13 @@ public class ManagerConcept implements Serializable{
         this.idConcept = idConcept;
     }
     
-    public int getidConcept(){
+    @Override
+    public int getidConcept()throws RemoteException{
         return idConcept;
     }
     
-    public Concept readConcept(String id){
+    @Override
+    public Concept readConcept(String id)throws RemoteException{
         daoConcept = new DAOConcept();
         Concept concept = null;
         try {
@@ -49,12 +49,13 @@ public class ManagerConcept implements Serializable{
         return concept;
     }
 
-    public synchronized Concept previewmodifyConcept(String id){
+    @Override
+    public synchronized Concept previewmodifyConcept(String id)throws RemoteException{
         if(objectLock.tryLock()){
-            System.out.println("Buscando el Topico...");
-            daoConcept = new DAOConcept();
-            Concept concept = null;
             try {
+                System.out.println("Buscando el Topico...");
+                daoConcept = new DAOConcept();
+                Concept concept = null;
                 concept = daoConcept.buscarConcepto(id);
                 return concept;
             } catch (SQLException ex) {
@@ -63,13 +64,12 @@ public class ManagerConcept implements Serializable{
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        objectLock.unlock();
         return null;
     }
 
-    public void finalizemodifyConcept(Concept concept){
+    @Override
+    public void finalizemodifyConcept(Concept concept)throws RemoteException{
         System.out.println("modificando topico...");
-        objectLock.lock();
         daoConcept = new DAOConcept();
         try {
             daoConcept.actualizarConcepto(concept);
@@ -81,7 +81,8 @@ public class ManagerConcept implements Serializable{
         objectLock.unlock();
     }
 
-    public synchronized boolean deleteConcept(int id){
+    @Override
+    public synchronized boolean deleteConcept(int id)throws RemoteException{
         if(objectLock.tryLock()){
             try {
                 System.out.println("Comienza el proceso de eliminacion...");
@@ -100,7 +101,8 @@ public class ManagerConcept implements Serializable{
         return false;
     }
 
-    public void createConcept(Concept concept){
+    @Override
+    public void createConcept(Concept concept)throws RemoteException{
         daoConcept = new DAOConcept();
         try {
             daoConcept.insertarConcepto(concept);
@@ -111,7 +113,8 @@ public class ManagerConcept implements Serializable{
         }
     }
    
-    public void cancelLock(){
+    @Override
+    public void cancelLock()throws RemoteException{
         objectLock.unlock();
     }
 

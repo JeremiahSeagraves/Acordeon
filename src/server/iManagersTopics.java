@@ -15,7 +15,6 @@ import models.Topic;
  * @author Milka
  */
 public interface iManagersTopics extends Remote{
-     ArrayList<Topic> readAllTopics() throws RemoteException;
-     ManagerTopic getManagerTopic(int idTopic, boolean modify)throws RemoteException;
-     void unlockManager(int id) throws RemoteException;
+    ArrayList<Topic> readAllTopics() throws RemoteException;
+    ManagerTopic createManagerTopic(int idTopic) throws RemoteException;
 }
