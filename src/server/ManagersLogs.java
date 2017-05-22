@@ -80,7 +80,4 @@ public class ManagersLogs extends UnicastRemoteObject implements iManagersLogs{
             Logger.getLogger(ManagersLogs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
 }

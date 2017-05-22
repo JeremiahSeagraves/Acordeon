@@ -75,7 +75,7 @@ public class ViewTopics extends javax.swing.JFrame {
         btnMenuAgregar = new javax.swing.JMenu();
         btnAgregarTema = new javax.swing.JMenuItem();
         menuCuenta = new javax.swing.JMenu();
-        menuItemCerrarSesión = new javax.swing.JMenuItem();
+        menuItemCerrarSesiion = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         verBitacora = new javax.swing.JMenuItem();
         verBitacoraUsuario = new javax.swing.JMenuItem();
@@ -159,13 +159,13 @@ public class ViewTopics extends javax.swing.JFrame {
 
         menuCuenta.setText("Sesión");
 
-        menuItemCerrarSesión.setText("Cerrar sesión");
-        menuItemCerrarSesión.addActionListener(new java.awt.event.ActionListener() {
+        menuItemCerrarSesiion.setText("Cerrar sesión");
+        menuItemCerrarSesiion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemCerrarSesiónActionPerformed(evt);
+                menuItemCerrarSesiionActionPerformed(evt);
             }
         });
-        menuCuenta.add(menuItemCerrarSesión);
+        menuCuenta.add(menuItemCerrarSesiion);
 
         jMenuBar1.add(menuCuenta);
 
@@ -251,7 +251,7 @@ public class ViewTopics extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuItemCerrarSesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCerrarSesiónActionPerformed
+    private void menuItemCerrarSesiionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCerrarSesiionActionPerformed
         ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).setVisible(false);
         ViewReadConcept.obtenerVentanaLeerConcepto(this.thread, this.user).setVisible(false);
         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread, this.user).setVisible(false);
@@ -260,7 +260,7 @@ public class ViewTopics extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Sesión cerrada", "Sesión", JOptionPane.INFORMATION_MESSAGE);
         this.setVisible(false);
         ViewLogin.obtenerVentanaLogin(this.thread).setVisible(true);
-    }//GEN-LAST:event_menuItemCerrarSesiónActionPerformed
+    }//GEN-LAST:event_menuItemCerrarSesiionActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         int temaSeleccionado = getTablaTemas().getSelectedRow();
@@ -449,7 +449,7 @@ public class ViewTopics extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JMenu menuCuenta;
-    private javax.swing.JMenuItem menuItemCerrarSesión;
+    private javax.swing.JMenuItem menuItemCerrarSesiion;
     private javax.swing.JTable tablaTemas;
     private javax.swing.JMenuItem veBitacoraConceptos;
     private javax.swing.JMenuItem verBitacora;
@@ -545,12 +545,12 @@ public class ViewTopics extends javax.swing.JFrame {
         this.menuCuenta = menuCuenta;
     }
 
-    public JMenuItem getMenuItemCerrarSesión() {
-        return menuItemCerrarSesión;
+    public JMenuItem getMenuItemCerrarSesiion() {
+        return menuItemCerrarSesiion;
     }
 
-    public void setMenuItemCerrarSesión(JMenuItem menuItemCerrarSesión) {
-        this.menuItemCerrarSesión = menuItemCerrarSesión;
+    public void setMenuItemCerrarSesiion(JMenuItem menuItemCerrarSesiion) {
+        this.menuItemCerrarSesiion = menuItemCerrarSesiion;
     }
 
     public JTable getTablaTemas() {
