@@ -24,14 +24,15 @@ public class ViewLog extends javax.swing.JFrame {
         initComponents();
         this.order = order;
         llenarTablaConceptos(listLog);
-        this.setVisible(true);
     }
     
     public static ViewLog obtenerVentanaLog(ArrayList<Log> listLog, String order){
         if(viewLog == null){
             viewLog = new ViewLog(listLog, order);
+            viewLog.setVisible(true);
             return viewLog;
         }
+        viewLog.setVisible(true);
         return viewLog;
     }
     private void llenarTablaConceptos(ArrayList<Log> listLogs){
@@ -62,9 +63,6 @@ public class ViewLog extends javax.swing.JFrame {
         this.tablaLogs = tablaLogs;
     }
     
-    
-
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

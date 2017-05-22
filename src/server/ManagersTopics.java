@@ -7,6 +7,8 @@ package server;
 
 import database.DAOTopic;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,18 +20,15 @@ import models.Topic;
  *
  * @author Milka
  */
-public class ManagersTopics extends UnicastRemoteObject implements iManagersTopics{
+public class ManagersTopics extends UnicastRemoteObject implements iManagersTopics {
+
     private static final long serialVersionUID = 1L;
     private DAOTopic daoTopic;
-    private ArrayList<ManagerTopic> listManagers;
-    private ArrayList<ManagerTopic> listLockManagers;
-    
-    
-    public ManagersTopics() throws RemoteException{
+
+    public ManagersTopics() throws RemoteException {
         super();
-        listManagers = new ArrayList<>();
-        listLockManagers = new ArrayList<>();
     }
+
     @Override
     public ArrayList<Topic> readAllTopics() throws RemoteException {
         ArrayList<Topic> listTopics = null;
@@ -43,53 +42,12 @@ public class ManagersTopics extends UnicastRemoteObject implements iManagersTopi
         }
         return listTopics;
     }
-    
-    private ManagerTopic createManagerTopic(int idTopic) throws RemoteException{
+
+    @Override
+    public ManagerTopic createManagerTopic(int idTopic) throws RemoteException {
         ManagerTopic manager = new ManagerTopic(idTopic);
-        listManagers.add(manager);
+        Registry registry = LocateRegistry.createRegistry(1099);
+        registry.rebind("Topic"+idTopic, manager);
         return manager;
     }
-    @Override
-    public ManagerTopic getManagerTopic(int idTopic, boolean modify) throws RemoteException{
-        if(islock(idTopic)){
-            return null;
-        }else{
-            for (int i = 0; i < listManagers.size(); i++) {
-                if(listManagers.get(i).getidTopic() == idTopic){
-                    ManagerTopic manager = listManagers.get(i);
-                    if(modify){
-                        listManagers.remove(i);
-                        lockManager(manager);
-                    }
-                    return manager;
-                }
-            }
-            return createManagerTopic(idTopic);
-        }
-    }
-    
-    private void lockManager(ManagerTopic manager){
-        listLockManagers.add(manager);
-    }
-    
-    @Override
-    public void unlockManager(int id) throws RemoteException{
-        for (int i = 0; i < listLockManagers.size(); i++) {
-            if(listLockManagers.get(i).getidTopic() == id){
-                ManagerTopic manager = listLockManagers.get(i);
-                listLockManagers.remove(i);
-                listManagers.add(manager);
-            }
-        }
-    }
-    
-    private boolean islock(int id){
-        for (int i = 0; i < listLockManagers.size(); i++) {
-            if(listLockManagers.get(i).getidTopic() == id){
-                return true;
-            }
-        }
-        return false;
-    }
-    
 }

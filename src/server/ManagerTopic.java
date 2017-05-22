@@ -8,6 +8,7 @@ package server;
 import database.DAOTopic;
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,7 +20,7 @@ import models.Topic;
  *
  * @author Milka
  */
-public class ManagerTopic implements Serializable  {
+public class ManagerTopic extends UnicastRemoteObject implements Serializable, iManagerTopic  {
 
     private static final long serialVersionUID = 1L;
     private DAOTopic daoTopic;
@@ -31,10 +32,12 @@ public class ManagerTopic implements Serializable  {
         this.idTopic = idTopic;
     }
     
+    @Override
     public int getidTopic() {
         return idTopic;
     }
 
+    @Override
     public Topic readTopic(int id) {
         daoTopic = new DAOTopic();
         Topic topic = null;
@@ -48,11 +51,12 @@ public class ManagerTopic implements Serializable  {
         return topic;
     }
 
+    @Override
     public synchronized Topic previewmodifyTopic(int id) {
         if(objectLock.tryLock()){
-        System.out.println("Buscando el Topico...");
-        daoTopic = new DAOTopic();
-        Topic topic = null;
+            System.out.println("Buscando el Topico...");
+            daoTopic = new DAOTopic();
+            Topic topic = null;
         try {
             topic = daoTopic.buscarTopico(id);
             return topic;
@@ -68,6 +72,7 @@ public class ManagerTopic implements Serializable  {
         return null;
     }
 
+    @Override
     public synchronized void finalizemodifyTopic(Topic topic) {
         System.out.println("modificando topico...");
         daoTopic = new DAOTopic();
@@ -83,6 +88,7 @@ public class ManagerTopic implements Serializable  {
         }
     }
 
+    @Override
     public synchronized boolean deleteTopic(int id) {
         objectLock.lock();
         try {
@@ -101,6 +107,7 @@ public class ManagerTopic implements Serializable  {
         return false;
     }
 
+    @Override
     public void createTopic(Topic topic) {
         daoTopic = new DAOTopic();
         try {
@@ -111,10 +118,8 @@ public class ManagerTopic implements Serializable  {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    @Override
     public void cancelLock() {
         objectLock.unlock();
-    }
-    public boolean isLock(){
-        return objectLock.tryLock();
     }
 }
