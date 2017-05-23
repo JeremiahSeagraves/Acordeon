@@ -34,12 +34,7 @@ public class ThreadAcordeon extends Thread{
         this.managerLogs = managersLogs;
     }
     
-    public ThreadAcordeon(){
-        
-    }
-    
-    
-    /*public iManagersTopics getManagerTopics(){
+    public iManagersTopics getManagerTopics(){
         return managersTopics;
     }
     
@@ -49,9 +44,9 @@ public class ThreadAcordeon extends Thread{
     
     public iManagersLogs getManagerLogs(){
         return managerLogs;
-    }*/
+    }
     
-    public DAOTopic getManagerTopics(){
+/*    public DAOTopic getManagerTopics(){
         return new DAOTopic();
     }
     
@@ -62,7 +57,7 @@ public class ThreadAcordeon extends Thread{
     public DAOLog getManagerLogs(){
         return new DAOLog();
     }
-    
+*/
     
     
     @Override

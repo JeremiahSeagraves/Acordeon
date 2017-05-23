@@ -42,9 +42,9 @@ public class ManagerConcept implements Serializable{
         try {
             concept = daoConcept.buscarConcepto(id);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return concept;
     }
@@ -58,9 +58,9 @@ public class ManagerConcept implements Serializable{
                 concept = daoConcept.buscarConcepto(id);
                 return concept;
             } catch (SQLException ex) {
-                Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         objectLock.unlock();
@@ -74,9 +74,9 @@ public class ManagerConcept implements Serializable{
         try {
             daoConcept.actualizarConcepto(concept);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         objectLock.unlock();
     }
@@ -90,9 +90,9 @@ public class ManagerConcept implements Serializable{
                 System.out.println("Termino el proceso de eliminacion...");
                 return true;
             }catch (SQLException ex) {
-                Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             }finally{
                 objectLock.unlock();
             }
@@ -105,9 +105,20 @@ public class ManagerConcept implements Serializable{
         try {
             daoConcept.insertarConcepto(concept);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void actualizarEstado(int id, int estado){
+        daoConcept = new DAOConcept();
+        try {
+            daoConcept.actualizarEstado(id, estado);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerConcept.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ManagerConcept.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
    

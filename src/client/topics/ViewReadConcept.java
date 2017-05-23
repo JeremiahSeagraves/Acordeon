@@ -5,19 +5,14 @@
  */
 package client.topics;
 
-import Sesion.Cuenta;
-import Sesion.User;
+
 import client.ThreadAcordeon;
-import database.DAOConcept;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import topics.models.Concept;
 
 /**
  *
@@ -169,13 +164,13 @@ public class ViewReadConcept extends javax.swing.JFrame {
 
     @Override
     public void dispose() {
-        DAOConcept accesoConceptos = new DAOConcept();
         try {
-            actualizadorEstado.obtenerAct(Integer.parseInt(getLblIdConcept().getText()), 0).interrupt();
-            accesoConceptos.actualizarEstado(Integer.parseInt(getLblIdConcept().getText()), 0);
-        } catch (SQLException|NumberFormatException ex) {
-        } catch (ClassNotFoundException ex) {
-       }
+            thread.getManagerConcepts().getManagerConcept(Integer.parseInt(getLblIdConcept().getText())).
+                    actualizarEstado(Integer.parseInt(getLblIdConcept().getText()), 0);
+        } catch (NumberFormatException ex) {
+        } catch (RemoteException ex) {
+            Logger.getLogger(ViewReadConcept.class.getName()).log(Level.SEVERE, null, ex);
+        }
         super.dispose(); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -34,9 +34,9 @@ public class ManagersLogs extends UnicastRemoteObject implements iManagersLogs{
         try {
             listLogs = daoLog.getLog();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listLogs;
     }
@@ -48,9 +48,9 @@ public class ManagersLogs extends UnicastRemoteObject implements iManagersLogs{
         try {
             listLogs = daoLog.getLogUsers(id);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listLogs;
     }
@@ -62,9 +62,9 @@ public class ManagersLogs extends UnicastRemoteObject implements iManagersLogs{
         try {
             listLogs = daoLog.getLogConcepts_Topics(topic_concept);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listLogs;
     }
@@ -80,4 +80,7 @@ public class ManagersLogs extends UnicastRemoteObject implements iManagersLogs{
             Logger.getLogger(ManagersLogs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    
 }

@@ -6,11 +6,13 @@
 package client;
 
 import java.net.MalformedURLException;
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import server.ManagersTopics;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import server.iManagersConcepts;
 import server.iManagersTopics;
 import server.iManagersLogs;
@@ -21,12 +23,18 @@ import server.iManagersLogs;
  */
 public class Client {
     public static void main (String[] args) throws MalformedURLException{
-            /*Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+        try {
+            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
             iManagersTopics managerTopics = (iManagersTopics)registry.lookup("ManagerTopics");
             iManagersConcepts managerConcepts = (iManagersConcepts)registry.lookup("ManagerConcepts");
-            iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");*/
-            ThreadAcordeon thread = new ThreadAcordeon ();
-                thread.start();
+            iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");
+            ThreadAcordeon thread = new ThreadAcordeon (managerTopics, managerConcepts, managerLogs);
+            thread.start();
+        } catch (RemoteException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 }

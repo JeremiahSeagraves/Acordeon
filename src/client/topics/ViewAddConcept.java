@@ -165,18 +165,16 @@ public class ViewAddConcept extends javax.swing.JFrame {
             this.dispose();
             Cuenta cuentaIniciada = Cuenta.obtenerCuentaIniciada();
             Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),cuentaIniciada.getUserId(),Integer.parseInt(getLblIdTopic().getText()));
-            thread.getManagerConcepts().insertarConcepto(nuevoConcepto);
+            thread.getManagerConcepts().getManagerConcept(0).createConcept(nuevoConcepto);
             ViewConcepts.obtenerVentanaConceptos(this.thread).setVisible(true);
             Date date = new Date();
             java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
             Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
             Log log = new Log("alta", "concepto", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
-            thread.getManagerLogs().insertLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+            thread.getManagerLogs().createLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
             getTxtConcepto().setText("");
             getTxtAreaDefinicion().setText("");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewAddConcept.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(ViewAddConcept.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAgregarConceptoActionPerformed

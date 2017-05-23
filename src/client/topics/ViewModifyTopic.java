@@ -6,11 +6,8 @@
 package client.topics;
 
 import Sesion.Cuenta;
-import Sesion.User;
 import client.ThreadAcordeon;
-import database.DAOTopic;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
 import java.util.logging.Level;
@@ -21,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import models.Log;
 import models.Topic;
-import server.ManagersTopics;
+import server.ManagerTopic;
 
 /**
  *
@@ -31,7 +28,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
     
     private ThreadAcordeon thread;
-    private DAOTopic manager;
+    private ManagerTopic manager;
     
     private ViewModifyTopic(ThreadAcordeon thread) {
         initComponents();
@@ -50,7 +47,7 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         return ventanaModificarTopico;
     }
     
-    public void setManager(DAOTopic manager){
+    public void setManager(ManagerTopic manager){
         this.manager = manager;
     }
     /**
@@ -148,21 +145,9 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         int id = Integer.parseInt(getLblIdTopic().getText());
         if(!nombreNuevo.equals("")){
             Topic topicoAModificar = null;
-            try {
-                topicoAModificar = manager.buscarTopico(id);
-            } catch (SQLException ex) {
-                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            topicoAModificar = manager.previewmodifyTopic(id);
             Topic topicoModificado = new Topic(id,nombreNuevo);
-            try {
-                manager.actualizarTopico(topicoModificado);
-            } catch (SQLException ex) {
-                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            manager.finalizemodifyTopic(topicoModificado);
             getTxtNombreTema().setText("");
             this.setVisible(false);
             ViewTopics.obtenerVentanaTopicos(this.thread).setVisible(true);
@@ -171,10 +156,8 @@ public class ViewModifyTopic extends javax.swing.JFrame {
             Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
             Log log = new Log("modificar", "tema", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
             try {
-                thread.getManagerLogs().insertLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
+                thread.getManagerLogs().createLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+            } catch (RemoteException ex) {
                 Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

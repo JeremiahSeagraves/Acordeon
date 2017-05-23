@@ -6,7 +6,6 @@
 package client.topics;
 
 import Sesion.Cuenta;
-import Sesion.User;
 import client.ThreadAcordeon;
 import client.log.ViewLog;
 import java.util.ArrayList;
@@ -23,15 +22,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import client.login.ViewLogin;
-import database.DAOTopic;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
 import models.Log;
 import topics.models.Concept;
 import models.Topic;
-import server.ManagersTopics;
+import server.ManagerTopic;
 
 /**
  *
@@ -269,10 +266,8 @@ public class ViewTopics extends javax.swing.JFrame {
             Topic temaSelec = topicos.get(temaSeleccionado);
             Topic seleccionado=null;
             try {
-                seleccionado = thread.getManagerTopics().buscarTopico(temaSelec.getId());
-            } catch (SQLException ex) {
-                Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
+                seleccionado = thread.getManagerTopics().getManagerTopic(temaSelec.getId()).readTopic(temaSelec.getId());
+            }catch (RemoteException ex) {
                 Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
             }
             ViewConcepts.obtenerVentanaConceptos(this.thread).getLblTituloTema().setText(seleccionado.getName());
@@ -288,29 +283,28 @@ public class ViewTopics extends javax.swing.JFrame {
         int rowtemaSeleccionado = getTablaTemas().getSelectedRow();
         int id = topicos.get(rowtemaSeleccionado).getId();
         if (rowtemaSeleccionado > -1) {
-            DAOTopic manager = thread.getManagerTopics();
-            if(manager!=null){
-                Topic temaSeleccionado=null;
-                try {
-                    temaSeleccionado = manager.buscarTopico(topicos.get(rowtemaSeleccionado).getId());
-                } catch (SQLException ex) {
-                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if(temaSeleccionado.getBloqueado()!=0){
-                    JOptionPane.showMessageDialog(this, "No es posible, se está viendo.", "Error", JOptionPane.ERROR_MESSAGE);
+            try {
+                ManagerTopic manager = thread.getManagerTopics().getManagerTopic(id);
+                if(manager!=null){
+                    Topic temaSeleccionado=null;
+                    temaSeleccionado = thread.getManagerTopics().getManagerTopic(id).readTopic(topicos.get(rowtemaSeleccionado).getId());
+                    
+                    if(temaSeleccionado.getBloqueado()!=0){
+                        JOptionPane.showMessageDialog(this, "No es posible, se está viendo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        String nombreTemaSeleccionado = temaSeleccionado.getName();
+                        int idTemaSeleccionado = temaSeleccionado.getId();
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).setManager(manager);
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblModificarTema().setText(nombreTemaSeleccionado);
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblIdTopic().setText(String.valueOf(idTemaSeleccionado));
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblUsuarioLogeado().setText(Cuenta.obtenerCuentaIniciada().getUserName());
+                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).setVisible(true);
+                    }
                 }else{
-                String nombreTemaSeleccionado = temaSeleccionado.getName();
-                int idTemaSeleccionado = temaSeleccionado.getId();
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).setManager(manager);
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblModificarTema().setText(nombreTemaSeleccionado);
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblIdTopic().setText(String.valueOf(idTemaSeleccionado));
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblUsuarioLogeado().setText(Cuenta.obtenerCuentaIniciada().getUserName());
-                ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).setVisible(true);
+                    JOptionPane.showMessageDialog(this, "No se puede modificar el objeto", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }else{
-                JOptionPane.showMessageDialog(this, "No se puede modificar el objeto", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado un tema", "Error", JOptionPane.ERROR_MESSAGE);
@@ -332,18 +326,16 @@ public class ViewTopics extends javax.swing.JFrame {
                 try {
                     ArrayList<Concept> conceptos = thread.getManagerConcepts().getConceptsofATopic(topicos.get(temaSeleccionado).getId());
                     if (conceptos.isEmpty()) {
-                        thread.getManagerTopics().eliminarTopico(topicos.get(temaSeleccionado).getId());
+                        thread.getManagerTopics().getManagerTopic(topicos.get(temaSeleccionado).getId()).deleteTopic(topicos.get(temaSeleccionado).getId());
                         Date date = new Date();
                         java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                         Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
                         Log log = new Log("eliminar", "tema", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
-                        thread.getManagerLogs().insertLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+                        thread.getManagerLogs().createLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
                     } else {
                         JOptionPane.showMessageDialog(this, "No se puede eliminar el tema. Tiene conceptos relacionados.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
+                } catch (RemoteException ex) {
                     Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 ViewTopics.obtenerVentanaTopicos(thread).setVisible(respuesta);
@@ -362,15 +354,13 @@ public class ViewTopics extends javax.swing.JFrame {
             if (!nuevoTema.equals("")) {
                 Topic nuevoTopico = new Topic(nuevoTema);
                 try {
-                    thread.getManagerTopics().insertarTopico(nuevoTopico);
+                    thread.getManagerTopics().getManagerTopic(0).createTopic(nuevoTopico);
                     Date date = new Date();
                     java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                     Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
                     Log log = new Log("alta", "tema", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
-                    thread.getManagerLogs().insertLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
+                    thread.getManagerLogs().createLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+                } catch (RemoteException ex) {
                     Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 ViewTopics.obtenerVentanaTopicos(thread).setVisible(true);
@@ -384,54 +374,45 @@ public class ViewTopics extends javax.swing.JFrame {
 
     private void verBitacoraTemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraTemasActionPerformed
         try {
-            ViewLog.obtenerVentanaLog(thread.getManagerLogs().getLogConcepts_Topics("tema"), "temas").setVisible(true);
+            ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("temas"), "temas").setVisible(true);
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_verBitacoraTemasActionPerformed
 
     private void verBitacoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraActionPerformed
         try {
-            ViewLog.obtenerVentanaLog(thread.getManagerLogs().getLog(),"ninguno").setVisible(true);
+            ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogs(),"ninguno").setVisible(true);
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_verBitacoraActionPerformed
 
     private void verBitacoraUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraUsuarioActionPerformed
         try {
-            ViewLog.obtenerVentanaLog(thread.getManagerLogs().getLogUsers(Cuenta.obtenerCuentaIniciada().getUserId()), "usuario").setVisible(true);
+            ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforUser(Cuenta.obtenerCuentaIniciada().getUserId()), "usuario").setVisible(true);
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        }catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_verBitacoraUsuarioActionPerformed
 
     private void veBitacoraConceptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veBitacoraConceptosActionPerformed
         try {
-             ViewLog.obtenerVentanaLog(thread.getManagerLogs().getLogConcepts_Topics("concepto"), "concepto").setVisible(true);
+             ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("concepto"), "concepto").setVisible(true);
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_veBitacoraConceptosActionPerformed
 
     private void cargarTopicos() {
         try {
-            topicos = thread.getManagerTopics().getTopics();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            System.out.println(thread.getManagerTopics());
+            topicos = thread.getManagerTopics().readAllTopics();
+        }catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -23,21 +23,11 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
     private static final long serialVersionUID = 1L;
     private DAOConcept daoConcept;
     private ArrayList<ManagerConcept> listManagers;
-    private static ManagersConcepts manager = null;
     
-    private ManagersConcepts() throws RemoteException {
+    public ManagersConcepts() throws RemoteException {
         super();
         listManagers = new ArrayList<>();
     }
-    
-    public static ManagersConcepts obtenerManager () throws RemoteException{
-        if(manager == null){
-            manager = new ManagersConcepts();
-            return manager;
-        }
-        return manager;
-    }
-
     @Override
     public ArrayList<Concept> readAllConcepts() throws RemoteException {
         ArrayList<Concept> listConcepts = null;
@@ -45,9 +35,9 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
         try {
             listConcepts = daoConcept.getConcepts();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listConcepts;
     }
@@ -76,9 +66,9 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
             listConcepts = daoConcept.getConceptsofATopic(idTopic);
             return listConcepts;
         } catch (SQLException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
