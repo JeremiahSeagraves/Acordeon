@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import client.login.ViewLogin;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
 import models.Log;
@@ -29,21 +30,19 @@ import topics.models.Concept;
 public class ViewAddConcept extends javax.swing.JFrame {
 
     private ThreadAcordeon thread;
-    private User user;
     
     private static ViewAddConcept ventanaAniadirConcepto = null;
     
-    private ViewAddConcept(ThreadAcordeon thread, User user) {
+    private ViewAddConcept(ThreadAcordeon thread) {
         initComponents();
         this.thread = thread;
-        this.user = user;
         setLocation(820, 0);
         getLblIdTopic().setVisible(false);
     }
     
-    public static ViewAddConcept obtenerVentanaAniadirConcepto (ThreadAcordeon thread, User user){
+    public static ViewAddConcept obtenerVentanaAniadirConcepto (ThreadAcordeon thread){
         if(ventanaAniadirConcepto == null){
-            ventanaAniadirConcepto = new ViewAddConcept(thread, user);
+            ventanaAniadirConcepto = new ViewAddConcept(thread);
             return ventanaAniadirConcepto;
         }
         return ventanaAniadirConcepto;
@@ -91,6 +90,11 @@ public class ViewAddConcept extends javax.swing.JFrame {
         lblAgregarConcepto.setText("Agregar nuevo concepto a...");
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         lblUsuarioLogeado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
@@ -161,17 +165,28 @@ public class ViewAddConcept extends javax.swing.JFrame {
             this.dispose();
             Cuenta cuentaIniciada = Cuenta.obtenerCuentaIniciada();
             Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),cuentaIniciada.getUserId(),Integer.parseInt(getLblIdTopic().getText()));
-            thread.getManagerConcepts().getManagerConcept(0).createConcept(nuevoConcepto);
-            ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).setVisible(true);
+            thread.getManagerConcepts().insertarConcepto(nuevoConcepto);
+            ViewConcepts.obtenerVentanaConceptos(this.thread).setVisible(true);
             Date date = new Date();
             java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
             Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
-            Log log = new Log("alta", "concepto", datesql, time, user.getName());
-            thread.getManagerLogs().createLog(log, user.getIdUser());
-        } catch (RemoteException ex) {
+            Log log = new Log("alta", "concepto", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
+            thread.getManagerLogs().insertLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+            getTxtConcepto().setText("");
+            getTxtAreaDefinicion().setText("");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ViewAddConcept.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(ViewAddConcept.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAgregarConceptoActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        getTxtConcepto().setText("");
+        getTxtAreaDefinicion().setText("");
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

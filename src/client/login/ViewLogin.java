@@ -139,8 +139,8 @@ public class ViewLogin extends javax.swing.JFrame {
                 Cuenta.obtenerCuentaIniciada();
                 Cuenta.establecerCuentaIniciada(unUsuario.getIdUser(), unUsuario.getName());
                 this.setVisible(false);
-                ViewTopics.obtenerVentanaTopicos(this.thread, unUsuario ).getLblUsuarioLogeado().setText(usuario);
-                ViewTopics.obtenerVentanaTopicos(this.thread, unUsuario).setVisible(true);
+                ViewTopics.obtenerVentanaTopicos(this.thread ).getLblUsuarioLogeado().setText(usuario);
+                ViewTopics.obtenerVentanaTopicos(this.thread).setVisible(true);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);

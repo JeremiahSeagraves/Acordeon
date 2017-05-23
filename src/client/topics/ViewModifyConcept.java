@@ -5,9 +5,12 @@
  */
 package client.topics;
 
+import Sesion.Cuenta;
 import Sesion.User;
 import client.ThreadAcordeon;
+import database.DAOConcept;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
 import java.util.logging.Level;
@@ -26,13 +29,11 @@ import topics.models.Concept;
  */
 public class ViewModifyConcept extends javax.swing.JFrame {
 
-    private User user;
     private ThreadAcordeon thread;
     
-    private ViewModifyConcept(ThreadAcordeon thread, User user) {
+    private ViewModifyConcept(ThreadAcordeon thread) {
         initComponents();
         this.thread = thread;
-        this.user = user;
         getLblIdConcept().setVisible(false);
         setLocation(820,0);
         txtDefinicion.setLineWrap(true);
@@ -41,9 +42,9 @@ public class ViewModifyConcept extends javax.swing.JFrame {
     
     private static ViewModifyConcept ventanaModificarConcepto = null;
      
-    public static ViewModifyConcept obtenerVentanaModificarConcepto (ThreadAcordeon thread, User user){
+    public static ViewModifyConcept obtenerVentanaModificarConcepto (ThreadAcordeon thread){
         if(ventanaModificarConcepto == null){
-            ventanaModificarConcepto = new ViewModifyConcept(thread, user);
+            ventanaModificarConcepto = new ViewModifyConcept(thread);
             return ventanaModificarConcepto;
         }
         return ventanaModificarConcepto;
@@ -148,23 +149,34 @@ public class ViewModifyConcept extends javax.swing.JFrame {
         String nuevaDescripcion = getTxtDefinicion().getText();
         int id = Integer.parseInt(getLblIdConcept().getText());
         if(!nuevaDescripcion.equals("")){
+            Concept conceptoModificado = new Concept(id, nuevaDescripcion);
             try {
-                Concept conceptoModificado = new Concept(id, nuevaDescripcion);
-                thread.getManagerConcepts().getManagerConcept(id).finalizemodifyConcept(conceptoModificado);
-            } catch (RemoteException ex) {
+                thread.getManagerConcepts().actualizarConcepto(conceptoModificado);
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
             }
             getTxtDefinicion().setText("");
-            ViewConcepts.obtenerVentanaConceptos(this.thread, this.user).setVisible(true);
+            ViewConcepts.obtenerVentanaConceptos(this.thread).setVisible(true);
             JOptionPane.showMessageDialog(this, "Modificación realizada con éxito","Cambios guardados",JOptionPane.INFORMATION_MESSAGE);
+            try {
+                thread.getManagerConcepts().actualizarEstado(id,0);
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.setVisible(false);
             Date date = new Date();
             java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
             Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
-            Log log = new Log("modificar", "concepto", datesql, time, user.getName());
+            Log log = new Log("modificar", "concepto", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
             try {
-                thread.getManagerLogs().createLog(log, this.user.getIdUser());
-            } catch (RemoteException ex) {
+                thread.getManagerLogs().insertLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
                 Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -175,13 +187,14 @@ public class ViewModifyConcept extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         try {
-            // TODO add your handling code here:
-            int id = Integer.parseInt(getLblIdConcept().getText());
-            this.setVisible(false);
-            thread.getManagerConcepts().getManagerConcept(id).cancelLock();
-        } catch (RemoteException ex) {
+            thread.getManagerConcepts().actualizarEstado(Integer.parseInt(getLblIdConcept().getText()), 0);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
         }
+        int id = Integer.parseInt(getLblIdConcept().getText());
+        this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
 
@@ -266,5 +279,17 @@ public class ViewModifyConcept extends javax.swing.JFrame {
 
     public void setLblIdConcept(JLabel lblIdConcept) {
         this.lblIdConcept = lblIdConcept;
+    }
+
+    @Override
+    public void dispose() {
+        try {
+            thread.getManagerConcepts().actualizarEstado(Integer.parseInt(getLblIdConcept().getText()), 0);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        super.dispose(); //To change body of generated methods, choose Tools | Templates.
     }
 }

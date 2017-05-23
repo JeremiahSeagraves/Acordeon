@@ -23,7 +23,7 @@ public class Server {
             ManagersTopics managersTopics = new ManagersTopics();
             ManagersConcepts managersConcepts = ManagersConcepts.obtenerManager();
             ManagersLogs managersLogs = new ManagersLogs();
-            registry.rebind("ManagerTopics", managersTopics);
+            //registry.rebind("ManagerTopics", managersTopics);
             registry.rebind("ManagerConcepts", managersConcepts);
             registry.rebind("ManagerLogs", managersLogs);
             

@@ -5,9 +5,12 @@
  */
 package client.topics;
 
+import Sesion.Cuenta;
 import Sesion.User;
 import client.ThreadAcordeon;
+import database.DAOConcept;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -22,13 +25,11 @@ import topics.models.Concept;
  */
 public class ViewReadConcept extends javax.swing.JFrame {
 
-    private User user;
     private ThreadAcordeon thread;
     
-    private ViewReadConcept(ThreadAcordeon thread, User user) {
+    private ViewReadConcept(ThreadAcordeon thread) {
         initComponents();
         this.thread = thread;
-        this.user = user;
         setSize(450,370);
         setLocation(820, 0);
         getLblIdConcept().setVisible(false);
@@ -38,9 +39,9 @@ public class ViewReadConcept extends javax.swing.JFrame {
     
     private static ViewReadConcept ventanaLeerConcepto = null;
      
-    public static ViewReadConcept obtenerVentanaLeerConcepto (ThreadAcordeon thread, User user){
+    public static ViewReadConcept obtenerVentanaLeerConcepto (ThreadAcordeon thread){
         if(ventanaLeerConcepto == null){
-            ventanaLeerConcepto = new ViewReadConcept(thread, user);
+            ventanaLeerConcepto = new ViewReadConcept(thread);
             return ventanaLeerConcepto;
         }
         return ventanaLeerConcepto;
@@ -58,7 +59,6 @@ public class ViewReadConcept extends javax.swing.JFrame {
         lblTema = new javax.swing.JLabel();
         lblConcepto = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        btnModificar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDefinicion = new javax.swing.JTextArea();
         lblUsuarioLogeado = new javax.swing.JLabel();
@@ -79,14 +79,6 @@ public class ViewReadConcept extends javax.swing.JFrame {
         jLabel4.setText("Definición");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 115, -1, -1));
 
-        btnModificar.setText("Modificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(137, 287, -1, -1));
-
         txtDefinicion.setEditable(false);
         txtDefinicion.setColumns(20);
         jScrollPane3.setViewportView(txtDefinicion);
@@ -100,26 +92,8 @@ public class ViewReadConcept extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        
-        try {
-            int idConceptoSeleccionado = Integer.parseInt(getLblIdConcept().getText());
-            Concept concept = thread.getManagerConcepts().getManagerConcept(idConceptoSeleccionado).previewmodifyConcept(String.valueOf(idConceptoSeleccionado));
-            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblModificarConcepto().setText("Modificar "+concept.getName());
-            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblIdConcept().setText(String.valueOf(concept.getId()));
-            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getLblUsuarioLogeado().setText(user.getName());
-            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).getTxtDefinicion().setText(concept.getDescription());
-            this.setVisible(false);
-            ViewModifyConcept.obtenerVentanaModificarConcepto(this.thread, this.user).setVisible(true);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ViewReadConcept.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_btnModificarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblConcepto;
@@ -135,14 +109,6 @@ public class ViewReadConcept extends javax.swing.JFrame {
 
     public static void setVentanaLeerConcepto(ViewReadConcept ventanaLeerConcepto) {
         ViewReadConcept.ventanaLeerConcepto = ventanaLeerConcepto;
-    }
-
-    public JButton getBtnModificar() {
-        return btnModificar;
-    }
-
-    public void setBtnModificar(JButton btnModificar) {
-        this.btnModificar = btnModificar;
     }
 
     public JLabel getjLabel4() {
@@ -199,5 +165,17 @@ public class ViewReadConcept extends javax.swing.JFrame {
 
     public void setLblTema(JLabel lblTema) {
         this.lblTema = lblTema;
+    }
+
+    @Override
+    public void dispose() {
+        DAOConcept accesoConceptos = new DAOConcept();
+        try {
+            actualizadorEstado.obtenerAct(Integer.parseInt(getLblIdConcept().getText()), 0).interrupt();
+            accesoConceptos.actualizarEstado(Integer.parseInt(getLblIdConcept().getText()), 0);
+        } catch (SQLException|NumberFormatException ex) {
+        } catch (ClassNotFoundException ex) {
+       }
+        super.dispose(); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -28,13 +28,11 @@ public class ViewLog extends javax.swing.JFrame {
     }
     
     public static ViewLog obtenerVentanaLog(ArrayList<Log> listLog, String order){
-        if(viewLog == null){
             viewLog = new ViewLog(listLog, order);
-            return viewLog;
-        }
+            llenarTablaConceptos(listLog);
         return viewLog;
     }
-    private void llenarTablaConceptos(ArrayList<Log> listLogs){
+    private static void llenarTablaConceptos(ArrayList<Log> listLogs){
         obtenerModeloTabla().setRowCount(0);
         Collections.sort(listLogs);
          for (int numTopico = 0; numTopico < listLogs.size(); numTopico++) {
@@ -50,11 +48,11 @@ public class ViewLog extends javax.swing.JFrame {
          getTablaLogs().setModel(obtenerModeloTabla());
      }
     
-    private DefaultTableModel obtenerModeloTabla (){
+    private static DefaultTableModel obtenerModeloTabla (){
         return (DefaultTableModel) getTablaLogs().getModel();
     }
 
-    public JTable getTablaLogs() {
+    public static JTable getTablaLogs() {
         return tablaLogs;
     }
 
@@ -133,6 +131,6 @@ public class ViewLog extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaLogs;
+    private static javax.swing.JTable tablaLogs;
     // End of variables declaration//GEN-END:variables
 }

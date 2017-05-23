@@ -89,7 +89,8 @@ public class DAOConcept extends AccesoBD {
                         + "\""      + concepto.getName()         + "\", "
                         + "\""      + concepto.getDescription()  + "\", "
                         + "\""      + concepto.getUserId()       + "\", "
-                        + "\""      + concepto.getTopicId()      + "\")";
+                        + "\""      + concepto.getTopicId()      + "\","
+                        +                   "0"               +  ")";
          
          sentenciaConsulta = conexionBD.createStatement( );
          sentenciaConsulta.executeUpdate( consultaBD );
@@ -125,7 +126,8 @@ public class DAOConcept extends AccesoBD {
                                     resultadoConsultaConcepts.getString( NOMBRE_STRING ),
                                     resultadoConsultaConcepts.getString( DESCRIPCION_STRING ),
                                     Integer.parseInt(resultadoConsultaConcepts.getString( ID_USER_STRING )),
-                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_TOPIC_STRING )));;
+                                    Integer.parseInt(resultadoConsultaConcepts.getString( ID_TOPIC_STRING )),
+                                    resultadoConsultaConcepts.getInt("Bloqueado"));;
         
          ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
         
@@ -148,5 +150,19 @@ public class DAOConcept extends AccesoBD {
        
     }
     
-
+public void actualizarEstado( int clave, int estado ) throws SQLException, ClassNotFoundException{
+         ConnectionHandler.obtenerInstancia( ).conectarConBD( );
+         conexionBD = ConnectionHandler.obtenerConexion( );
+        
+         consultaBD = UPDATE_STRING + " concepts " + SET_STRING + " " 
+                 + "Bloqueado" + " = \"" + estado + "\" "
+                 + WHERE_STRING + " " + CLAVE_STRING + " = \"" + clave+ "\"";
+         
+         sentenciaConsulta = conexionBD.createStatement( );
+         sentenciaConsulta.executeUpdate( consultaBD );
+         
+         ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
+       
+    }
+    
 }

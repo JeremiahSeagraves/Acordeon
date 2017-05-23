@@ -18,6 +18,7 @@ public class Concept implements Serializable, Comparable<Concept>{
     private String description;
     private int userId;
     private int topicId;
+    private int bloqueado;
 
     public Concept(int id, String name, String description, int userId, int topicId) {
         this.id = id;
@@ -25,6 +26,15 @@ public class Concept implements Serializable, Comparable<Concept>{
         this.description = description;
         this.userId = userId;
         this.topicId = topicId;
+    }
+    
+    public Concept(int id, String name, String description, int userId, int topicId, int bloqueado) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.userId = userId;
+        this.topicId = topicId;
+        this.bloqueado = bloqueado;
     }
 
     public Concept (String name, String description, int userId, int topicId){
@@ -34,6 +44,16 @@ public class Concept implements Serializable, Comparable<Concept>{
         this.topicId = topicId;
     }
 
+    public int getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(int bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
+    
+    
     public Concept(int id, String nuevaDescripcion) {
         this.id = id;
         this.description = nuevaDescripcion;

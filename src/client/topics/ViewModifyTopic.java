@@ -5,9 +5,12 @@
  */
 package client.topics;
 
+import Sesion.Cuenta;
 import Sesion.User;
 import client.ThreadAcordeon;
+import database.DAOTopic;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
 import java.util.logging.Level;
@@ -18,7 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import models.Log;
 import models.Topic;
-import server.ManagerTopic;
+import server.ManagersTopics;
 
 /**
  *
@@ -28,28 +31,26 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
     
     private ThreadAcordeon thread;
-    private User user;
-    private ManagerTopic manager;
+    private DAOTopic manager;
     
-    private ViewModifyTopic(ThreadAcordeon thread, User user) {
+    private ViewModifyTopic(ThreadAcordeon thread) {
         initComponents();
         getLblIdTopic().setVisible(false);
         this.thread = thread;
-        this.user = user;
         
     }
     
     private static ViewModifyTopic ventanaModificarTopico = null;
      
-    public static ViewModifyTopic obtenerVentanaModificarTopico (ThreadAcordeon thread, User user){
+    public static ViewModifyTopic obtenerVentanaModificarTopico (ThreadAcordeon thread){
         if(ventanaModificarTopico == null){
-            ventanaModificarTopico = new ViewModifyTopic(thread, user);
+            ventanaModificarTopico = new ViewModifyTopic(thread);
             return ventanaModificarTopico;
         }
         return ventanaModificarTopico;
     }
     
-    public void setManager(ManagerTopic manager){
+    public void setManager(DAOTopic manager){
         this.manager = manager;
     }
     /**
@@ -146,18 +147,34 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         String nombreNuevo = getTxtNombreTema().getText();
         int id = Integer.parseInt(getLblIdTopic().getText());
         if(!nombreNuevo.equals("")){
+            Topic topicoAModificar = null;
+            try {
+                topicoAModificar = manager.buscarTopico(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Topic topicoModificado = new Topic(id,nombreNuevo);
-            manager.finalizemodifyTopic(topicoModificado);
+            try {
+                manager.actualizarTopico(topicoModificado);
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            }
             getTxtNombreTema().setText("");
             this.setVisible(false);
-            ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(true);
+            ViewTopics.obtenerVentanaTopicos(this.thread).setVisible(true);
             Date date = new Date();
             java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
             Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
-            Log log = new Log("modificar", "tema", datesql, time, user.getName());
+            Log log = new Log("modificar", "tema", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
             try {
-                thread.getManagerLogs().createLog(log, user.getIdUser());
-            } catch (RemoteException ex) {
+                thread.getManagerLogs().insertLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
                 Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -167,13 +184,8 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarTemaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        try {
-            thread.getManagerTopics().unlockManager(Integer.parseInt(getLblIdTopic().getText()));
-            this.setVisible(false);
-            ViewTopics.obtenerVentanaTopicos(this.thread, this.user).setVisible(true);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.setVisible(false);
+        ViewTopics.obtenerVentanaTopicos(this.thread).setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -249,4 +261,5 @@ public class ViewModifyTopic extends javax.swing.JFrame {
     public void setLblUsuarioLogeado(JLabel lblUsuarioLogeado) {
         this.lblUsuarioLogeado = lblUsuarioLogeado;
     }
+
 }

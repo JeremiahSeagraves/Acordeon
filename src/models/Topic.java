@@ -15,10 +15,25 @@ public class Topic implements Serializable, Comparable<Topic>{
     private static final long serialVersionUID = 1L;
     private int id;
     private String name;
+    private int bloqueado;
     
     public Topic(int id, String name)  {
         this.id = id;
         this.name = name;
+    }
+    
+    public Topic(int id, String name, int bloqueado)  {
+        this.id = id;
+        this.name = name;
+        this.bloqueado = bloqueado;
+    }
+
+    public int getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(int bloqueado) {
+        this.bloqueado = bloqueado;
     }
 
     public Topic(String name){

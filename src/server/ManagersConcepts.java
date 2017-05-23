@@ -45,9 +45,9 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
         try {
             listConcepts = daoConcept.getConcepts();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listConcepts;
     }
@@ -76,9 +76,9 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
             listConcepts = daoConcept.getConceptsofATopic(idTopic);
             return listConcepts;
         } catch (SQLException ex) {
-            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagersTopics.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

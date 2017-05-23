@@ -10,6 +10,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import server.ManagersTopics;
 import server.iManagersConcepts;
 import server.iManagersTopics;
 import server.iManagersLogs;
@@ -20,17 +21,12 @@ import server.iManagersLogs;
  */
 public class Client {
     public static void main (String[] args) throws MalformedURLException{
-        try{
-            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+            /*Registry registry = LocateRegistry.getRegistry("127.0.0.1");
             iManagersTopics managerTopics = (iManagersTopics)registry.lookup("ManagerTopics");
             iManagersConcepts managerConcepts = (iManagersConcepts)registry.lookup("ManagerConcepts");
-            iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");
-            ThreadAcordeon thread = new ThreadAcordeon(managerTopics, managerConcepts, managerLogs);
+            iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");*/
+            ThreadAcordeon thread = new ThreadAcordeon ();
                 thread.start();
-        }catch(NotBoundException nbe){
-            nbe.printStackTrace();
-        } catch (RemoteException ex) {
-            ex.printStackTrace();
-        }
+        
     }
 }

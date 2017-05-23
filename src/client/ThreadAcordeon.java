@@ -6,11 +6,15 @@
 package client;
 
 import client.login.ViewLogin;
+import database.DAOConcept;
+import database.DAOLog;
+import database.DAOTopic;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Topic;
-import server.ManagerTopic;
+import server.ManagersConcepts;
+import server.ManagersTopics;
 import server.iManagersConcepts;
 import server.iManagersLogs;
 import server.iManagersTopics;
@@ -20,9 +24,9 @@ import server.iManagersTopics;
  * @author Milka
  */
 public class ThreadAcordeon extends Thread{
-    private final iManagersTopics managersTopics;
-    private final iManagersConcepts managerConcepts;
-    private final iManagersLogs managerLogs;
+    private  iManagersTopics managersTopics;
+    private  iManagersConcepts managerConcepts;
+    private  iManagersLogs managerLogs;
     
     public ThreadAcordeon(iManagersTopics managersTopics, iManagersConcepts managersConcepts, iManagersLogs managersLogs){
         this.managersTopics = managersTopics;
@@ -30,7 +34,12 @@ public class ThreadAcordeon extends Thread{
         this.managerLogs = managersLogs;
     }
     
-    public iManagersTopics getManagerTopics(){
+    public ThreadAcordeon(){
+        
+    }
+    
+    
+    /*public iManagersTopics getManagerTopics(){
         return managersTopics;
     }
     
@@ -40,7 +49,21 @@ public class ThreadAcordeon extends Thread{
     
     public iManagersLogs getManagerLogs(){
         return managerLogs;
+    }*/
+    
+    public DAOTopic getManagerTopics(){
+        return new DAOTopic();
     }
+    
+    public DAOConcept getManagerConcepts(){
+        return new DAOConcept();
+    }
+    
+    public DAOLog getManagerLogs(){
+        return new DAOLog();
+    }
+    
+    
     
     @Override
     public void run(){

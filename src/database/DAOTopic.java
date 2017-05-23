@@ -50,7 +50,8 @@ public class DAOTopic extends AccesoBD {
         
          consultaBD = INSERT_STRING + INTO_STRING + "topics" + VALUES_STRING
                         +"("        + "null"                       + ", "
-                        + "\""      + topico.getName()  + "\")";
+                        + "\""      + topico.getName()  + "\","      +
+                                           "0"               +  ")";
          
          sentenciaConsulta = conexionBD.createStatement( );
          sentenciaConsulta.executeUpdate( consultaBD );
@@ -83,7 +84,8 @@ public class DAOTopic extends AccesoBD {
          resultadoConsultaTopics.next( );
          
          Topic topico = new Topic(  Integer.parseInt(resultadoConsultaTopics.getString( CLAVE_STRING )),
-                                    resultadoConsultaTopics.getString( NOMBRE_STRING ));
+                                    resultadoConsultaTopics.getString( NOMBRE_STRING ),
+                                    resultadoConsultaTopics.getInt("Bloqueado"));
         
          ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
         
@@ -106,5 +108,18 @@ public class DAOTopic extends AccesoBD {
        
     }
     
+    public void actualizarEstado(int clave, int estado) throws SQLException, ClassNotFoundException{
+         ConnectionHandler.obtenerInstancia( ).conectarConBD( );
+         conexionBD = ConnectionHandler.obtenerConexion( );
+        
+         consultaBD = UPDATE_STRING + " topics " + SET_STRING + " " 
+                 + "Bloqueado" + " = \"" + estado + "\" "
+                 + WHERE_STRING + " " + CLAVE_STRING + " = \"" + clave + "\"";
+         
+         sentenciaConsulta = conexionBD.createStatement( );
+         sentenciaConsulta.executeUpdate( consultaBD );
+         
+         ConnectionHandler.obtenerInstancia( ).desconectarConBD( );
+    }
 
 }
