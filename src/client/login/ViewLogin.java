@@ -6,7 +6,7 @@
 package client.login;
 
 import Sesion.Cuenta;
-import Sesion.User;
+import models.Sesion.User;
 import client.ThreadAcordeon;
 import java.util.logging.Level;
 import java.util.logging.Logger;

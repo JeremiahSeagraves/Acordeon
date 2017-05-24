@@ -5,7 +5,7 @@
  */
 package database;
 
-import Sesion.User;
+import models.Sesion.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -49,7 +49,9 @@ public class DAOUser extends AccesoBD {
     
      public User validarUsuario( String nombre, String clave ) throws  ClassNotFoundException {
         try {
+            System.out.println(" no entra");
             ConnectionHandler.obtenerInstancia( ).conectarConBD( );
+            System.out.println("no ");
             conexionBD = ConnectionHandler.obtenerConexion( );
             
             consultaBD = SELECT_STRING + "*" + FROM_STRING + "users" + WHERE_STRING + NOMBRE_STRING + "= \"" + nombre + "\""

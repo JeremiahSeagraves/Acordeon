@@ -25,7 +25,7 @@ import server.iManagersUsuarios;
 public class Client {
     public static void main (String[] args) throws MalformedURLException{
         try {
-            Registry registry = LocateRegistry.getRegistry("192.168.228.218",1099);
+            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
             iManagersTopics managerTopics = (iManagersTopics)registry.lookup("ManagerTopics");
             iManagersConcepts managerConcepts = (iManagersConcepts)registry.lookup("ManagerConcepts");
             iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");

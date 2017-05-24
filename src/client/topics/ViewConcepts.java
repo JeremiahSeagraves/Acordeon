@@ -6,7 +6,7 @@
 package client.topics;
 
 import Sesion.Cuenta;
-import Sesion.User;
+import models.Sesion.User;
 import client.ThreadAcordeon;
 import java.rmi.RemoteException;
 import java.sql.SQLException;

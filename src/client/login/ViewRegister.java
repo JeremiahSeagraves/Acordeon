@@ -5,7 +5,7 @@
  */
 package client.login;
 
-import Sesion.User;
+import models.Sesion.User;
 import client.ThreadAcordeon;
 import java.rmi.RemoteException;
 import java.util.logging.Level;

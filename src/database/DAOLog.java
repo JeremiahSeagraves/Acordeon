@@ -5,7 +5,7 @@
  */
 package database;
 
-import Sesion.User;
+import models.Sesion.User;
 import static database.AccesoBD.FROM_STRING;
 import static database.AccesoBD.SELECT_STRING;
 import static database.AccesoBD.conexionBD;

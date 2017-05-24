@@ -15,6 +15,7 @@ import java.sql.Time;
  */
 
 public class Log implements Serializable, Comparable<Log>{
+    private static final long serialVersionUID = 1L;
     private int id;
     private String movType;
     private String objType;

@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Sesion;
+package models.Sesion;
+import java.io.Serializable;
 
 /**
  *
  * @author juan
  */
-public class User {
+public class User implements Serializable{
+    private static final long serialVersionUID = 1L;
     private int idUser;
     private String name;
     private String password;

@@ -5,7 +5,7 @@
  */
 package server;
 
-import Sesion.User;
+import models.Sesion.User;
 import database.DAOUser;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -28,8 +28,8 @@ public class ManagersUsers extends UnicastRemoteObject implements iManagersUsuar
     
     @Override
     public User readUser(int id) throws RemoteException {
-        daoUser = new DAOUser();
         User user = null;
+        daoUser = new DAOUser();
         try {
             user = daoUser.getUser(id);
         } catch (ClassNotFoundException ex) {
@@ -40,8 +40,8 @@ public class ManagersUsers extends UnicastRemoteObject implements iManagersUsuar
 
     @Override
     public User validarUsuario(String nombre, String clave) throws RemoteException {
-        daoUser = new DAOUser();
         User user = null;
+        daoUser = new DAOUser();
         try {
             user = daoUser.validarUsuario(nombre, clave);
         } catch (ClassNotFoundException ex) {
@@ -52,8 +52,9 @@ public class ManagersUsers extends UnicastRemoteObject implements iManagersUsuar
 
     @Override
     public void insertarUsuario(User usuario) throws RemoteException {
-        daoUser = new DAOUser();
+        
         try {
+            daoUser = new DAOUser();
             daoUser.insertarUsuario(usuario);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManagersUsers.class.getName()).log(Level.SEVERE, null, ex);

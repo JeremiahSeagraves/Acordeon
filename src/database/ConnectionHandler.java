@@ -32,15 +32,19 @@ public class ConnectionHandler {
     
     public static ConnectionHandler obtenerInstancia( ){
         if( instanciaManejadorConexion == null ){
+            System.out.println("if");
              generarInstancia( );
         }
-        
+        System.out.println("no if");
         return instanciaManejadorConexion;
     }
 
     public void conectarConBD ( ) throws ClassNotFoundException, SQLException {
+        System.out.println("inicio");
         Class.forName( NOMBRECONTROLADOR_STRING );
+        System.out.println("nombre");
         conexion=DriverManager.getConnection( URLBD_STRING + "acordeon", USUARIO_STRING, CONTRASENIA_STRING );
+        System.out.println("conectar");
     }
 
     public void desconectarConBD( ) throws SQLException {
