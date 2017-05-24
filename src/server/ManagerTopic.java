@@ -9,8 +9,6 @@ import database.DAOTopic;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Topic;
@@ -24,7 +22,6 @@ public class ManagerTopic implements Serializable  {
     private static final long serialVersionUID = 1L;
     private DAOTopic daoTopic;
     private final int idTopic;
-    private Lock objectLock = new ReentrantLock();
 
     public ManagerTopic(int idTopic) throws RemoteException {
         super();
@@ -49,7 +46,6 @@ public class ManagerTopic implements Serializable  {
     }
 
     public synchronized Topic previewmodifyTopic(int id) {
-        if(objectLock.tryLock()){
         System.out.println("Buscando el Topico...");
         daoTopic = new DAOTopic();
         Topic topic = null;
@@ -61,10 +57,6 @@ public class ManagerTopic implements Serializable  {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        }
-//        }finally{
-////            objectLock.unlock();
-//        }
         return null;
     }
 
@@ -72,19 +64,15 @@ public class ManagerTopic implements Serializable  {
         System.out.println("modificando topico...");
         daoTopic = new DAOTopic();
         try {
-//            objectLock.lock();
             daoTopic.actualizarTopico(topic);
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            objectLock.unlock();
         }
     }
 
     public synchronized boolean deleteTopic(int id) {
-        objectLock.lock();
         try {
                 System.out.println("Comienza el proceso de eliminacion...");
                 daoTopic = new DAOTopic();
@@ -95,8 +83,6 @@ public class ManagerTopic implements Serializable  {
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-            objectLock.unlock();
             }
         return false;
     }
