@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import models.Log;
 import models.Topic;
-import server.ManagerTopic;
 
 /**
  *
@@ -28,7 +27,6 @@ public class ViewModifyTopic extends javax.swing.JFrame {
 
     
     private ThreadAcordeon thread;
-    private ManagerTopic manager;
     
     private ViewModifyTopic(ThreadAcordeon thread) {
         initComponents();
@@ -47,9 +45,6 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         return ventanaModificarTopico;
     }
     
-    public void setManager(ManagerTopic manager){
-        this.manager = manager;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -144,19 +139,23 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         String nombreNuevo = getTxtNombreTema().getText();
         int id = Integer.parseInt(getLblIdTopic().getText());
         if(!nombreNuevo.equals("")){
-            Topic topicoAModificar = null;
-            topicoAModificar = manager.previewmodifyTopic(id);
-            Topic topicoModificado = new Topic(id,nombreNuevo);
-            manager.finalizemodifyTopic(topicoModificado);
-            getTxtNombreTema().setText("");
-            this.setVisible(false);
-            ViewTopics.obtenerVentanaTopicos(this.thread).setVisible(true);
-            Date date = new Date();
-            java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
-            Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
-            Log log = new Log("modificar", "tema", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
             try {
-                thread.getManagerLogs().createLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+                Topic topicoAModificar = null;
+                topicoAModificar = thread.getManagerTopics().previewmodifyTopic(id);
+                Topic topicoModificado = new Topic(id,nombreNuevo);
+                thread.getManagerTopics().finalizemodifyTopic(topicoModificado, id);
+                getTxtNombreTema().setText("");
+                this.setVisible(false);
+                ViewTopics.obtenerVentanaTopicos(this.thread).setVisible(true);
+                Date date = new Date();
+                java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
+                Time time = new Time(date.getHours(),date.getMinutes(),date.getSeconds());
+                Log log = new Log("modificar", "tema", datesql, time, Cuenta.obtenerCuentaIniciada().getUserName());
+                try {
+                    thread.getManagerLogs().createLog(log, Cuenta.obtenerCuentaIniciada().getUserId());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (RemoteException ex) {
                 Logger.getLogger(ViewModifyTopic.class.getName()).log(Level.SEVERE, null, ex);
             }

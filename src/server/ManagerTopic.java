@@ -112,10 +112,4 @@ public class ManagerTopic implements Serializable  {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void cancelLock() {
-        objectLock.unlock();
-    }
-    public boolean isLock(){
-        return objectLock.tryLock();
-    }
 }

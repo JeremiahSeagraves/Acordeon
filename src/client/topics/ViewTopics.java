@@ -266,7 +266,7 @@ public class ViewTopics extends javax.swing.JFrame {
             Topic temaSelec = topicos.get(temaSeleccionado);
             Topic seleccionado=null;
             try {
-                seleccionado = thread.getManagerTopics().getManagerTopic(temaSelec.getId()).readTopic(temaSelec.getId());
+                seleccionado = thread.getManagerTopics().readTopic(temaSelec.getId());
             }catch (RemoteException ex) {
                 Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -287,14 +287,13 @@ public class ViewTopics extends javax.swing.JFrame {
                 ManagerTopic manager = thread.getManagerTopics().getManagerTopic(id);
                 if(manager!=null){
                     Topic temaSeleccionado=null;
-                    temaSeleccionado = thread.getManagerTopics().getManagerTopic(id).readTopic(topicos.get(rowtemaSeleccionado).getId());
+                    temaSeleccionado = thread.getManagerTopics().readTopic(topicos.get(rowtemaSeleccionado).getId());
                     
                     if(temaSeleccionado.getBloqueado()!=0){
                         JOptionPane.showMessageDialog(this, "No es posible, se está viendo.", "Error", JOptionPane.ERROR_MESSAGE);
                     }else{
                         String nombreTemaSeleccionado = temaSeleccionado.getName();
                         int idTemaSeleccionado = temaSeleccionado.getId();
-                        ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).setManager(manager);
                         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblModificarTema().setText(nombreTemaSeleccionado);
                         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblIdTopic().setText(String.valueOf(idTemaSeleccionado));
                         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblUsuarioLogeado().setText(Cuenta.obtenerCuentaIniciada().getUserName());
@@ -326,7 +325,7 @@ public class ViewTopics extends javax.swing.JFrame {
                 try {
                     ArrayList<Concept> conceptos = thread.getManagerConcepts().getConceptsofATopic(topicos.get(temaSeleccionado).getId());
                     if (conceptos.isEmpty()) {
-                        thread.getManagerTopics().getManagerTopic(topicos.get(temaSeleccionado).getId()).deleteTopic(topicos.get(temaSeleccionado).getId());
+                        thread.getManagerTopics().deleteTopic(topicos.get(temaSeleccionado).getId());
                         Date date = new Date();
                         java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                         Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
