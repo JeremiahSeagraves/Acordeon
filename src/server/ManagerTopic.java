@@ -105,6 +105,7 @@ public class ManagerTopic implements Serializable  {
         daoTopic = new DAOTopic();
         try {
             daoTopic.insertarTopico(topic);
+            System.out.println(topic);
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

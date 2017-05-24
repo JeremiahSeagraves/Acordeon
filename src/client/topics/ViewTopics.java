@@ -354,7 +354,7 @@ public class ViewTopics extends javax.swing.JFrame {
             if (!nuevoTema.equals("")) {
                 Topic nuevoTopico = new Topic(nuevoTema);
                 try {
-                    thread.getManagerTopics().getManagerTopic(0).createTopic(nuevoTopico);
+                    thread.getManagerTopics().createTopic(nuevoTopico, 0);
                     Date date = new Date();
                     java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
                     Time time = new Time(date.getHours(), date.getMinutes(), date.getSeconds());
@@ -410,7 +410,6 @@ public class ViewTopics extends javax.swing.JFrame {
 
     private void cargarTopicos() {
         try {
-            System.out.println(thread.getManagerTopics());
             topicos = thread.getManagerTopics().readAllTopics();
         }catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);

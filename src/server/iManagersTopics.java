@@ -17,4 +17,5 @@ import models.Topic;
 public interface iManagersTopics extends Remote{
      ArrayList<Topic> readAllTopics() throws RemoteException;
      ManagerTopic getManagerTopic(int idTopic)throws RemoteException;
+     void createTopic(Topic topic, int id)throws RemoteException;
 }
