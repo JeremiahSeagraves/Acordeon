@@ -68,6 +68,7 @@ public class DAOUser extends AccesoBD {
             
             return usuario;
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return null;
     }
