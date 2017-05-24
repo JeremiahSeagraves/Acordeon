@@ -297,7 +297,7 @@ public class ViewTopics extends javax.swing.JFrame {
                         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblUsuarioLogeado().setText(Cuenta.obtenerCuentaIniciada().getUserName());
                         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).setVisible(true);
                     }
-               
+
             } catch (RemoteException ex) {
                 Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -369,7 +369,7 @@ public class ViewTopics extends javax.swing.JFrame {
 
     private void verBitacoraTemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBitacoraTemasActionPerformed
         try {
-            ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("temas"), "temas").setVisible(true);
+            ViewLog.obtenerVentanaLog(thread.getManagerLogs().readAllLogsforConceptOrTopic("tema"), "tema").setVisible(true);
 
         } catch (RemoteException ex) {
             Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
