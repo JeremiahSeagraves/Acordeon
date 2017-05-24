@@ -9,6 +9,7 @@ import client.login.ViewLogin;
 import server.iManagersConcepts;
 import server.iManagersLogs;
 import server.iManagersTopics;
+import server.iManagersUsuarios;
 
 /**
  *
@@ -18,11 +19,13 @@ public class ThreadAcordeon extends Thread{
     private  iManagersTopics managersTopics;
     private  iManagersConcepts managerConcepts;
     private  iManagersLogs managerLogs;
+    private  iManagersUsuarios managersUsuarios;
     
-    public ThreadAcordeon(iManagersTopics managersTopics, iManagersConcepts managersConcepts, iManagersLogs managersLogs){
+    public ThreadAcordeon(iManagersTopics managersTopics, iManagersConcepts managersConcepts, iManagersLogs managersLogs, iManagersUsuarios managersUsuarios){
         this.managersTopics = managersTopics;
         this.managerConcepts = managersConcepts;
         this.managerLogs = managersLogs;
+        this.managersUsuarios = managersUsuarios;
     }
     
     public iManagersTopics getManagerTopics(){
@@ -35,6 +38,10 @@ public class ThreadAcordeon extends Thread{
     
     public iManagersLogs getManagerLogs(){
         return managerLogs;
+    }
+
+    public iManagersUsuarios getManagersUsuarios() {
+        return managersUsuarios;
     }
     
 /*    public DAOTopic getManagerTopics(){

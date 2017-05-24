@@ -8,7 +8,6 @@ package client.login;
 import Sesion.Cuenta;
 import Sesion.User;
 import client.ThreadAcordeon;
-import database.DAOUser;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -17,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import client.topics.ViewTopics;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -130,8 +130,7 @@ public class ViewLogin extends javax.swing.JFrame {
         try {
             String usuario = getTxtUsuario().getText();
             String clave = String.valueOf(getPswContrasenia().getPassword());
-            DAOUser accesoUsuarios = new DAOUser();
-            User unUsuario = accesoUsuarios.validarUsuario(usuario, clave);
+            User unUsuario = thread.getManagersUsuarios().validarUsuario(usuario, clave);
             if (unUsuario == null) {
                 JOptionPane.showMessageDialog(this, "Error al iniciar sesión", "Error de inicio de sesión",
                         JOptionPane.ERROR_MESSAGE);
@@ -142,7 +141,7 @@ public class ViewLogin extends javax.swing.JFrame {
                 ViewTopics.obtenerVentanaTopicos(this.thread ).getLblUsuarioLogeado().setText(usuario);
                 ViewTopics.obtenerVentanaTopicos(this.thread).setVisible(true);
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(ViewLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnIniciarActionPerformed

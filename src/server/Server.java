@@ -19,12 +19,15 @@ import java.util.logging.Logger;
 public class Server {
     public static void main (String[] args){
         try{
+            System.setProperty("java.rmi.server.hostname", "192.168.228.218");
             Registry registry = LocateRegistry.createRegistry(1099);
             ManagersTopics managersTopics = new ManagersTopics();
             ManagersConcepts managersConcepts = new ManagersConcepts();
+            ManagersUsers managersUsers = new ManagersUsers();
             ManagersLogs managersLogs = new ManagersLogs();
             registry.rebind("ManagerTopics", managersTopics);
             registry.rebind("ManagerConcepts", managersConcepts);
+            registry.rebind("ManagersUsers", managersUsers);
             registry.rebind("ManagerLogs", managersLogs);
             
             System.out.println("Server starts... ");
