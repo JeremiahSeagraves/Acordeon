@@ -11,8 +11,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import topics.models.Concept;
@@ -26,7 +24,6 @@ public class ManagerConcept implements Serializable{
     private static final long serialVersionUID = 1L;
     private DAOConcept daoConcept;
     private final int idConcept;
-    private Lock objectLock = new ReentrantLock();
     
     public ManagerConcept(int idConcept){
         this.idConcept = idConcept;
@@ -50,7 +47,6 @@ public class ManagerConcept implements Serializable{
     }
 
     public synchronized Concept previewmodifyConcept(String id){
-        if(objectLock.tryLock()){
             System.out.println("Buscando el Topico...");
             daoConcept = new DAOConcept();
             Concept concept = null;
@@ -62,14 +58,11 @@ public class ManagerConcept implements Serializable{
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        objectLock.unlock();
         return null;
     }
 
     public void finalizemodifyConcept(Concept concept){
         System.out.println("modificando topico...");
-        objectLock.lock();
         daoConcept = new DAOConcept();
         try {
             daoConcept.actualizarConcepto(concept);
@@ -78,11 +71,9 @@ public class ManagerConcept implements Serializable{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        objectLock.unlock();
     }
 
     public synchronized boolean deleteConcept(int id){
-        if(objectLock.tryLock()){
             try {
                 System.out.println("Comienza el proceso de eliminacion...");
                 daoConcept = new DAOConcept();
@@ -93,9 +84,6 @@ public class ManagerConcept implements Serializable{
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ManagerTopic.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                objectLock.unlock();
-            }
         }
         return false;
     }
