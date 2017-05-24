@@ -66,5 +66,30 @@ public class ManagersTopics extends UnicastRemoteObject implements iManagersTopi
         ManagerTopic manager = getManagerTopic(id);
         manager.createTopic(topic);
     }
+
+    @Override
+    public boolean deleteTopic(int id) throws RemoteException {
+        ManagerTopic manager = getManagerTopic(id);
+        return manager.deleteTopic(id);
+    }
+
+    @Override
+    public Topic readTopic(int id) throws RemoteException {
+        ManagerTopic manager = getManagerTopic(id);
+        manager.readTopic(id);
+        return manager.readTopic(id);
+    }
+
+    @Override
+    public Topic previewmodifyTopic(int id) throws RemoteException {
+        ManagerTopic manager = getManagerTopic(id);
+        return manager.previewmodifyTopic(id);
+    }
+
+    @Override
+    public void finalizemodifyTopic(Topic topic, int id) throws RemoteException {
+        ManagerTopic manager = getManagerTopic(id);
+        manager.deleteTopic(id);
+    }
 }
 

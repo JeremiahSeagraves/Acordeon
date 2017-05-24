@@ -18,4 +18,9 @@ public interface iManagersTopics extends Remote{
      ArrayList<Topic> readAllTopics() throws RemoteException;
      ManagerTopic getManagerTopic(int idTopic)throws RemoteException;
      void createTopic(Topic topic, int id)throws RemoteException;
+     boolean deleteTopic(int id) throws RemoteException;
+     Topic readTopic(int id) throws RemoteException;
+     Topic previewmodifyTopic(int id) throws RemoteException;
+     void finalizemodifyTopic(Topic topic, int id) throws RemoteException;
+     
 }
