@@ -6,15 +6,6 @@
 package client;
 
 import client.login.ViewLogin;
-import database.DAOConcept;
-import database.DAOLog;
-import database.DAOTopic;
-import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import models.Topic;
-import server.ManagersConcepts;
-import server.ManagersTopics;
 import server.iManagersConcepts;
 import server.iManagersLogs;
 import server.iManagersTopics;

@@ -35,6 +35,5 @@ public class Client {
         } catch (NotBoundException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 }
