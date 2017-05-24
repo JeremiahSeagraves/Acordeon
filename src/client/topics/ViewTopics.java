@@ -284,8 +284,6 @@ public class ViewTopics extends javax.swing.JFrame {
         int id = topicos.get(rowtemaSeleccionado).getId();
         if (rowtemaSeleccionado > -1) {
             try {
-                ManagerTopic manager = thread.getManagerTopics().getManagerTopic(id);
-                if(manager!=null){
                     Topic temaSeleccionado=null;
                     temaSeleccionado = thread.getManagerTopics().readTopic(topicos.get(rowtemaSeleccionado).getId());
                     
@@ -299,9 +297,7 @@ public class ViewTopics extends javax.swing.JFrame {
                         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).getLblUsuarioLogeado().setText(Cuenta.obtenerCuentaIniciada().getUserName());
                         ViewModifyTopic.obtenerVentanaModificarTopico(this.thread).setVisible(true);
                     }
-                }else{
-                    JOptionPane.showMessageDialog(this, "No se puede modificar el objeto", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+               
             } catch (RemoteException ex) {
                 Logger.getLogger(ViewTopics.class.getName()).log(Level.SEVERE, null, ex);
             }

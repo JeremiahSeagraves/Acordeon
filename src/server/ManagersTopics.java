@@ -89,7 +89,7 @@ public class ManagersTopics extends UnicastRemoteObject implements iManagersTopi
     @Override
     public void finalizemodifyTopic(Topic topic, int id) throws RemoteException {
         ManagerTopic manager = getManagerTopic(id);
-        manager.deleteTopic(id);
+        manager.finalizemodifyTopic(topic);
     }
 }
 
