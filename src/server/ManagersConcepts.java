@@ -72,4 +72,34 @@ public class ManagersConcepts extends UnicastRemoteObject implements iManagersCo
         }
         return null;
     }
+
+    @Override
+    public Concept readConcept(String id, int idManager) throws RemoteException {
+        return getManagerConcept(idManager).readConcept(id);
+    }
+
+    @Override
+    public Concept previewmodifyConcept(String id, int idManager) throws RemoteException {
+     return getManagerConcept(idManager).previewmodifyConcept(id);
+    }
+
+    @Override
+    public void finalizemodifyConcept(Concept concept, int idManager) throws RemoteException {
+    getManagerConcept(idManager).finalizemodifyConcept(concept);
+    }
+
+    @Override
+    public boolean deleteConcept(int id) throws RemoteException {
+        return getManagerConcept(id).deleteConcept(id);
+    }
+
+    @Override
+    public void createConcept(Concept concept, int idManager) throws RemoteException {
+        getManagerConcept(idManager).createConcept(concept);
+    }
+
+    @Override
+    public void actualizarEstado(int id, int estado) throws RemoteException {
+        getManagerConcept(id).actualizarEstado(id, estado);
+    }
 }

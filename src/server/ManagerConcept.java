@@ -121,9 +121,4 @@ public class ManagerConcept implements Serializable{
             Logger.getLogger(ManagerConcept.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
-    public void cancelLock(){
-        objectLock.unlock();
-    }
-
 }

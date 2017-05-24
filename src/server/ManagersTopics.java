@@ -62,5 +62,9 @@ public class ManagersTopics extends UnicastRemoteObject implements iManagersTopi
         }
         return createManagerTopic(idTopic);
     }
+    public void createTopic(Topic topic, int id) throws RemoteException{
+        ManagerTopic manager = getManagerTopic(id);
+        manager.createTopic(topic);
+    }
 }
 

@@ -149,12 +149,12 @@ public class ViewModifyConcept extends javax.swing.JFrame {
             try {
                 Concept conceptoModificado = new Concept(id, nuevaDescripcion);
 
-                thread.getManagerConcepts().getManagerConcept(id).finalizemodifyConcept(conceptoModificado);
+                thread.getManagerConcepts().finalizemodifyConcept(conceptoModificado,id);
                 getTxtDefinicion().setText("");
                 ViewConcepts.obtenerVentanaConceptos(this.thread).setVisible(true);
                 JOptionPane.showMessageDialog(this, "Modificación realizada con éxito", "Cambios guardados", JOptionPane.INFORMATION_MESSAGE);
                 
-                thread.getManagerConcepts().getManagerConcept(id).actualizarEstado(id, 0);
+                thread.getManagerConcepts().actualizarEstado(id, 0);
                 this.setVisible(false);
                 Date date = new Date();
                 java.sql.Date datesql = new java.sql.Date(date.getYear(), date.getMonth(), date.getDay());
@@ -173,7 +173,7 @@ public class ViewModifyConcept extends javax.swing.JFrame {
 
         try {
             int id = Integer.parseInt(getLblIdConcept().getText());
-            thread.getManagerConcepts().getManagerConcept(id).actualizarEstado(id, 0);
+            thread.getManagerConcepts().actualizarEstado(id, 0);
             this.setVisible(false);
         } catch (RemoteException ex) {
             Logger.getLogger(ViewModifyConcept.class.getName()).log(Level.SEVERE, null, ex);

@@ -165,8 +165,7 @@ public class ViewReadConcept extends javax.swing.JFrame {
     @Override
     public void dispose() {
         try {
-            thread.getManagerConcepts().getManagerConcept(Integer.parseInt(getLblIdConcept().getText())).
-                    actualizarEstado(Integer.parseInt(getLblIdConcept().getText()), 0);
+            thread.getManagerConcepts().actualizarEstado(Integer.parseInt(getLblIdConcept().getText()), 0);
         } catch (NumberFormatException ex) {
         } catch (RemoteException ex) {
             Logger.getLogger(ViewReadConcept.class.getName()).log(Level.SEVERE, null, ex);

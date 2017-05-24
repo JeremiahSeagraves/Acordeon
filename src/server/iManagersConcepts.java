@@ -19,4 +19,10 @@ public interface iManagersConcepts extends Remote{
     ArrayList<Concept> readAllConcepts() throws RemoteException;
     ManagerConcept getManagerConcept(int idConcept) throws RemoteException;
     ArrayList<Concept> getConceptsofATopic(int idTopic) throws RemoteException;
+    Concept readConcept(String id, int idManager) throws RemoteException;
+    Concept previewmodifyConcept(String id, int idManager) throws RemoteException;
+    void finalizemodifyConcept(Concept concept, int idManager) throws RemoteException;
+    boolean deleteConcept(int id) throws RemoteException;
+    void createConcept(Concept concept, int idManager) throws RemoteException;
+    void actualizarEstado(int id, int estado) throws RemoteException;
 }
