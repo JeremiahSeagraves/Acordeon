@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class ConnectionHandler {
     
-    private static String URLBD_STRING = "jdbc:mysql://localhost:3306/";
+    private static String URLBD_STRING = "jdbc:mysql://localhostz:3306/";
     private static String NOMBRECONTROLADOR_STRING = "com.mysql.jdbc.Driver";
     private static String USUARIO_STRING = "root";
     private static String CONTRASENIA_STRING = "";
