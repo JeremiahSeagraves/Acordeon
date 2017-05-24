@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import server.iManagersConcepts;
 import server.iManagersTopics;
 import server.iManagersLogs;
+import server.iManagersUsuarios;
 
 /**
  *
@@ -28,7 +29,8 @@ public class Client {
             iManagersTopics managerTopics = (iManagersTopics)registry.lookup("ManagerTopics");
             iManagersConcepts managerConcepts = (iManagersConcepts)registry.lookup("ManagerConcepts");
             iManagersLogs managerLogs = (iManagersLogs)registry.lookup("ManagerLogs");
-            ThreadAcordeon thread = new ThreadAcordeon (managerTopics, managerConcepts, managerLogs);
+            iManagersUsuarios managersUsers = (iManagersUsuarios)registry.lookup("ManagersUsers");
+            ThreadAcordeon thread = new ThreadAcordeon (managerTopics, managerConcepts, managerLogs, managersUsers);
             thread.start();
         } catch (RemoteException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

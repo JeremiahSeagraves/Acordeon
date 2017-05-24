@@ -7,8 +7,9 @@ package client.login;
 
 import Sesion.User;
 import client.ThreadAcordeon;
-import database.DAOUser;
-import java.sql.SQLException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -142,22 +143,19 @@ public class ViewRegister extends javax.swing.JFrame {
             if(usuario.isEmpty()||clave1.isEmpty()||clave2.isEmpty()){
                     JOptionPane.showMessageDialog(this,"No has llenado todos los campos", "Error",JOptionPane.WARNING_MESSAGE);
             }else{
-                DAOUser accesoUsuarios = new DAOUser();
                 try {
-                    if(accesoUsuarios.validarUsuario(usuario, clave1)!=null){
+                    if(thread.getManagersUsuarios().validarUsuario(usuario, clave1)!=null){
                         JOptionPane.showMessageDialog(this, "El usuario ya existe.","Error",JOptionPane.WARNING_MESSAGE);
                     }
                     else{
                         User usuarioNuevo = new User(usuario, clave1);
-                        accesoUsuarios.insertarUsuario(usuarioNuevo);
+                        thread.getManagersUsuarios().insertarUsuario(usuarioNuevo);
                         JOptionPane.showMessageDialog(this, "Registrado exitosamente");
                         this.setVisible(false);
                         ViewLogin.obtenerVentanaLogin(this.thread).setVisible(true);
                     }
-                } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-                } catch (SQLException ex) {
-                ex.printStackTrace();
+                }catch (RemoteException ex) {
+                    Logger.getLogger(ViewRegister.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
