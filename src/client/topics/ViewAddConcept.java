@@ -165,6 +165,7 @@ public class ViewAddConcept extends javax.swing.JFrame {
             this.dispose();
             Cuenta cuentaIniciada = Cuenta.obtenerCuentaIniciada();
             Concept nuevoConcepto = new Concept(this.txtConcepto.getText(),this.txtAreaDefinicion.getText(),cuentaIniciada.getUserId(),Integer.parseInt(getLblIdTopic().getText()));
+            System.out.println(nuevoConcepto.getTopicId());
             thread.getManagerConcepts().createConcept(nuevoConcepto,0);
             ViewConcepts.obtenerVentanaConceptos(this.thread).setVisible(true);
             Date date = new Date();

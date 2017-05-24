@@ -275,9 +275,9 @@ public class ViewConcepts extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAgregarConceptoActionPerformed
 
-    private void cargarConceptos() {
+    private void cargarConceptos(int id) {
         try {
-            conceptos = thread.getManagerConcepts().readAllConcepts();
+            conceptos = thread.getManagerConcepts().getConceptsofATopic(id);
         } catch (RemoteException ex) {
             Logger.getLogger(ViewConcepts.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -302,7 +302,7 @@ public class ViewConcepts extends javax.swing.JFrame {
     @Override
     public void setVisible(boolean b) {
         if(b){
-        cargarConceptos();
+        cargarConceptos(Integer.parseInt(getLblIdTopic().getText()));
         llenarTablaConceptos(conceptos);
         }
         super.setVisible(b);

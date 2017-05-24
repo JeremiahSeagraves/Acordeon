@@ -140,8 +140,6 @@ public class ViewModifyTopic extends javax.swing.JFrame {
         int id = Integer.parseInt(getLblIdTopic().getText());
         if(!nombreNuevo.equals("")){
             try {
-                Topic topicoAModificar = null;
-                topicoAModificar = thread.getManagerTopics().previewmodifyTopic(id);
                 Topic topicoModificado = new Topic(id,nombreNuevo);
                 thread.getManagerTopics().finalizemodifyTopic(topicoModificado, id);
                 getTxtNombreTema().setText("");
