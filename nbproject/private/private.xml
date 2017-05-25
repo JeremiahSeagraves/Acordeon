@@ -4,19 +4,34 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/iManagersUsuarios.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/database/DAOConcept.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/topics/ViewConcepts.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/database/DAOTopic.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/topics/ViewModifyConcept.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/topics/ViewAddConcept.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/topics/ViewTopics.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/login/ViewLogin.java</file>
-            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/topics/ViewReadConcept.java</file>
-            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/models/Sesion/Cuenta.java</file>
-            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/iManagersTopics.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/ManagersConcepts.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/iManagersLogs.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/ManagersLogs.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/database/DAOUser.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/ManagersUsers.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/database/ConnectionHandler.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/models/Topic.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/topics/ViewModifyTopic.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/Server.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/ManagerTopic.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/Client.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/log/ViewLog.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/topics/ViewReadConcept.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/database/DAOLog.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/models/Sesion/Cuenta.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/iManagersTopics.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/ManagersTopics.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/models/Sesion/User.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/database/AccesoBD.java</file>
-            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/models/Topic.java</file>
-            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/Server.java</file>
-            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/Client.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/iManagersConcepts.java</file>
+            <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/server/ManagerConcept.java</file>
             <file>file:/C:/Users/juan/Documents/NetBeansProjects/Acordeon2/Acordeon/src/client/ThreadAcordeon.java</file>
         </group>
     </open-files>
